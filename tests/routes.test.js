@@ -2,7 +2,6 @@ import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { newToken, tokenHash } from "../src/lib/token.js";
 import { SIGNATURE, fakeS3 } from "./s3.js";
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
 import { startSite } from "./site.js";
 
 // The site's routes as the README's Routes write them, the built server against a fake S3.
@@ -19,6 +18,17 @@ const latest = {
   targets: { [target]: { archive, sha256: "ab".repeat(32), size: 7 } },
 };
 
+// The installer as publish puts it in the bucket: its one default line, then the lines that use it.
+const DEFAULT = 'site="${NAMP_SITE:-https://namp.cloudgt.dev}"';
+const installer = `#!/bin/sh
+# Installs namp from the site that served this script.
+set -eu
+
+${DEFAULT}
+site="\${site%/}"
+printf 'installing from %s\\n' "$site"
+`;
+
 let s3, site;
 
 beforeAll(async () => {
@@ -32,6 +42,7 @@ beforeAll(async () => {
   s3.put("latest.json", JSON.stringify(latest, null, 2));
   s3.put("releases/v0.2.0/notes.md", "## What's new\n\n- `namp update` moves you to the next release\n");
   s3.put(archive, "archive");
+  s3.put("install.sh", installer);
   site = await startSite({ ...s3.env, INVITE_CONTACT: "invites@example.com" });
 });
 
@@ -63,15 +74,53 @@ describe("every answer", () => {
 });
 
 describe("install.sh", () => {
-  const script = readFileSync(new URL("../src/routes/install.sh/install.sh", import.meta.url), "utf8");
-  const DEFAULT = 'site="${NAMP_SITE:-https://namp.cloudgt.dev}"';
+  const UNPUBLISHED = "namp: the installer is not published yet; try again later\n";
 
-  test("is served to anyone, with no token, as a shell script", async () => {
+  test("is served to anyone, with no token, as a shell script read from the bucket", async () => {
     const res = await site.get("/install.sh");
     expect(res.status).toBe(200);
     expect(res.headers.get("content-type")).toBe("text/x-shellscript; charset=utf-8");
+    expect(res.headers.get("cache-control")).toBe("no-cache");
     expect(res.headers.get("referrer-policy")).toBe("no-referrer");
-    expect(await res.text()).toBe(script.replace(DEFAULT, `site="\${NAMP_SITE:-${site.url}}"`));
+    expect(await res.text()).toBe(installer.replace(DEFAULT, `site="\${NAMP_SITE:-${site.url}}"`));
+  });
+
+  test("serves the bucket's installer as it is now, not one it read before", async () => {
+    const fixed = installer.replace("installing from", "installing namp from");
+    s3.put("install.sh", fixed);
+    try {
+      const { body } = await site.asHost("/install.sh", "a$(id)b", "https");
+      expect(body).toBe(fixed);
+    } finally {
+      s3.put("install.sh", installer);
+    }
+  });
+
+  // The bucket holding body as its installer, or none, answers one line of 503; with the installer
+  // back, the next request serves it.
+  async function unpublished(body) {
+    const before = s3.objects.get("install.sh");
+    s3.objects.delete("install.sh");
+    if (body !== undefined) s3.put("install.sh", body);
+    try {
+      const res = await site.get("/install.sh");
+      expect(res.status).toBe(503);
+      expect(res.headers.get("content-type")).toMatch(/^text\/plain/);
+      expect(await res.text()).toBe(UNPUBLISHED);
+    } finally {
+      s3.objects.set("install.sh", before);
+    }
+    expect((await site.get("/install.sh")).status).toBe(200);
+  }
+
+  test("answers 503 when the bucket has no installer", async () => {
+    await unpublished();
+  });
+
+  test("answers 503 for an installer without its default line, or with it twice", async () => {
+    await unpublished(installer.replace(DEFAULT, 'site="${NAMP_SITE:-https://elsewhere.example}"'));
+    await unpublished(installer.replace(DEFAULT, `${DEFAULT}\n${DEFAULT}`));
+    await unpublished("");
   });
 
   test.each([
@@ -89,7 +138,7 @@ describe("install.sh", () => {
 
   test("keeps its default when the Host is nothing sh can hold in quotes", async () => {
     const res = await site.asHost("/install.sh", "a$(id)b", "https");
-    expect(res.body).toBe(script);
+    expect(res.body).toBe(installer);
   });
 
   // The script's own lines, run by sh up to the site it settles on.
@@ -251,6 +300,17 @@ describe("when the bucket refuses", () => {
     expect(site.log).toContain(`bucket: GET latest.json: ${SIGNATURE.join(": ")}`);
     expect(site.log).toContain(`bucket: HEAD ${archive}: UnknownError: an unexpected error has occurred`);
     expect(site.log.some((l) => /^\s+at /.test(l))).toBe(false);
+  });
+
+  test("/install.sh answers the same 503 and logs the S3 error", async () => {
+    s3.refuse();
+    try {
+      await unavailable(await site.get("/install.sh"));
+    } finally {
+      s3.refuse(false);
+    }
+    expect(site.log).toContain(`bucket: GET install.sh: ${SIGNATURE.join(": ")}`);
+    expect((await site.get("/install.sh")).status).toBe(200);
   });
 
   test("the front page still shows a tester their command, and says the release can't be shown", async () => {
