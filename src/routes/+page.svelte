@@ -1,5 +1,6 @@
 <script>
   import Address from "#lib/Address.svelte";
+  import GitHub from "#lib/GitHub.svelte";
   import { copyText } from "#lib/clipboard.js";
 
   let { data } = $props();
@@ -37,14 +38,20 @@
   <meta name="description" content={lede} />
 </svelte:head>
 
-{#snippet ask()}
+<!-- The call, with the docs beside it in the hero: a lighter button, the invite the only filled one. -->
+{#snippet ask(docs)}
   <div class="ask">
-    <a class="button" href={data.contact}>Get an invite</a>
+    <div class="actions">
+      {#if data.contact}<a class="button" href={data.contact}>Get an invite</a>{/if}
+      {#if docs}<a class="button quiet" href="/docs">Read the docs</a>{/if}
+    </div>
     {#if address}
       <p class="write"><span>or write to</span> <Address {address} /></p>
     {/if}
   </div>
 {/snippet}
+
+<GitHub class="corner" />
 
 <main>
   <section class="hero">
@@ -60,13 +67,14 @@
           <code bind:this={shown}>{#each command.split(" ") as word, i}{i ? " " : ""}<span class:token={word === data.tester.token}>{word}</span>{/each}</code>
           <button type="button" onclick={copy}>{copied ? "Copied" : "Copy"}</button>
         </div>
+        <a class="after" href="/docs">Read the docs</a>
       {:else}
         {#if data.down}
           <p class="invalid" role="alert">The site can't check your invite: the release store is not answering. Try again in a minute.</p>
         {:else if data.invalid}
           <p class="invalid" role="alert">That invite link doesn't work: it was revoked or copied wrong. Ask for a new one.</p>
         {/if}
-        {#if data.contact}{@render ask()}{/if}
+        {@render ask(true)}
       {/if}
     </div>
     <figure class="shot">
@@ -141,7 +149,7 @@
         </div>
       {:else}
         <p class="how">Each tester gets a personal invite link. It shows your install command on this page, and every update comes through it.</p>
-        {#if data.contact}{@render ask()}{/if}
+        {#if data.contact}{@render ask(false)}{/if}
       {/if}
     </div>
   </section>
@@ -157,6 +165,14 @@
      sideways scroll while it moves in. On main, as body's overflow would pass to the viewport. */
   main {
     overflow-x: clip;
+  }
+
+  /* The repo, at the page's top right, over the hero rather than in a bar of its own. */
+  :global(.github.corner) {
+    position: absolute;
+    top: clamp(0.75rem, 2.5vh, 1.5rem);
+    right: calc(var(--gutter) - 0.45rem);
+    z-index: 1;
   }
 
   main > section,
@@ -229,6 +245,31 @@
   .button:hover {
     background: var(--teal-deep);
     color: #fff;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* The docs, a step back from the call: outlined, its line drawn inside so it stands as tall. */
+  .button.quiet {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--ink);
+  }
+
+  .button.quiet:hover {
+    box-shadow: inset 0 0 0 1px var(--teal);
+    color: var(--teal);
+  }
+
+  /* Under a tester's command, the docs as a plain link: Copy stays the one thing to do. */
+  .after {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 500;
   }
 
   .write {

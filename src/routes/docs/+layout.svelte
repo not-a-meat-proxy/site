@@ -1,5 +1,6 @@
 <script>
   import { page } from "$app/state";
+  import GitHub from "#lib/GitHub.svelte";
 
   let { data, children } = $props();
 </script>
@@ -8,6 +9,7 @@
   <header>
     <a class="brand" href="/">namp</a>
     <a class="section" href="/docs">Docs</a>
+    <GitHub class="end" />
   </header>
 
   <!-- Every page, the one open with its sections under it. -->
@@ -59,6 +61,12 @@
     font-variation-settings: "wdth" 80;
     letter-spacing: -0.03em;
     text-decoration: none;
+  }
+
+  /* At the header's right on a phone, at the page's top right beside the sidebar. */
+  header :global(.github.end) {
+    align-self: center;
+    margin: -0.45rem -0.45rem -0.45rem auto;
   }
 
   .section {
@@ -151,8 +159,16 @@
   /* On a wide screen, the sidebar at the left, kept in sight while the page scrolls. */
   @media (min-width: 52.01rem) {
     .docs {
+      position: relative;
       grid-template-columns: 17rem minmax(0, 1fr);
       grid-template-rows: auto 1fr auto;
+    }
+
+    header :global(.github.end) {
+      position: absolute;
+      top: 1.7rem;
+      right: calc(clamp(2rem, 5vw, 5rem) - 0.45rem);
+      margin: 0;
     }
 
     header {
