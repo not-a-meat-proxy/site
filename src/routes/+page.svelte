@@ -149,6 +149,7 @@
 
 <footer>
   <p>namp is an alpha: expect rough edges, and say which ones you hit.</p>
+  <a href="/docs">Read the docs</a>
 </footer>
 
 <style>
@@ -475,9 +476,17 @@
   }
 
   footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
     padding-block: 1.5rem 2.5rem;
     color: var(--muted);
     font-size: 0.95rem;
+  }
+
+  footer a {
+    font-weight: 500;
   }
 
   footer p {
