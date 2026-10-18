@@ -1,0 +1,51 @@
+name: Bug
+description: namp, its installer or this site did something it shouldn't.
+labels: [bug, needs-triage]
+body:
+  - type: input
+    id: namp-version
+    attributes:
+      label: namp --version
+      description: The line `namp --version` prints.
+      placeholder: namp 0.2.0
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: OS and CPU
+      options:
+        - macOS on Apple Silicon
+        - Linux x86_64
+        - Linux arm64
+        - other
+    validations:
+      required: true
+  - type: input
+    id: claude-version
+    attributes:
+      label: claude --version
+      description: The line `claude --version` prints, if Claude Code is installed.
+    validations:
+      required: false
+  - type: input
+    id: herdr-version
+    attributes:
+      label: herdr --version
+      description: The line `herdr --version` prints, if herdr is installed.
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what you expected
+      description: What you did, what namp did, and what you expected it to do instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The steps that make it happen again, if you know them. A screenshot helps.
+    validations:
+      required: false

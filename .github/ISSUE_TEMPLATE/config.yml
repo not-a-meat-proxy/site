@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Docs
+    url: https://namp.cloudgt.dev/docs
+    about: How to install namp, update it, start your first topic and report an issue.

@@ -1,0 +1,18 @@
+name: Idea or question
+description: Something namp could do, or something you'd like to know.
+labels: [needs-triage]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea or question
+    validations:
+      required: true
+  - type: input
+    id: namp-version
+    attributes:
+      label: namp --version
+      description: The line `namp --version` prints, if namp is installed.
+      placeholder: namp 0.2.0
+    validations:
+      required: false
