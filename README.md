@@ -1,0 +1,79 @@
+# namp's site
+
+The front site of [namp](https://namp.cloudgt.dev): the page that says what namp is, the docs for
+its testers, the installer, and the routes that hand a tester the latest release. It is a
+SvelteKit app run by bun, reading its releases and its testers from a private S3 bucket. Bugs,
+ideas and questions about namp and this site go in this repo's issues.
+
+The code is public to read, but no license is granted: all rights are reserved.
+
+## Working on it
+
+The tools come from `mise.toml` and the commands from the `justfile`; `just` lists them.
+
+- `just setup` installs the tools and the packages, and turns on the commit-msg hook, which refuses
+  a subject that isn't a Conventional Commit (`scripts/conventional.sh`).
+- `just test` runs the tests: the built server against a fake S3, the tester script, the commit
+  rule and the page's components. They need no bucket and no secret.
+- `just dev` serves the site with hot reload, against the bucket of the `S3_*` variables.
+- `just tester add <name>` adds a tester and prints their invite link once, `just tester revoke
+  <name>` ends it, and `just tester list` shows them. It reads and writes the bucket of the `S3_*`
+  variables, which `doppler run -- just tester list` gives from a clone set up with Doppler.
+- `just lint` lints the workflow and the shell scripts.
+
+`main` takes changes only through a pull request, merged by squash, its title the commit's
+subject: a Conventional Commit, `type(scope): a prose sentence`.
+
+## Routes
+
+Every answer sends `Referrer-Policy: no-referrer`.
+
+- `GET /` is the front page. With the invite cookie of a tester, it shows their install command
+  and the latest release with its notes.
+- `GET /install.sh` is the installer, public, read from the bucket's `install.sh` with its default
+  site swapped for the origin of the request, so the command a tester copies installs from the
+  site it came from. It answers with `cache-control: no-cache`, or 503 with one plain-text line
+  while the bucket has no installer, or one without its default-site line exactly once.
+- `GET /i/<token>` sets the `namp_invite` cookie to the token (HttpOnly, Secure, SameSite=Lax, a
+  year) and redirects to `/`. An unknown or revoked token sets nothing and redirects to
+  `/?invite=invalid`, which says so.
+- `GET /api/latest` answers `latest.json`.
+- `GET /download/<tag>/<target>` answers 302 to a presigned link of the archive, valid 5 minutes,
+  and logs the tester, the tag and the target.
+
+The last two take the token as `Authorization: Bearer <token>` or as the invite cookie. They
+answer 401 with no token and 403 with a revoked or unknown one, each as one plain-text line.
+A bucket that fails to answer gets one plain-text line of 503 on `/install.sh`, `/api/latest` and
+`/download`, and its error goes to the log.
+
+## The bucket
+
+- `releases/v<version>/namp-<version>-<target>.tar.gz`, a release's archive for each target:
+  `x86_64-unknown-linux-musl`, `aarch64-unknown-linux-musl` and `aarch64-apple-darwin`.
+- `releases/v<version>/notes.md`, a release's notes, in Markdown.
+- `latest.json`, the latest release: its version, tag, commit, date, notes key, and each target's
+  archive key, sha256 and size.
+- `testers.json`, the testers: `{"testers":[{"name","token_sha256","created","revoked"}]}`. A
+  token is 32 random bytes in base64url with no padding, and only its sha256 is kept; `revoked`
+  is null until `just tester revoke`.
+- `install.sh`, the installer, holding exactly one line
+  `site="${NAMP_SITE:-https://namp.cloudgt.dev}"`, which `/install.sh` swaps for its origin.
+
+namp's release process writes the releases, `latest.json` and `install.sh`; `just tester` writes
+`testers.json`. The site only reads.
+
+## Variables
+
+- `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`: the
+  bucket.
+- `S3_VIRTUAL_HOSTED_STYLE=1` puts the bucket in the host rather than the path, as a Railway
+  bucket wants. `S3_ENDPOINT` stays the bare endpoint, and the site adds the bucket to it.
+- `INVITE_CONTACT`: where "Get an invite" goes, an email address or a link.
+- `PORT`: the port the server listens on, 3000 by default.
+
+## Deploying
+
+Railway deploys the service from this repo's `main` through its GitHub integration, with Wait
+for CI on: once the `test` and `commits` checks of `.github/workflows/test.yml` pass, it builds
+the `Dockerfile`, as `railway.json` pins, and checks that `/` answers before it switches over.
+The workflow runs on GitHub's runners with no secrets; the variables live in Railway.
