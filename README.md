@@ -16,6 +16,11 @@ The tools come from `mise.toml` and the commands from the `justfile`; `just` lis
 - `just test` runs the tests: the built server against a fake S3, the tester script, the commit
   rule and the page's components. They need no bucket and no secret.
 - `just dev` serves the site with hot reload, against the bucket of the `S3_*` variables.
+- `bun run build`, then `PORT=3000 ORIGIN=http://localhost:3000 bun server.js`, runs the built
+  server as Railway does, against the bucket of the `S3_*` variables. Without `ORIGIN` or
+  `PROTOCOL_HEADER`, the server takes every request as https, so a plain-http run would put
+  `https://` in the installer's default site. On Railway, the Dockerfile sets
+  `PROTOCOL_HEADER=x-forwarded-proto`.
 - `just tester add <name>` adds a tester and prints their invite link once, `just tester revoke
   <name>` ends it, and `just tester list` shows them. It reads and writes the bucket of the `S3_*`
   variables, which `doppler run -- just tester list` gives from a clone set up with Doppler.
