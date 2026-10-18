@@ -1,12 +1,12 @@
-import { sveltekit } from "@sveltejs/kit/vite";
 import { svelteTesting } from "@testing-library/svelte/vite";
-import { defineConfig } from "vitest/config";
+import { defineConfig, mergeConfig } from "vitest/config";
+import site from "./vite.config.js";
 
 // The site's tests: the built server run by bun against a fake S3, and the
 // tester script against the same fake. tests/build.js builds the site once for every file of them.
 // The page's components are tested apart, compiled as for the browser, on happy-dom.
-export default defineConfig({
-  plugins: [sveltekit(), svelteTesting()],
+export default mergeConfig(site, defineConfig({
+  plugins: [svelteTesting()],
   test: {
     testTimeout: 30000,
     hookTimeout: 120000,
@@ -21,4 +21,4 @@ export default defineConfig({
       },
     ],
   },
-});
+}));

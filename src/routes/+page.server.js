@@ -1,4 +1,4 @@
-import { env } from "$env/dynamic/private";
+import { INVITE_CONTACT } from "$app/env/private";
 import { COOKIE, check } from "$lib/server/access.js";
 import { text } from "$lib/server/bucket.js";
 import MarkdownIt from "markdown-it";
@@ -7,7 +7,7 @@ const markdown = new MarkdownIt({ html: false, linkify: true });
 
 // Where Ask for an invite goes: INVITE_CONTACT as a link, or an address written to.
 function contact() {
-  const to = env.INVITE_CONTACT?.trim();
+  const to = INVITE_CONTACT?.trim();
   if (!to) return null;
   return /^(https?:|mailto:)/.test(to) ? to : to.includes("@") ? `mailto:${to}` : null;
 }
