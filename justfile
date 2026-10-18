@@ -18,9 +18,9 @@ setup:
 test *args:
     NO_COLOR=1 bunx vitest run "$@"
 
-# Serve the site with hot reload
-dev:
-    bun run dev
+# Serve the site with hot reload, "Get an invite" going to a placeholder unless INVITE_CONTACT is set
+dev *args:
+    INVITE_CONTACT="${INVITE_CONTACT:-invites@example.com}" bun run dev "$@"
 
 # Manage the testers in the bucket: add <name>, which prints their invite link, revoke <name>, or list. The bucket from the S3_* variables, e.g. doppler run -- just tester list
 tester *args:

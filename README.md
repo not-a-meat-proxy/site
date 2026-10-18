@@ -73,7 +73,8 @@ namp's release process writes the releases, `latest.json` and `install.sh`; `jus
   bucket.
 - `S3_VIRTUAL_HOSTED_STYLE=1` puts the bucket in the host rather than the path, as a Railway
   bucket wants. `S3_ENDPOINT` stays the bare endpoint, and the site adds the bucket to it.
-- `INVITE_CONTACT`: where "Get an invite" goes, an email address or a link.
+- `INVITE_CONTACT`: where "Get an invite" goes, an email address or a link. The button shows
+  only when it is set, and `just dev` sets a placeholder when it is not.
 - `PORT`: the port the server listens on, 3000 by default.
 
 ## Deploying
