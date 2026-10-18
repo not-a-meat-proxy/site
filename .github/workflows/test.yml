@@ -1,0 +1,55 @@
+# The checks main requires before a pull request merges, and Railway waits for before it deploys:
+# `test`, the site's tests and its build, and `commits`, the Conventional Commit rule of
+# scripts/conventional.sh on the pull request's title, the subject its squash merge lands with, and
+# on the commit that lands on main. No secrets: the tests run against a fake S3.
+name: test
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
+        with:
+          install_args: bun node
+      - run: bun install --frozen-lockfile
+      - run: bunx vitest run
+        env:
+          NO_COLOR: "1"
+      - run: bun --bun vite build
+
+  commits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The subject reaches the script through the environment, never written into the shell.
+      - name: the pull request's title is a Conventional Commit
+        if: github.event_name == 'pull_request'
+        run: scripts/conventional.sh "$SUBJECT"
+        env:
+          SUBJECT: ${{ github.event.pull_request.title }}
+      - name: the subject of the commit that landed is a Conventional Commit
+        if: github.event_name == 'push'
+        run: scripts/conventional.sh "${MESSAGE%%$'\n'*}"
+        shell: bash
+        env:
+          MESSAGE: ${{ github.event.head_commit.message }}

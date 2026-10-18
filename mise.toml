@@ -4,5 +4,6 @@ bun = "1.3.14"
 just = "1.58.0"
 # Runs the tests, Vitest; bun installs their packages.
 node = "24"
-# The workflows' linter.
+# The workflows' linter, and the shell linter it runs on their scripts.
 "aqua:rhysd/actionlint" = "1.7.12"
+shellcheck = "0.11.0"

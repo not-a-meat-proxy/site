@@ -25,3 +25,8 @@ dev:
 # Manage the testers in the bucket: add <name>, which prints their invite link, revoke <name>, or list. The bucket from the S3_* variables, e.g. doppler run -- just tester list
 tester *args:
     bun scripts/tester.ts "$@"
+
+# Lint the workflows and the shell scripts, as actionlint and shellcheck from mise.toml
+lint:
+    actionlint
+    shellcheck scripts/conventional.sh .githooks/commit-msg

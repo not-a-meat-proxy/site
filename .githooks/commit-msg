@@ -1,25 +1,9 @@
 #!/bin/sh
-# Refuses a commit whose subject isn't a Conventional Commit, `type(scope)!: text` with one of the
-# types below. git's own merge and revert subjects pass, and so do fixup! and squash! ones, which a
-# rebase folds away. `just setup` turns it on with `git config core.hooksPath .githooks`.
+# Refuses a commit whose subject isn't a Conventional Commit, by scripts/conventional.sh, the one
+# rule the workflow's `commits` job checks too. `just setup` turns it on with
+# `git config core.hooksPath .githooks`.
 set -eu
 
 # The subject is the first line that is neither blank nor a comment git strips.
 subject=$(grep -v -e '^[[:space:]]*$' -e '^#' "$1" | head -n 1 || true)
-
-types='feat|fix|perf|refactor|test|docs|build|ci|chore'
-if printf '%s\n' "$subject" | grep -Eq "^($types)(\([^()[:space:]]+\))?!?: [^[:space:]]" ||
-    printf '%s\n' "$subject" | grep -Eq '^(Merge |Revert "|fixup! |squash! |amend! )'; then
-    exit 0
-fi
-
-cat >&2 <<MSG
-commit-msg: the subject isn't a Conventional Commit:
-
-    $subject
-
-Write it as type(scope): a prose sentence, the scope optional and ! before the colon for a
-breaking change, with type one of: $(printf '%s' "$types" | sed 's/|/, /g').
-For example: feat(cli): namp update moves an install to the latest release
-MSG
-exit 1
+exec "$(git rev-parse --show-toplevel)/scripts/conventional.sh" "$subject"
