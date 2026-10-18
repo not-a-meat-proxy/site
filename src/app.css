@@ -1,0 +1,65 @@
+/* The page's tokens: namp's own rail grey and teal, its "waits for you" amber kept for the one
+   thing that waits for the visitor, Bricolage Grotesque for display over the product's IBM Plex. */
+:root {
+  --rail: #e8eef0;
+  --paper: #f8fafa;
+  --ink: #17262b;
+  --muted: #3f4f54;
+  --line: #cfd9dc;
+  --teal: #0d6b78;
+  --teal-deep: #08525c;
+  --amber: #b9620c;
+  --display: "Bricolage Grotesque Variable", "IBM Plex Sans", sans-serif;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --measure: 34rem;
+  --gutter: clamp(1.25rem, 5vw, 4.5rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--rail);
+  color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--teal);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--teal-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
