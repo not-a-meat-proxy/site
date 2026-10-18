@@ -1,4 +1,4 @@
-import { COOKIE, check } from "$lib/server/access.js";
+import { COOKIE, check } from "#lib/server/access.js";
 import { redirect } from "@sveltejs/kit";
 
 // An invite link: its token swapped for the invite cookie, then the plain front page, so the token

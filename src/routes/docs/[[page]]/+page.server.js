@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { page, pages } from "$lib/server/docs.js";
+import { page, pages } from "#lib/server/docs.js";
 
 // Every page of docs/, the overview at /docs itself.
 export function entries() {

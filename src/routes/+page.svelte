@@ -1,6 +1,6 @@
 <script>
-  import Address from "$lib/Address.svelte";
-  import { copyText } from "$lib/clipboard.js";
+  import Address from "#lib/Address.svelte";
+  import { copyText } from "#lib/clipboard.js";
 
   let { data } = $props();
 

@@ -1,5 +1,5 @@
-import { down, line } from "$lib/server/access.js";
-import { text } from "$lib/server/bucket.js";
+import { down, line } from "#lib/server/access.js";
+import { text } from "#lib/server/bucket.js";
 
 // The installer, public (README, Routes), read from the bucket's install.sh (README, The bucket)
 // with the site that serves it as its default: the origin of the request, its protocol from

@@ -1,5 +1,5 @@
-import { down, line, tester } from "$lib/server/access.js";
-import { bucket, exists } from "$lib/server/bucket.js";
+import { down, line, tester } from "#lib/server/access.js";
+import { bucket, exists } from "#lib/server/bucket.js";
 
 const TARGETS = ["x86_64-unknown-linux-musl", "aarch64-unknown-linux-musl", "aarch64-apple-darwin"];
 const TAG = /^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$/;

@@ -1,5 +1,5 @@
 <script>
-  import { copyText } from "$lib/clipboard.js";
+  import { copyText } from "#lib/clipboard.js";
 
   let { data } = $props();
 

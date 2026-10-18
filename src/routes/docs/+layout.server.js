@@ -1,4 +1,4 @@
-import { pages } from "$lib/server/docs.js";
+import { pages } from "#lib/server/docs.js";
 
 // The docs are built into files with the site: no bucket, no cookie, the same for everyone.
 export const prerender = true;

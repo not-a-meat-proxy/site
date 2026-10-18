@@ -1,5 +1,5 @@
-import { down, line, tester } from "$lib/server/access.js";
-import { text } from "$lib/server/bucket.js";
+import { down, line, tester } from "#lib/server/access.js";
+import { text } from "#lib/server/bucket.js";
 
 // latest.json as publish wrote it, for a tester's token (README, Routes).
 export async function GET(event) {
