@@ -32,9 +32,11 @@ On main, pushes to origin/main.
 
 namp pushes with your git, from a server with no terminal to type a password in: the remote has to take a `git push` from this machine as it is, through an SSH key or a credential helper that asks for nothing.
 
-### A clone of an earlier backup
+### A clone of this data folder's backup
 
-Clone the remote of a backup you made before, and name the clone. namp takes it, since its last commit holds namp's `.gitignore`, and Settings says where it pushes. Its next backup commits your data folder as it is now: name a clone only for a data folder that holds what the backup holds. From a fresh data folder, that commit removes every topic from the backup, which only its earlier commits keep.
+When the folder you backed up into is gone from this machine, its remote still holds the backup: clone it, and name the clone. namp takes it as long as its last commit is the last one namp made from this data folder, and goes on from there.
+
+A clone of any other backup, such as one another machine pushed, is refused: committing this data folder over it would remove every topic this one lacks. To bring that backup's topics here, [restore it](#restore-it-on-another-machine) instead.
 
 ### The data folder itself
 
@@ -55,6 +57,7 @@ In red, what it does not take, and commits nothing into:
 - `... is inside the repository at ..., not its top.`: name the repository's top folder, or a path outside it.
 - `... is inside the data folder: pick a folder outside it.`, or `... holds the data folder`.
 - `... holds no namp backup: its last commit has no .gitignore of namp's.`: another project's repository, whose files namp never replaces.
+- `... holds another data folder's backup: its last commit is not the last namp made from this data folder.`: a clone of another machine's backup, or one that took commits from elsewhere since. The line goes on to say how to restore it, or to pick an empty repository.
 - `... is not on a branch: check one out there.`
 
 Until the repository is ready, the settings under it are off and **Back up now** is not there.
