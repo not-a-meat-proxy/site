@@ -41,6 +41,6 @@ The release notes of the latest version are on namp's front page, opened through
 
 ## If your server backed up its data folder
 
-Before 0.2.0, namp committed and pushed its data folder by itself whenever that folder was a git repository. From 0.2.0, it backs up only into the repository named in **Settings**, under **Backup**, which the update leaves empty: a server that was backing up stops.
+Before 0.2.0, namp committed and pushed its data folder by itself whenever that folder was a git repository. From 0.2.0, it backs up only into the repository named in **Settings**, under **Backup**, which the update leaves empty: a server that was backing up stops, and nothing on Home says so.
 
 To go on in the same history, type the data folder's path in **Repository**, `~/.local/share/namp` unless you moved it, and press **Save**. Settings then says where it pushes. [Back up your data](/docs/backup) says the rest.

@@ -30,7 +30,7 @@ Settings then says where the backup goes, the remote's address under it:
 On main, pushes to origin/main.
 ```
 
-namp pushes with your git and never asks for a password: the remote has to take a `git push` from this machine as it is, through an SSH key or a credential helper.
+namp pushes with your git, from a server with no terminal to type a password in: the remote has to take a `git push` from this machine as it is, through an SSH key or a credential helper that asks for nothing.
 
 ### A clone of an earlier backup
 
@@ -46,7 +46,7 @@ What the backup takes:
 
 - `There is no folder at ...` or `... is not a git repository yet.`: **Create the repository** makes one there.
 - `On main, not pushed anywhere: add a remote to push to.`: it commits, on this machine only. **Push to** adds a remote.
-- `On main, pushes to origin from the next backup, which sets origin/main as its upstream.`: a remote you added yourself, which the next backup pushes to.
+- `On main, pushes to origin from the next backup, which sets origin/main as its upstream.`: a remote not pushed to yet, which the next backup pushes to.
 - `On main, pushes to origin/main.`: the backup commits and pushes.
 
 In red, what it does not take, and commits nothing into:
@@ -97,4 +97,4 @@ git clone git@github.com:you/namp-backup.git ~/namp-data
 
 Then point namp at the clone: in **Settings**, under **Folders**, type `~/namp-data` in `data_dir`, press **Save**, then **Restart**. namp comes back on that folder, your topics, threads and answers with it.
 
-Last, in **Backup**, type the same `~/namp-data` in **Repository** and press **Save**: the clone is the data folder itself now, and Settings says `On main, pushes to origin/main.` The backup goes on in the same history, from the same remote.
+Last, in **Backup**: **Repository** came back with your settings, and names the path of the old machine, which Settings marks as missing or in red. Replace it with the same `~/namp-data` and press **Save**, rather than creating a repository there: the clone is the data folder itself now, and Settings says `On main, pushes to origin/main.` The backup goes on in the same history, to the same remote.
