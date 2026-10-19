@@ -10,6 +10,7 @@ const pages = [
   ["/docs", "Overview"],
   ["/docs/install", "Install namp"],
   ["/docs/first-topic", "Your first topic"],
+  ["/docs/backup", "Back up your data"],
   ["/docs/update", "Update namp"],
   ["/docs/report-an-issue", "Report an issue"],
 ];
@@ -70,6 +71,11 @@ describe("the docs", () => {
       '<div class="code"><pre><code>curl -fsSL https://namp.cloudgt.dev/install.sh | sh -s -- &lt;token&gt;</code></pre><button type="button" class="copy" data-copy>Copy</button></div>',
     );
     expect(page).toMatch(/<div class="code output"><pre><code>ready http:\/\/localhost:4321\/__session\/ {2}pid \d+<\/code><\/pre><\/div>/);
+  });
+
+  test.each(["/docs", "/docs/install", "/docs/update"])("%s links to the backup in its text, not only in the sidebar", async (path) => {
+    const article = (await html(path)).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
+    expect(article).toContain('href="/docs/backup"');
   });
 
   test("keep Markdown's HTML as text", async () => {
