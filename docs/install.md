@@ -60,3 +60,5 @@ ready http://localhost:4321/__session/  pid 48213
 It starts namp's server in the background, on port 4321, and prints the page's address: open it in your browser. The server starts your Main session in herdr, the session you talk to in the page's Chat. Run it outside herdr and the server starts no session.
 
 Run `namp start` again and it says it runs already, with the same address. `--port` picks another port. To stop the server, kill the `pid` it printed.
+
+Your topics stay on this machine, and nothing is backed up until you ask: [Back up your data](/docs/backup) says how.

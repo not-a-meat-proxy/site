@@ -8,6 +8,7 @@ These pages are for the testers of its private alpha.
 
 - [Install namp](/docs/install): what you need, the command from your invite, and `namp start`.
 - [Your first topic](/docs/first-topic): opening the page, starting a topic, answering a question, and the Feed.
+- [Back up your data](/docs/backup): turning the backup on with a repository named in Settings, what it commits and when, and restoring on another machine.
 - [Update namp](/docs/update): moving to the latest release, and what happens to a running server.
 - [Report an issue](/docs/report-an-issue): the versions to give, which form to pick, and what happens next.
 

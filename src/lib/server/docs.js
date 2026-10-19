@@ -9,6 +9,7 @@ const order = [
   ["", "index"],
   ["install", "install"],
   ["first-topic", "first-topic"],
+  ["backup", "backup"],
   ["update", "update"],
   ["report-an-issue", "report-an-issue"],
 ];
