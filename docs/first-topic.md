@@ -48,6 +48,6 @@ Pick a choice with a click, or its number once the question has the focus, or ty
 
 A topic's conversation opens in the drawer at the right of its page, from **Conversation** in its top bar. **Needs you** lists the threads waiting for you to act. **All** lists every thread, the sessions' talk among themselves included. `j` and `k` move between the threads, and `Esc` hides the drawer.
 
-## Close a topic
+## Archive a topic
 
-When the work is done, **Close the topic**, from the **More** menu, ⋯ at the right of its top bar, archives it. It leaves Home and the topic list for **Archived**, linked under your topics in the sidebar, where it stays readable as it was: its canvas, its threads, its plan and its record. **Reopen** brings it back to work in, and **Delete** removes it for good.
+When the work is done, **Archive the topic**, from the **More** menu, ⋯ at the right of its top bar. It leaves Home and the topic list for **Archived**, linked under your topics in the sidebar, where it stays readable as it was: its canvas, its threads, its plan and its record. **Reopen** brings it back to work in, and **Delete** removes it for good.
