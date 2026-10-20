@@ -28,8 +28,8 @@ Then press **Start the session**. namp opens the session in a new herdr tab and 
 
 A topic opens on its **Overview**, its canvas a view beside it in the top bar. From the top:
 
-- its goal, each criterion ticked or still open;
 - **Needs you**, what waits for you in this topic;
+- its goal on one line, with how many of its criteria are ticked: click it for each criterion and what shows it holds;
 - its **Plan**, the work running, then planned, then what is done and dropped, folded;
 - its work today as a timeline, a lane for you, the session and each session it started;
 - **Since you were here**, everything else that happened, the newest first: work started and done, decisions the session took, messages and what they led to, changes to the canvas.
