@@ -29,10 +29,10 @@ Then press **Start the session**. namp opens the session in a new herdr tab and 
 A topic opens on its **Overview**, its canvas a view beside it in the top bar. From the top:
 
 - **Needs you**, what waits for you in this topic;
-- its goal on one line, with how many of its criteria are ticked: click it for each criterion and what shows it holds;
-- its **Plan**, the work running, then planned, then what is done and dropped, folded;
 - its work today as a timeline, a lane for you, the session and each session it started;
 - **Since you were here**, everything else that happened, the newest first: work started and done, decisions the session took, messages and what they led to, changes to the canvas.
+
+Where the work is going sits in a card at the top right: the **Goal**, with how many of its criteria are ticked, the **Plan**, what runs now and how many items wait, and the **Documents** the topic works on, with how many changed since you were last here. Click one to open it in the drawer at the right, a tab each: the goal with each criterion and what shows it holds, the whole plan, done and dropped folded, and the documents. **Conversation**, in the top bar, brings the conversation back. In a narrow window the card is a row of chips above Needs you.
 
 Nothing there asks you to mark it read: once it has been in view, it counts as seen, and the next time you come back the record starts after it. Click a piece of work to see where it came from and what it did, and a reference to a thread, a part of the canvas or a decision to unfold it in place. **Fold all** folds them again.
 
