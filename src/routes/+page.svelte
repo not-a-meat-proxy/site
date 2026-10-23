@@ -1,7 +1,22 @@
 <script>
   import Address from "#lib/Address.svelte";
   import GitHub from "#lib/GitHub.svelte";
+  import Theme from "#lib/Theme.svelte";
   import { copyText } from "#lib/clipboard.js";
+
+  // The hero's screenshots, by theme: wide, and below 40rem the phone's.
+  const shots = {
+    dark: {
+      wide: { src: "/shots/hero-wide-dark.webp", width: 1600, height: 1000 },
+      phone: { src: "/shots/hero-phone-dark.webp", width: 800, height: 800 },
+      alt: "A topic's canvas in namp, in Dark",
+    },
+    light: {
+      wide: { src: "/shots/hero-wide-light.webp", width: 1600, height: 1000 },
+      phone: { src: "/shots/hero-phone-light.webp", width: 800, height: 800 },
+      alt: "A topic's canvas in namp, in Light",
+    },
+  };
 
   let { data } = $props();
 
@@ -51,7 +66,10 @@
   </div>
 {/snippet}
 
-<GitHub class="corner" />
+<div class="corner">
+  <Theme />
+  <GitHub />
+</div>
 
 <main>
   <section class="hero">
@@ -78,16 +96,16 @@
         {@render ask(true)}
       {/if}
     </div>
+    <!-- One picture per theme, the theme's shown by [data-theme] and the other's not displayed. Both lazy, so
+         the browser fetches only the one it lays out, the hidden theme's never: it starts once the page's first
+         layout, a moment later than an eager image, hidden by the screenshot's arrival. -->
     <figure class="shot">
-      <picture>
-        <source media="(max-width: 40rem)" srcset="/shots/topic-thread.webp" width="792" height="660" />
-        <img
-          src="/shots/topic.webp"
-          width="1600"
-          height="969"
-          alt="A topic's canvas in namp: a question the session asked, with the recommended choice taken as the answer, and the session's reply in the thread beside it"
-        />
-      </picture>
+      {#each Object.entries(shots) as [name, shot] (name)}
+        <picture class="for-{name}">
+          <source media="(max-width: 40rem)" srcset={shot.phone.src} width={shot.phone.width} height={shot.phone.height} />
+          <img src={shot.wide.src} width={shot.wide.width} height={shot.wide.height} alt={shot.alt} loading="lazy" />
+        </picture>
+      {/each}
     </figure>
   </section>
 
@@ -168,8 +186,10 @@
     overflow-x: clip;
   }
 
-  /* The repo, at the page's top right, over the hero rather than in a bar of its own. */
-  :global(.github.corner) {
+  /* The theme and the repo, at the page's top right, over the hero rather than in a bar of its own. */
+  .corner {
+    display: flex;
+    gap: var(--sp-1);
     position: absolute;
     top: clamp(var(--sp-3), 2.5vh, var(--sp-6));
     right: calc(var(--gutter) - var(--sp-2));

@@ -50,8 +50,29 @@
 }
 
 /* ---------------------------------------------------------------- Light, for a visitor who asks for it */
+/* <html data-theme> picks the palette, set by app.html's head script before the first paint from the choice
+   kept in this browser or else the system's setting. A visitor with no script has no data-theme and follows
+   the system's setting alone: the same palette again, kept equal by tests/components/theme.test.js. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bay-rail: #1d2024; --bay-side: #26292e;
+  --bay-ink: #eceef0; --bay-muted: #a9afb6; --bay-line: #4a5057; --bay-strip: #32363c;
+  --bay-on: #f3f6f9; --bay-on-ink: #16191c; --bay-work: #58c9a1;
+
+  --bg: #f3f6f9; --surface: #ffffff; --sunken: #ebeef2; --hover: #eceff3;
+
+  --ink: #1d2227; --ink-2: #40474f; --muted: #656b73; --faint: #656b73; --on-accent: #ffffff;
+  --line: #dfe3e7; --line-strong: #c2c8cf; --edge: #80868d;
+
+  --accent: #428069; --accent-ink: #3c7560; --accent-soft: #dcf5ea;
+
+  --ask: #d26a30; --alert-ink: #a15072;
+
+  --code-ink: #1a1f24;
+}
+
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme]) {
     color-scheme: light;
     --bay-rail: #1d2024; --bay-side: #26292e;
     --bay-ink: #eceef0; --bay-muted: #a9afb6; --bay-line: #4a5057; --bay-strip: #32363c;
@@ -68,6 +89,33 @@
 
     --code-ink: #1a1f24;
   }
+}
+
+/* What differs by theme, drawn for both and shown by the theme on the page, never swapped once it loads:
+   the theme button's icon, the hero's screenshots. */
+[data-theme="dark"] .for-light,
+[data-theme="light"] .for-dark {
+  display: none !important;
+}
+
+@media not (prefers-color-scheme: light) {
+  :root:not([data-theme]) .for-light {
+    display: none !important;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .for-dark {
+    display: none !important;
+  }
+}
+
+/* The frame the theme changes in eases no colour into it (lib/theme.svelte.js). */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
 }
 
 /* Inside the shell the ground's roles read as the shell's, as in namp's sidebar, so a link, a ring or a

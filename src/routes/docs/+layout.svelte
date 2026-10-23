@@ -1,18 +1,22 @@
 <script>
   import { page } from "$app/state";
   import GitHub from "#lib/GitHub.svelte";
+  import Theme from "#lib/Theme.svelte";
 
   let { data, children } = $props();
 </script>
 
 <div class="docs">
-  <!-- The shell, graphite as namp's sidebar: the name, the repo and every page, the open one light with
+  <!-- The shell, graphite as namp's sidebar: the name, the theme, the repo and every page, the open one light with
        its sections under it. -->
   <div class="side shell">
     <header>
       <a class="brand" href="/">namp</a>
       <a class="section" href="/docs">Docs</a>
-      <GitHub class="end" />
+      <span class="end">
+        <Theme />
+        <GitHub />
+      </span>
     </header>
 
     <nav class="pages" aria-label="Docs">
@@ -75,7 +79,9 @@
     color: var(--accent-ink);
   }
 
-  header :global(.github.end) {
+  .end {
+    display: flex;
+    gap: var(--sp-1);
     align-self: center;
     margin: calc(-1 * var(--sp-2)) calc(-1 * var(--sp-2)) calc(-1 * var(--sp-2)) auto;
   }

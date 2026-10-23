@@ -3,6 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The theme, set before the first paint and before any stylesheet, the browser's own canvas included:
+         the choice kept in this browser (lib/theme.svelte.js), or else the system's setting, so the other
+         theme never flashes. tests/components/theme.test.js runs this script. -->
+    <script>
+      (function () {
+        var theme;
+        try { theme = localStorage.getItem("namp-site.theme"); } catch (e) {}
+        if (theme !== "dark" && theme !== "light") theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- The start faces the first screen paints in: the text, the headings and the buttons. A rest face,
          fetched only for a character a start face lacks, never preloads. -->
