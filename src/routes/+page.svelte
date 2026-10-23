@@ -411,9 +411,10 @@
      into, in 7. Under it lies the app's Topics sidebar alone, the first quarter of the screenshot (400 of its
      1600px), and the screenshot at 0.72 of its size at least, so its words read (about 10px), or larger where
      the stage lets its Overview end, at 1190px where the lane starts, by the page's edge. What runs past the
-     edge is more of the app: the timeline's end and the lane. Both start on the stage's top
-     line, which the pitch shares, and Needs you is never shorter than the screenshot, so the sidebar stays
-     covered once an answered question folds away. In the stage's own width (cqw), which both read. */
+     edge is more of the app: the timeline's end and the lane. Both start on the stage's top line, which the
+     pitch shares. The screenshot starts where the Overview does, at 390px, the sidebar cut away, so Needs
+     you keeps the height of its rows and the page's ground shows under it once an answered question folds
+     away. In the stage's own width (cqw), which both read. */
   @media (min-width: 72rem) {
     .hero {
       align-items: start;
@@ -429,27 +430,30 @@
       --shot-in: calc(var(--ny-w) - var(--shot-w) * 400 / 1600);
     }
 
-    .stage :global(.needs-you) {
-      min-height: calc(var(--shot-w) * 1000 / 1600);
+    .shot img {
+      clip-path: inset(0 0 0 calc(100% * 390 / 1600) round var(--r-md));
     }
   }
 
   /* Stacked, on a tablet or a phone, Needs you, then the screenshot under it, Needs you covering its top: on a
-     phone the shot of the question answered in its thread, from where the session's reply starts. */
+     tablet down to its 330th px, between the app's own Needs you and its Work today, and across to its 1185th,
+     between the Overview and its lane, so its edges cut no line; on a phone the shot of the question answered
+     in its thread, from where the session's reply starts. */
   @media (max-width: 71.99rem) {
     .stage {
+      --w: max(100% - var(--sp-12), 40rem);
       grid-template: auto auto / minmax(0, 1fr);
     }
 
     .stage :global(.needs-you) {
       grid-area: 1 / 1;
-      width: min(36rem, calc(100% - var(--gutter)));
+      width: calc(var(--sp-12) + var(--w) * 1185 / 1600);
     }
 
     .shot {
       grid-area: 2 / 1;
-      width: max(100% - var(--sp-12), 40rem);
-      margin: calc(-1 * var(--sp-12) * 2) 0 0 var(--sp-12);
+      width: var(--w);
+      margin: calc(var(--w) * -330 / 1600) 0 0 var(--sp-12);
     }
   }
 
@@ -723,6 +727,10 @@
 
     /* The phone's shot, 780 by 975, under Needs you to its 590th px, so what shows starts with the owner's
        answer in its thread; it stops at the gutter, as the panel over it does. */
+    .stage :global(.needs-you) {
+      width: calc(100% - var(--gutter));
+    }
+
     .shot {
       --w: calc(100% - var(--gutter) - var(--sp-8));
       width: var(--w);
