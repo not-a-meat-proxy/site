@@ -1,19 +1,31 @@
 // A docs page's commands: Copy takes the command as it is shown and says Copied for two seconds,
-// and with no clipboard at all selects the command, for the reader to copy.
+// and with no clipboard at all selects the command, for the reader to copy. Its sections' marks and On this
+// page follow the section in view.
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, render } from "@testing-library/svelte";
 import { tick } from "svelte";
 import Page from "../../src/routes/docs/[[page]]/+page.svelte";
 
-const html = `<h1>Install namp</h1>
+const mark = (n, sign) => `<span class="mark" data-sign="${sign}" aria-hidden="true"><span class="n">§${n}</span><svg class="ps"><g class="running"><path class="arc" /></g></svg></span>`;
+const opening = `<h1>Install namp</h1>\n<p>What you need.</p>`;
+const html = `<h2 id="what-you-need">${mark(1, "running")}What you need</h2>
+<p>A machine.</p>
+<h2 id="install">${mark(2, "planned")}Install</h2>
 <div class="code"><pre><code>namp --version
-claude --version</code></pre><button type="button" class="copy" data-copy>Copy</button></div>`;
+claude --version</code></pre><button type="button" class="copy" data-copy>Copy</button></div>
+<h2 id="start">${mark(3, "planned")}Start</h2>
+<p>namp start.</p>`;
+const sections = [
+  { id: "what-you-need", text: "What you need" },
+  { id: "install", text: "Install" },
+  { id: "start", text: "Start" },
+];
 const pages = [
   { path: "/docs", title: "Overview" },
   { path: "/docs/install", title: "Install namp" },
   { path: "/docs/update", title: "Update namp" },
 ];
-const data = { pages, page: { slug: "install", path: "/docs/install", title: "Install namp", description: "", html } };
+const data = { pages, page: { slug: "install", path: "/docs/install", title: "Install namp", description: "", sections, opening, html } };
 
 afterEach(() => {
   cleanup();
@@ -58,8 +70,59 @@ describe("a docs page", () => {
     await tick();
     const turn = [...document.querySelectorAll(".turn a")].map((a) => [a.getAttribute("href"), a.textContent]);
     expect(turn).toEqual([
-      ["/docs", "PreviousOverview"],
-      ["/docs/update", "NextUpdate namp"],
+      ["/docs", "Previous [Overview"],
+      ["/docs/update", "Next ]Update namp"],
     ]);
+  });
+
+  test("lists its sections under On this page, the first in view as the page opens", async () => {
+    render(Page, { data });
+    await tick();
+    const aside = document.querySelector('nav[aria-label="On this page"]');
+    expect([...aside.querySelectorAll("a")].map((a) => [a.getAttribute("href"), a.getAttribute("aria-current")])).toEqual([
+      ["#what-you-need", "location"],
+      ["#install", null],
+      ["#start", null],
+    ]);
+    expect(document.querySelector("article details.folded summary").textContent).toBe("On this page");
+  });
+
+  test("marks the sections done above the one in view, running for it and planned below, as the reader scrolls", async () => {
+    const observers = [];
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(callback) {
+          this.callback = callback;
+          observers.push(this);
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    render(Page, { data });
+    await tick();
+    const headings = [...document.querySelectorAll("article h2")];
+    const scrollTo = (tops) => {
+      headings.forEach((h, i) => (h.getBoundingClientRect = () => ({ top: tops[i] })));
+      observers[0].callback([]);
+    };
+    const signs = () => headings.map((h) => h.querySelector(".mark").dataset.sign);
+    const current = () => [...document.querySelectorAll('nav[aria-label="On this page"] a')].map((a) => a.getAttribute("aria-current"));
+
+    scrollTo([-400, 100, 900]);
+    await tick();
+    expect(signs()).toEqual(["done", "running", "planned"]);
+    expect(current()).toEqual([null, "location", null]);
+
+    scrollTo([-900, -400, 100]);
+    await tick();
+    expect(signs()).toEqual(["done", "done", "running"]);
+    expect(current()).toEqual([null, null, "location"]);
+
+    scrollTo([200, 900, 1500]);
+    await tick();
+    expect(signs()).toEqual(["running", "planned", "planned"]);
+    expect(current()).toEqual(["location", null, null]);
   });
 });

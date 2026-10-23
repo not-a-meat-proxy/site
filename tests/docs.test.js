@@ -65,6 +65,13 @@ describe("the docs", () => {
     }
   });
 
+  test.each(pages)("%s numbers its sections in their marks, the first in view as it opens", async (path) => {
+    const marks = [...(await html(path)).matchAll(/<h2 id="[a-z0-9-]+"><span class="mark" data-sign="(\w+)" aria-hidden="true"><span class="n">§(\d+)<\/span><svg class="ps"/g)];
+    expect(marks.length).toBeGreaterThan(0);
+    expect(marks.map((m) => Number(m[2]))).toEqual(marks.map((_, i) => i + 1));
+    expect(marks.map((m) => m[1])).toEqual(marks.map((_, i) => (i ? "planned" : "running")));
+  });
+
   test("gives a command a Copy button, and what it prints none", async () => {
     const page = await html("/docs/install");
     expect(page).toContain(

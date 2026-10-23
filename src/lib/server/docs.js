@@ -27,6 +27,7 @@ function slug(text) {
 
 markdown.core.ruler.push("heading_ids", (state) => {
   const used = new Set();
+  let n = 0;
   state.tokens.forEach((token, i) => {
     if (token.type !== "heading_open" || token.tag === "h1") return;
     const text = state.tokens[i + 1].children.map((child) => child.content).join("");
@@ -34,9 +35,23 @@ markdown.core.ruler.push("heading_ids", (state) => {
     for (let n = 2; used.has(id); n++) id = `${slug(text)}-${n}`;
     used.add(id);
     token.attrSet("id", id);
+    if (token.tag === "h2") token.meta = { n: ++n };
     state.tokens[i + 2].meta = { id, text };
   });
 });
+
+// A section's mark, in the margin level with its heading on a wide screen and before it on a phone: its
+// number and namp's plan sign (ui/src/lib/overview/PlanSign.svelte), all three of the sign's shapes drawn
+// and [data-sign] showing one, so a section's state changes as the reader passes it with nothing moving
+// round it. The first section is the one in view when the page opens at its top.
+const sign = `<svg class="ps" viewBox="0 0 16 16" aria-hidden="true"><g class="planned"><circle cx="8" cy="8" r="6" /></g><g class="running"><circle class="track" cx="8" cy="8" r="6" /><path class="arc" d="M8 2a6 6 0 0 1 5.2 9" /></g><g class="done"><circle cx="8" cy="8" r="6.5" /><path d="m5.2 8.3 1.9 1.9 3.8-4.1" /></g></svg>`;
+
+markdown.renderer.rules.heading_open = (tokens, i, options, env, self) => {
+  const open = self.renderToken(tokens, i, options);
+  const n = tokens[i].meta?.n;
+  if (!n) return open;
+  return `${open}<span class="mark" data-sign="${n === 1 ? "running" : "planned"}" aria-hidden="true"><span class="n">§${n}</span>${sign}</span>`;
+};
 
 markdown.renderer.rules.heading_close = (tokens, i) => {
   const { id, text } = tokens[i].meta ?? {};
@@ -61,13 +76,18 @@ function render(slug, file) {
   if (!title) throw new Error(`docs/${file}.md has no title`);
   const description = tokens.find((token, i) => token.type === "inline" && tokens[i - 1]?.type === "paragraph_open")?.content ?? "";
   const sections = tokens.filter((token) => token.type === "heading_close" && token.tag === "h2").map((token) => token.meta);
+  // The opening, the title and the paragraph under it, apart from the rest, for On this page to sit
+  // between them on a narrow screen.
+  const lede = tokens.findIndex((token, i) => token.type === "paragraph_close" && tokens.slice(0, i).some((t) => t.tag === "h1"));
+  const html = (part) => markdown.renderer.render(part, markdown.options, {});
   return {
     slug,
     path: slug ? `/docs/${slug}` : "/docs",
     title,
     description: description.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/`/g, ""),
     sections,
-    html: markdown.renderer.render(tokens, markdown.options, {}),
+    opening: html(tokens.slice(0, lede + 1)),
+    html: html(tokens.slice(lede + 1)),
   };
 }
 

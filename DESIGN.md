@@ -46,6 +46,7 @@ colors:
   band-own: "#5f9bf5"
   band-task: "#2cc0d8"
   code-ink: "#e2e7e9"
+  dim: "rgba(8, 10, 12, .5)"
   # Light, each role as <role>-light.
   bay-rail-light: "#1d2024"
   bay-side-light: "#26292e"
@@ -90,6 +91,7 @@ colors:
   band-own-light: "#5588d4"
   band-task-light: "#3293a4"
   code-ink-light: "#1a1f24"
+  dim-light: "rgba(12, 20, 24, .32)"
 typography:
   display:
     fontFamily: '"Fira Sans Condensed", "Fira Sans", "Arial Narrow", sans-serif'
