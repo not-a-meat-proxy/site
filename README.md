@@ -31,6 +31,11 @@ subject: a Conventional Commit, `type(scope): a prose sentence`.
 
 ## Design
 
+PRODUCT.md and DESIGN.md at the root are what the site is for and how it looks, which impeccable
+reads before any design work. DESIGN.md follows namp's own, its frontmatter carrying
+`src/app.css`'s tokens by their roles, kept equal by `tests/components/design.test.js`: a new
+token goes into both.
+
 The design skill impeccable, v4.7.0 (tag skill-v4.7.0, commit aeeb3d8, engine v0.1.16), is
 vendored under `.claude/` as namp vendors it: the skill in `.claude/skills/impeccable/` and its
 four agents in `.claude/agents/impeccable-*.md`, as `npx impeccable install --providers=claude
