@@ -290,7 +290,7 @@ Two shapes, as namp has a shell and a place. The front page has no shell: the pa
 The rhythm is 4px steps, `--sp-1` to `--sp-12`. Text keeps a measure of 65 to 75 characters. Sections stand apart by more space above a heading than below it. Where a column must change, it changes at a few widths only, and nothing runs wider than the screen or scrolls sideways but a code block.
 
 ### Named Rules
-**The One Grid Rule.** Every block of a page starts on the same left edge and its columns share the same lines: a heading, its text, a row of points and a call line up, or they differ by a step of the grid on purpose.
+**The One Grid Rule.** Every block of a page starts on the same left edge and its columns share the same lines: a heading, its text, a row of points and a call line up, or they differ by a step of the grid on purpose. The front page's grid is 12 columns between the gutters, `--sp-6` apart (`--sp-4` on a phone): what namp is and the call in columns 1 to 5, the app at work from column 6 to past the page's right edge, and below them each section's heading in columns 1 to 5 and its rows or its call from column 6. Under 64rem every block takes the whole width.
 
 **The Steps Rule.** Space in 4px steps, `--sp-1` to `--sp-12`, and `--gutter` for the page's margin.
 
@@ -301,10 +301,10 @@ Depth is mostly tonal: the ground, a sunken fill a step under it, a strip a step
 ### Shadow Vocabulary
 - **Seat** (`--shadow-1`): a chosen segment, a small strip seated on the ground.
 - **Lift** (`--shadow-lift`): what needs the reader, as namp's Needs you rows and lane cards.
-- **Float** (`--shadow-2`): what floats over the page, a notice, a menu.
+- **Float** (`--shadow-2`): what floats over the page, a notice, a menu, Needs you over the hero's screenshot.
 
 ### Named Rules
-**The Lift Rule.** What needs the reader lifts from the ground, as in namp: a strip fading from `--ask-wash` at its left to the strip by mid-row, with `--shadow-lift` and a flag band, `--flag` wide, in `--ask`. Everything else lies on the ground. Nothing else casts a shadow.
+**The Lift Rule.** What needs the reader lifts from the ground, as in namp: a strip on `--ask-fill`, fading from `--ask-wash` at its left to the strip by mid-row, with `--shadow-lift` and a flag band, `--flag` wide, in `--ask`; a reply waiting for reading lifts the same way in the accent, from `--accent-soft`. Everything else lies on the ground. Nothing else casts a shadow.
 
 ## Shapes
 
@@ -328,6 +328,12 @@ The tester's command in a `surface` box with an `edge`, its words in the mono, w
 
 ### The shell
 The docs' sidebar, graphite: the name and Docs in the condensed cut, the theme and the repository at its end, then each page a row, the open one on `bay-on` with `bay-on-ink`, its sections under it at 13px.
+
+### Needs you
+The front page's first view lays namp's Home Needs you over the Overview screenshot, ported from namp's `Headline.svelte` and `Home.svelte` rather than drawn like them (`src/lib/home/`): a panel of the ground floating on `--shadow-2`, its heading with the asks' count on `--ask-count` and the replies' outlined petrol bubble, then a lifted card per ask, its kind in the tone's ink, who and when after dots, its subject strong, the first 2 lines of its text with the second's end faded through `--mask` when more follows, and a question's recommended choice. Its topics are demo topics, and the panel says so. The first question carries namp's choices, numbered rings, the recommended one in the accent and tagged in `--ok-ink`; a click or its number key answers it and it folds out, the count one less. The cards arrive one by one by transform and opacity in the room they hold, and stand still under reduced motion.
+
+### Rows
+What the front page lists, it lists as namp's record rows: between hairlines, a 5px origin band at the row's left in `--band-you`, `--band-own` or `--band-task`, and namp's sign (a question mark, an open goal ring, the turning arc, a check), never as cards.
 
 ### Inline code
 A chip on `sunken` with its hairline drawn, 1px by 5px, so its padding never reads as a stray space.
