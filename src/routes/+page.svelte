@@ -135,7 +135,7 @@
 
     <div id="install" class="close">
       {#if data.tester}
-        <h3 class="install">Install namp, {data.tester.name}</h3>
+        <h3 class="install">Two steps to start</h3>
         <div class="steps">
           <ol>
             <li>

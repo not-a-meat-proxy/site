@@ -6,7 +6,7 @@ A topic holds one piece of work: its goal, the plan its session follows towards 
 
 Open the address `namp start` printed, `http://localhost:4321/__session/`. It opens on Home, a briefing across your topics since you left:
 
-- **Needs you**: only what waits for you to act, such as a question to answer, a goal to accept or a session that is blocked. A click opens it whole in the drawer at the right, where you answer it, and **Open in topic** takes you to it in its topic.
+- **Needs you**: only what waits for you to act, such as a question to answer, a goal to accept or a session that is blocked. A click opens it in its topic, its thread in the drawer at the right, where you answer it.
 - **While you were away**: what came of each topic, what was done, decided, waits on you or is blocked, each marked at its left by who started it: you, the session, or a task the session handed out.
 - **Running now** and **Next**: what the sessions work on, and what their plans hold next.
 
