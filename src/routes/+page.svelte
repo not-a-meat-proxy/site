@@ -86,7 +86,6 @@
 <main>
   <section class="hero grid">
     <div class="pitch">
-      <p class="alpha">Private alpha</p>
       <h1>Not A Meat Proxy.</h1>
       <!-- In two parts, each kept whole, so a line breaks at its comma or nowhere. -->
       <p class="lede">{#each lede.split(/(?<=,) /) as part, i}{i ? " " : ""}<span>{part}</span>{/each}</p>
@@ -247,16 +246,6 @@
     .stage {
       grid-column: 6 / -1;
     }
-  }
-
-  .alpha {
-    display: inline-block;
-    margin: 0 0 var(--sp-5);
-    padding: 2px var(--sp-2);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--r-sm);
-    color: var(--muted);
-    font: var(--fw-medium) var(--fs-sm)/1.4 var(--cond);
   }
 
   /* The one display size, above namp's 32px headline: the site's name, in the condensed cut. */
@@ -710,10 +699,6 @@
     .hero {
       row-gap: var(--sp-8);
       padding-block: 72px var(--sp-10);
-    }
-
-    .alpha {
-      margin-bottom: var(--sp-4);
     }
 
     h1 {
