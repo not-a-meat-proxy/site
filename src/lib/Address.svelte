@@ -44,17 +44,17 @@
 {/if}
 
 <style>
-  /* The same box with or without JS, so nothing moves when it arrives. */
+  /* The same box with or without JS, so nothing moves when it arrives: a chip with a control's edge. */
   .chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    padding: 0.2rem 0.55rem 0.2rem 0.65rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--paper);
+    gap: var(--sp-2);
+    padding: 3px var(--sp-2) 3px 10px;
+    border: 1px solid var(--edge);
+    border-radius: var(--r-sm);
+    background: var(--surface);
     color: var(--ink);
-    font: 500 0.95rem/1.5 var(--sans);
+    font: var(--fw-normal) var(--fs-md)/1.5 var(--font);
   }
 
   .plain {
@@ -66,15 +66,15 @@
   }
 
   button:hover {
-    border-color: var(--teal);
-    background: #fff;
+    border-color: var(--muted);
+    background: var(--hover);
   }
 
   svg {
-    width: 1rem;
-    height: 1rem;
+    width: 16px;
+    height: 16px;
     fill: none;
-    stroke: var(--teal);
+    stroke: var(--accent-ink);
     stroke-width: 1.4;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -85,7 +85,7 @@
   }
 
   .done {
-    color: var(--teal-deep);
-    font-size: 0.875rem;
+    color: var(--accent-ink);
+    font-size: var(--fs-sm);
   }
 </style>

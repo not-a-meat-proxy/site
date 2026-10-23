@@ -1,4 +1,4 @@
-// The front page's ways out besides the invite: the docs from the hero, a lighter button beside
+// The front page's ways out besides the invite: the docs from the hero, a plain button beside
 // "Get an invite" or under a tester's command, and the site's repo from GitHub's mark, on the
 // front page and in the docs' header.
 import { afterEach, describe, expect, test } from "vitest";
@@ -27,16 +27,16 @@ describe("the hero", () => {
       ["Get an invite", "mailto:invites@example.com"],
       ["Read the docs", "/docs"],
     ]);
-    expect(actions[0].classList.contains("quiet")).toBe(false);
-    expect(actions[1].classList.contains("quiet")).toBe(true);
+    expect(actions[0].classList.contains("primary")).toBe(true);
+    expect(actions[1].classList.contains("primary")).toBe(false);
   });
 
   test("with no contact, shows Read the docs alone", async () => {
     render(Page, { data: { ...visitor, contact: null } });
     await tick();
     const actions = [...document.querySelectorAll(".hero .actions a")];
-    expect(actions.map((a) => [a.textContent, a.getAttribute("href"), a.className.includes("quiet")])).toEqual([
-      ["Read the docs", "/docs", true],
+    expect(actions.map((a) => [a.textContent, a.getAttribute("href"), a.className.includes("primary")])).toEqual([
+      ["Read the docs", "/docs", false],
     ]);
     expect(document.querySelector(".hero").textContent).not.toContain("Get an invite");
   });

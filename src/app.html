@@ -4,6 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- The start faces the first screen paints in: the text, the headings and the buttons. A rest face,
+         fetched only for a character a start face lacks, never preloads. -->
+    <link rel="preload" href="/fonts/FiraSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/FiraSansCondensed-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/FiraSansCondensed-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
     %sveltekit.head%
   </head>
   <body>

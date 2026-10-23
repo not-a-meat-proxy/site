@@ -48,41 +48,43 @@
   }
 
   article :global(h1) {
-    margin: 0 0 1rem;
-    font: 700 clamp(2.4rem, 5vw, 3.5rem) / 1 var(--display);
-    font-variation-settings: "wdth" 85;
-    letter-spacing: -0.03em;
+    margin: 0 0 var(--sp-3);
+    font-size: var(--fs-2xl);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
 
   /* The paragraph under the title says what the page is for. */
   article :global(h1 + p) {
-    margin-bottom: 2rem;
+    margin-bottom: var(--sp-8);
     color: var(--muted);
-    font-size: 1.15rem;
-    line-height: 1.5;
+    font-size: var(--fs-lg);
+    line-height: 1.45;
     text-wrap: pretty;
   }
 
   article :global(h2) {
-    margin: 2.5rem 0 0.6rem;
-    padding-top: 1.25rem;
+    margin: var(--sp-10) 0 var(--sp-3);
+    padding-top: var(--sp-5);
     border-top: 1px solid var(--line);
-    font: 650 clamp(1.45rem, 2.2vw, 1.75rem) / 1.15 var(--display);
-    letter-spacing: -0.015em;
-    scroll-margin-top: 1rem;
+    font-size: var(--fs-xl);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    scroll-margin-top: var(--sp-4);
   }
 
   article :global(h3) {
-    margin: 1.75rem 0 0.4rem;
-    font: 600 1.2rem/1.3 var(--display);
-    scroll-margin-top: 1rem;
+    margin: var(--sp-6) 0 var(--sp-2);
+    font-size: var(--fs-lg);
+    line-height: 1.3;
+    scroll-margin-top: var(--sp-4);
   }
 
   /* A heading's link, seen when the heading is pointed at or the link has the focus, and always
      on a screen with no pointer to hover. */
   article :global(.anchor) {
-    color: var(--line);
-    font-weight: 500;
+    color: var(--faint);
+    font-weight: var(--fw-medium);
     text-decoration: none;
     opacity: 0;
   }
@@ -93,7 +95,7 @@
   }
 
   article :global(.anchor:hover) {
-    color: var(--teal);
+    color: var(--accent-ink);
   }
 
   @media (hover: none) {
@@ -105,95 +107,76 @@
   article :global(p),
   article :global(ul),
   article :global(ol) {
-    margin: 0 0 1rem;
+    margin: 0 0 var(--sp-4);
     text-wrap: pretty;
   }
 
   article :global(ul),
   article :global(ol) {
-    padding-left: 1.3rem;
+    padding-left: 20px;
   }
 
   article :global(li + li) {
-    margin-top: 0.35rem;
+    margin-top: 6px;
   }
 
   article :global(ol > li::marker) {
-    font: 600 1rem var(--display);
     color: var(--muted);
+    font: var(--fw-strong) var(--fs-body) var(--cond);
   }
 
   article :global(strong) {
-    font-weight: 600;
+    font-weight: var(--fw-strong);
   }
 
   article :global(:not(pre) > code) {
-    padding: 0.05rem 0.3rem;
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    background: #fff;
     overflow-wrap: anywhere;
   }
 
-  /* A command reads as the front page's install command: ink, with its Copy at the right. What a
-     command prints sits lighter, with no Copy. Both wrap rather than scroll, so a phone shows it whole. */
+  /* A command reads as the front page's install command: a code block with its Copy at the right. What a
+     command prints sits on the ground inside a hairline, with no Copy. Both wrap rather than scroll, so a
+     phone shows it whole. */
   article :global(.code) {
     display: flex;
-    align-items: stretch;
-    margin: 0 0 1.25rem;
-    border: 1px solid var(--ink);
-    border-radius: 10px;
-    background: var(--ink);
-    overflow: hidden;
+    align-items: start;
+    gap: var(--sp-3);
+    margin: 0 0 var(--sp-5);
+    padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--sunken);
   }
 
   article :global(.code pre) {
     flex: 1;
     min-width: 0;
     margin: 0;
-    padding: 0.8rem 1rem;
-    color: #e9f3f4;
-    font-size: 0.9rem;
-    line-height: 1.55;
+    padding: 6px 0;
+    color: var(--code-ink);
+    font: var(--fs-sm)/1.65 var(--mono);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
 
-  article :global(.code code) {
-    font-size: inherit;
-  }
-
   article :global(.code.output) {
-    border-color: var(--line);
-    background: #fff;
+    background: none;
   }
 
   article :global(.code.output pre) {
-    color: var(--ink);
-    font-size: 0.85rem;
+    color: var(--ink-2);
   }
 
   article :global(.copy) {
     flex: none;
-    width: 5rem;
-    border: 0;
-    border-left: 1px solid rgb(255 255 255 / 0.15);
-    background: var(--teal);
-    color: #fff;
-    font: 500 0.95rem var(--sans);
-    cursor: pointer;
+    min-width: 72px;
   }
 
-  article :global(.copy:hover) {
-    background: var(--teal-deep);
-  }
-
-  /* A note to heed, in the amber the front page keeps for what waits for the reader. */
+  /* A note to heed: a strip with the ask's band at its left, as the front page's note on a Mac. */
   article :global(blockquote) {
-    margin: 0 0 1.25rem;
-    padding: 0.75rem 1rem;
-    border-left: 3px solid var(--amber);
-    background: #fbf1e6;
+    margin: 0 0 var(--sp-5);
+    padding: var(--sp-3) var(--sp-4);
+    border-left: var(--flag) solid var(--ask);
+    background: var(--surface);
   }
 
   article :global(blockquote p:last-child) {
@@ -203,31 +186,35 @@
   .turn {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: var(--sp-4);
     max-width: 42rem;
-    margin-top: 3rem;
-    padding-top: 1.5rem;
+    margin-top: var(--sp-12);
+    padding-top: var(--sp-6);
     border-top: 1px solid var(--line);
   }
 
   .turn a {
     display: flex;
     flex-direction: column;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: #fff;
-    font: 600 1.05rem/1.3 var(--display);
+    gap: 2px;
+    padding: var(--sp-3) var(--sp-4);
+    border: 1px solid var(--edge);
+    border-radius: var(--r-ctl);
+    background: var(--surface);
+    color: var(--ink);
+    font: var(--fw-strong) var(--fs-lg)/1.3 var(--cond);
     text-decoration: none;
+    transition: background var(--dur), border-color var(--dur);
   }
 
   .turn a:hover {
-    border-color: var(--teal);
+    border-color: var(--muted);
+    background: var(--hover);
   }
 
   .turn span {
     color: var(--muted);
-    font: 400 0.85rem var(--sans);
+    font: var(--fw-normal) var(--fs-sm) var(--font);
   }
 
   .next {
@@ -238,18 +225,12 @@
   @media (max-width: 40rem) {
     article :global(.code) {
       flex-direction: column;
+      align-items: stretch;
+      padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3);
     }
 
     article :global(.code pre) {
-      padding: 0.75rem 0.85rem;
-      font-size: 0.82rem;
-    }
-
-    article :global(.copy) {
-      width: auto;
-      padding: 0.6rem;
-      border-left: 0;
-      border-top: 1px solid rgb(255 255 255 / 0.15);
+      font-size: var(--fs-xs);
     }
   }
 </style>

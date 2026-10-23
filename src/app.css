@@ -1,19 +1,85 @@
-/* The page's tokens: namp's own rail grey and teal, its "waits for you" amber kept for the one
-   thing that waits for the visitor, Bricolage Grotesque for display over the product's IBM Plex. */
+/* The site in namp's look (namp's DESIGN.md): its tokens by role, the values of namp's ui/src/tokens.css, a
+   graphite shell, one petrol green accent, Fira Sans and its condensed cut. The only place a colour, a font
+   size or a radius is written as a value: everything else reads these by role. */
+@import "./fonts.css";
+
 :root {
-  --rail: #e8eef0;
-  --paper: #f8fafa;
-  --ink: #17262b;
-  --muted: #3f4f54;
-  --line: #cfd9dc;
-  --teal: #0d6b78;
-  --teal-deep: #08525c;
-  --amber: #b9620c;
-  --display: "Bricolage Grotesque Variable", "IBM Plex Sans", sans-serif;
-  --sans: "IBM Plex Sans", system-ui, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, monospace;
-  --measure: 34rem;
-  --gutter: clamp(1.25rem, 5vw, 4.5rem);
+  /* Type: Fira Sans for the text, its condensed cut for headings, labels and buttons, a mono for code. namp's
+     scale, and one size of the site's own: the hero's headline, the one display size above the 32px one. */
+  --font: "Fira Sans", "Helvetica Neue", Arial, sans-serif;
+  --cond: "Fira Sans Condensed", "Fira Sans", "Arial Narrow", sans-serif;
+  --mono: "Fira Mono", ui-monospace, Menlo, monospace;
+  --fs-2xs: 11px; --fs-xs: 12px; --fs-sm: 13px; --fs-md: 14px; --fs-body: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 32px;
+  --fs-display: clamp(3.5rem, 7.2vw, 6.5rem);
+  --fs-inline: .86em; /* code inside a line of text */
+  --fw-normal: 400; --fw-medium: 500; --fw-strong: 600;
+
+  /* Space in 4px steps, and the page's margin. */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+  --gutter: clamp(20px, 5vw, 72px);
+
+  /* Radius: controls take a small corner, surfaces and code blocks a larger one, rows and places none. */
+  --r-0: 0; --r-xs: 4px; --r-sm: 6px; --r-md: 8px; --r-ctl: var(--r-xs);
+  --flag: 6px; /* the ask's band at a note's left */
+
+  --dur: .15s;
+}
+
+/* ---------------------------------------------------------------- Dark, the default */
+:root {
+  color-scheme: dark;
+  /* The shell, a graphite a step deeper than the ground, and what sits on it. */
+  --bay-rail: #15171a; --bay-side: #1b1e21;
+  --bay-ink: #dadee2; --bay-muted: #99a0a8; --bay-line: #42484f; --bay-strip: #272b30;
+  --bay-on: #d6dbe0; --bay-on-ink: #15181b; --bay-work: #58c9a1;
+
+  /* The ground, the strips that lift from it, and the quiet fills. */
+  --bg: #1c2225; --surface: #252c30; --sunken: #20272a; --hover: #2b3337;
+
+  /* Ink and lines: nothing pure. --edge is a control's, at 3:1 on the ground and a strip. */
+  --ink: #d8dfe2; --ink-2: #bcc5ca; --muted: #9aa5ab; --faint: #99a4aa; --on-accent: #0d1e19;
+  --line: #333c41; --line-strong: #4c575e; --edge: #788389;
+
+  /* One accent for focus, the links and the primary action. */
+  --accent: #58c9a1; --accent-ink: #69cfab; --accent-soft: #213d35;
+
+  /* What waits for the reader, and what went wrong. */
+  --ask: #f5883f; --alert-ink: #f487bb;
+
+  --code-ink: #e2e7e9;
+}
+
+/* ---------------------------------------------------------------- Light, for a visitor who asks for it */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --bay-rail: #1d2024; --bay-side: #26292e;
+    --bay-ink: #eceef0; --bay-muted: #a9afb6; --bay-line: #4a5057; --bay-strip: #32363c;
+    --bay-on: #f3f6f9; --bay-on-ink: #16191c; --bay-work: #58c9a1;
+
+    --bg: #f3f6f9; --surface: #ffffff; --sunken: #ebeef2; --hover: #eceff3;
+
+    --ink: #1d2227; --ink-2: #40474f; --muted: #656b73; --faint: #656b73; --on-accent: #ffffff;
+    --line: #dfe3e7; --line-strong: #c2c8cf; --edge: #80868d;
+
+    --accent: #428069; --accent-ink: #3c7560; --accent-soft: #dcf5ea;
+
+    --ask: #d26a30; --alert-ink: #a15072;
+
+    --code-ink: #1a1f24;
+  }
+}
+
+/* Inside the shell the ground's roles read as the shell's, as in namp's sidebar, so a link, a ring or a
+   control drawn there takes the shell's colours without knowing it is there. */
+.shell {
+  --bg: var(--bay-side); --surface: var(--bay-strip); --sunken: var(--bay-rail); --hover: var(--bay-strip);
+  --ink: var(--bay-ink); --ink-2: var(--bay-ink); --muted: var(--bay-muted); --faint: var(--bay-muted);
+  --line: var(--bay-line); --line-strong: var(--bay-line); --edge: var(--bay-muted);
+  --accent: var(--bay-work); --accent-ink: var(--bay-work); --accent-soft: var(--bay-strip); --on-accent: var(--bay-rail);
+  color-scheme: dark;
+  background: var(--bay-side);
+  color: var(--ink);
 }
 
 *,
@@ -23,9 +89,10 @@
 }
 
 html {
-  background: var(--rail);
+  background: var(--bg);
   color: var(--ink);
-  font: 400 1.0625rem/1.6 var(--sans);
+  font: var(--fw-normal) var(--fs-body)/1.55 var(--font);
+  scrollbar-color: var(--line-strong) var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -34,25 +101,81 @@ body {
   margin: 0;
 }
 
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* Headings in the condensed cut, which carries the density; the text under them in the plain one. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--cond);
+  font-weight: var(--fw-strong);
+  text-wrap: balance;
+}
+
 a {
-  color: var(--teal);
+  color: var(--accent-ink);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-underline-offset: 3px;
 }
 
-a:hover {
-  color: var(--teal-deep);
-}
-
+/* The one focus ring, for everything the keyboard reaches. */
 :focus-visible {
-  outline: 2px solid var(--teal);
-  outline-offset: 3px;
-  border-radius: 4px;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 code {
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  background: var(--sunken);
+  color: var(--ink);
   font-family: var(--mono);
-  font-size: 0.9em;
+  font-size: var(--fs-inline);
+}
+
+pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+/* Controls: a strip in the condensed cut with an edge round it; the primary in the accent, once per place. */
+button,
+.button {
+  display: inline-block;
+  padding: 7px 14px;
+  border: 1px solid var(--edge);
+  border-radius: var(--r-ctl);
+  background: var(--surface);
+  color: var(--ink);
+  font: var(--fw-medium) var(--fs-md)/1.2 var(--cond);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--dur), border-color var(--dur), color var(--dur);
+}
+
+button:hover,
+.button:hover {
+  border-color: var(--muted);
+  background: var(--hover);
+  color: var(--ink);
+}
+
+:is(button, .button).primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: var(--fw-strong);
+}
+
+:is(button, .button).primary:hover {
+  border-color: var(--accent-ink);
+  background: var(--accent-ink);
+  color: var(--on-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {

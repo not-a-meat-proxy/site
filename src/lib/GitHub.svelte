@@ -1,5 +1,5 @@
 <script>
-  // The site's repo, as GitHub's mark: quiet in ink, teal on hover. Drawn inline, so the page
+  // The site's repo, as GitHub's mark: quiet in ink, the accent's on hover. Drawn inline, so the page
   // makes no request for it.
   let { class: place = "" } = $props();
 </script>
@@ -16,23 +16,19 @@
   /* The mark at the size of the text around it, in a target large enough for a thumb. */
   .github {
     display: inline-flex;
-    padding: 0.45rem;
-    border-radius: 999px;
-    color: var(--ink);
+    padding: var(--sp-2);
+    border-radius: var(--r-sm);
+    color: var(--ink-2);
   }
 
   .github:hover {
-    color: var(--teal);
-  }
-
-  .github:focus-visible {
-    outline-offset: 0;
-    border-radius: 999px;
+    background: var(--hover);
+    color: var(--ink);
   }
 
   svg {
-    width: 1.375rem;
-    height: 1.375rem;
+    width: 22px;
+    height: 22px;
     fill: currentColor;
   }
 </style>
