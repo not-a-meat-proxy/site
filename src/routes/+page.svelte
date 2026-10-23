@@ -333,14 +333,12 @@
     }
   }
 
-  /* The second screen, whole: why, what you gain, what it needs, and the call again. */
+  /* Then why, what you gain, what it needs, and the call again, sections apart by 40px as in namp. */
   .more {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: clamp(var(--sp-8), 6.5vh, 64px);
-    min-height: 100svh;
-    padding-block: clamp(var(--sp-8), 5vh, 56px);
+    gap: var(--sp-10);
+    padding-block: var(--sp-12) var(--sp-10);
     border-top: 1px solid var(--line);
   }
 

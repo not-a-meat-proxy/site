@@ -171,9 +171,11 @@
 
   /* On a wide screen, the shell at the left, kept in sight while the page scrolls. */
   @media (min-width: 52.01rem) {
+    /* The shell's column takes its graphite the page's whole height, past the sticky shell's screen. */
     .docs {
       grid-template-columns: 280px minmax(0, 1fr);
       grid-template-rows: 1fr auto;
+      background: linear-gradient(to right, var(--bay-side) 280px, transparent 280px);
     }
 
     .side {
