@@ -242,6 +242,17 @@ describe("the front page", () => {
   });
 });
 
+describe("a page the site doesn't have", () => {
+  test("answers 404 in the front page's frame, with the ways back", async () => {
+    const res = await site.get("/nowhere");
+    expect(res.status).toBe(404);
+    const page = await res.text();
+    expect(page).toContain("No such page");
+    expect(page).toMatch(/<code[^>]*>\/nowhere</);
+    expect(page).toContain('href="/docs"');
+  });
+});
+
 describe("/api/latest", () => {
   test("answers 401 with no token", async () => {
     await refusal(await site.get("/api/latest"), 401);

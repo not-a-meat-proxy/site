@@ -633,14 +633,29 @@
     margin: 0 0 var(--sp-3);
   }
 
+  /* The steps' numbers stand on the heading's left line, their text in a column of its own beside them. */
   ol {
     margin: 0;
-    padding-left: 22px;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
   }
 
-  ol li::marker {
+  ol li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    align-items: first baseline;
+  }
+
+  ol li::before {
+    content: counter(step) ".";
     color: var(--muted);
     font: var(--fw-strong) var(--fs-body) var(--cond);
+  }
+
+  ol li > p {
+    grid-column: 2;
   }
 
   ol li + li {
