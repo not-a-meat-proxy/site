@@ -53,11 +53,10 @@
 
 <svelte:window onkeydown={step} />
 
-<!-- The faces a docs page paints in besides the start faces app.html preloads: its pages' rows, its strong
-     words and its code, so none swaps in once the page shows. -->
+<!-- The faces a docs page paints in besides the start faces app.html preloads: its pages' rows and its code,
+     so neither swaps in once the page shows. -->
 <svelte:head>
   <link rel="preload" href="/fonts/FiraSansCondensed-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-  <link rel="preload" href="/fonts/FiraSans-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
   <link rel="preload" href="/fonts/FiraMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
 

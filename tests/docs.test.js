@@ -61,7 +61,7 @@ describe("the docs", () => {
     expect(new Set(ids).size).toBe(ids.length);
     for (const id of ids) {
       expect(page).toContain(`<a class="anchor" href="#${id}"`);
-      expect(page).toMatch(new RegExp(`<li><a href="#${id}"[^>]*>`));
+      expect(page).toMatch(new RegExp(`<li[^>]*><a href="#${id}"[^>]*>`));
     }
   });
 

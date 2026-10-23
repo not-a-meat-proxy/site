@@ -341,12 +341,13 @@
     min-width: 72px;
   }
 
-  /* A note to heed: a strip with the ask's band at its left, as the front page's note on a Mac. */
+  /* A note to heed: a strip with the ask's band at its left, lifted as the Lift Rule lifts what needs the reader. */
   article :global(blockquote) {
     margin: 0 0 var(--sp-5);
     padding: var(--sp-3) var(--sp-4);
     border-left: var(--flag) solid var(--ask);
-    background: var(--surface);
+    background: var(--ask-fill);
+    box-shadow: var(--shadow-lift);
   }
 
   article :global(blockquote p:last-child) {
