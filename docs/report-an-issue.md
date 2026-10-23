@@ -13,7 +13,7 @@ herdr --version
 ```
 
 ```text
-namp 0.5.0 (0f8d26b 2026-10-23)
+namp 0.5.1 (161c66e 2026-10-23)
 2.1.292 (Claude Code)
 herdr 0.9.3
 ```
