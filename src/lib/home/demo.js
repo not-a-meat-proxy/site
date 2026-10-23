@@ -13,7 +13,7 @@ export const asks = [
     id: "invoice-day",
     label: "Question",
     who: "Recurring invoices",
-    at: "13:36",
+    at: "14:36",
     subject: "When a schedule's day is the 31st, which day does it go out in a shorter month?",
     text: "A template set to the 31st has no such day in April, June, September, November and February. The first two choices keep one invoice a month.",
     choices: [
