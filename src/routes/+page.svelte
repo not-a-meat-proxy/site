@@ -91,8 +91,8 @@
       <p class="lede">{#each lede.split(/(?<=,) /) as part, i}{i ? " " : ""}<span>{part}</span>{/each}</p>
       {#if data.tester}
         <p class="open">Install namp, {data.tester.name}</p>
-        <!-- Wrapped in its box so it reads whole: between its words, none broken but the token,
-             which fills the lines after them. Copy still takes it as one line. -->
+        <!-- Wrapped in its box so it reads whole: between its words, none broken, the token whole on its own
+             line unless the box is narrower than it. Copy still takes it as one line. -->
         <div class="command">
           <code bind:this={shown}>{#each command.split(" ") as word, i}{i ? " " : ""}<span class:token={word === data.tester.token}>{word}</span>{/each}</code>
           <button type="button" class="primary" onclick={copy}>{copied ? "Copied" : "Copy"}</button>
@@ -345,13 +345,32 @@
     word-break: break-all;
   }
 
+  /* The token is a block of its own on the line: whole on the line after the words when it fits there, broken only
+     when the box is narrower than the token itself. */
   .command code .token {
-    display: inline;
+    display: inline-block;
   }
 
   .command button {
     flex: none;
     min-width: 72px;
+  }
+
+  /* A box too narrow to hold the token beside Copy gives the command its whole width, Copy under it at the right. */
+  .pitch {
+    container-type: inline-size;
+  }
+
+  @container (max-width: 30rem) {
+    .command {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sp-1);
+    }
+
+    .command button {
+      align-self: end;
+    }
   }
 
   /* The stage: the screenshot running past the page's right edge, and Needs you laid over its left part. Both
