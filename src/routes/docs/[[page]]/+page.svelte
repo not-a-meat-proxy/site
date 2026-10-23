@@ -449,7 +449,6 @@
     gap: var(--sp-1);
     margin: 0 -10px;
     padding: var(--sp-2) 10px;
-    border-radius: var(--r-md);
     color: var(--ink);
     font: var(--fw-strong) var(--fs-lg)/1.3 var(--cond);
     text-decoration: none;

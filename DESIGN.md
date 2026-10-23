@@ -214,7 +214,7 @@ components:
 
 ## Overview
 
-**Creative North Star: "Many at Once, One at a Time"**, namp's own. The site is namp's look on a public page, close kin to the app even where it is a docs site: the same tokens, faces, shell and signs, so a visitor who installs namp finds the page they were shown. Its values live in `src/app.css`, the faces in `src/fonts.css`, and a component's own rules in its `<style>`. This file says how to use them, its frontmatter carrying `app.css`'s tokens by their roles, which `tests/design.test.js` keeps equal. namp's DESIGN.md, in the namp repository, is the source this one follows: a role or a rule the site takes from the app keeps its name and value there.
+**Creative North Star: "Many at Once, One at a Time"**, namp's own. The site is namp's look on a public page, close kin to the app even where it is a docs site: the same tokens, faces, shell and signs, so a visitor who installs namp finds the page they were shown. Its values live in `src/app.css`, the faces in `src/fonts.css`, and a component's own rules in its `<style>`. This file says how to use them, its frontmatter carrying `app.css`'s tokens by their roles, which `tests/components/design.test.js` keeps equal. namp's DESIGN.md, in the namp repository, is the source this one follows: a role or a rule the site takes from the app keeps its name and value there.
 
 namp gives a person running many agent sessions the sense of working on one thing at a time. The site does the same for its visitor: one thing in front of them at a time, the app shown at work rather than claimed, and the next action plain. What matters lifts from the ground; everything else lies flat on it.
 
@@ -248,6 +248,7 @@ A cool slate ground with a graphite shell, one green accent, and namp's origin a
 - **Lifted Strip** (`surface`, #252c30 / #ffffff): a strip that lifts from the ground, a control, a command box.
 - **Graphite Rail** (`bay-rail`, #15171a / #1d2024) and **Graphite Sidebar** (`bay-side`, #1b1e21 / #26292e): the shell. The other `bay-*` roles are what sits on it.
 - Ink by its roles, `ink`, `ink-2` and `muted` for words and `faint` for marks; lines by `line` (a hairline), `line-strong` (a quiet rule) and `edge` (a control's edge); fills by `sunken`, `hover` and `selected`.
+- **Scrim** (`dim`, rgba(8, 10, 12, .5) / rgba(12, 20, 24, .32)): the scrim behind namp's drawer, a role token like the rest, so the page under it stays readable.
 
 ### Named Rules
 **The Role Rule.** Read a token by its role, never a value. A new role goes into `src/app.css` with a comment, in both palettes and in the system-light block, then into this frontmatter, then is read. A role namp has keeps namp's name and value.
@@ -287,7 +288,7 @@ A cool slate ground with a graphite shell, one green accent, and namp's origin a
 
 ## Layout
 
-Two shapes, as namp has a shell and a place. The front page has no shell: the page on its ground, between gutters of `--gutter`, 20px to 72px by the window, the theme and the repository at its top right. The docs are namp's shell and place: the graphite sidebar at the left, the docs' name, the theme, the repository and every page in it, the open one light with its sections under it, and the page beside it; on a phone the shell sits above the page.
+Two shapes, as namp has a shell and a place. The front page has no shell: the page on its ground, between gutters of `--gutter`, 20px to 72px by the window, the theme and the repository at its top right. The docs are namp's shell and place: the graphite sidebar at the left, the docs' name, the theme, the repository and every page in it, the open one light, and the page beside it. The page's column is centred in the space beside the shell, at most 64ch, on a grid with a margin at each side. Below 52rem there is no sidebar: a sticky graphite bar sits over the page, and the pages open in namp's drawer.
 
 The rhythm is 4px steps, `--sp-1` to `--sp-12`. Text keeps a measure of 65 to 75 characters. Sections stand apart by more space above a heading than below it. Where a column must change, it changes at a few widths only, and nothing runs wider than the screen or scrolls sideways but a code block.
 
@@ -329,7 +330,28 @@ Quiet and exact: nothing decorates, and every edge, sign and tint says something
 The tester's command in a `sunken` box with a hairline (`line`), a code block's 8px corners, its words in the mono, wrapped between words so it reads whole, only the token broken, with Copy, the primary, at its right; Copied is said to a screen reader and never moves the box.
 
 ### The shell
-The docs' sidebar, graphite: the name and Docs in the condensed cut, the theme and the repository at its end, then each page a row, the open one on `bay-on` with `bay-on-ink`, its sections under it at 13px.
+The docs' sidebar, graphite: the name and Docs in the condensed cut, the theme and the repository at its end, then each page a row, the open one on `bay-on` with `bay-on-ink`. It sits at the left from 52rem up and stays in sight as the page scrolls.
+
+### The phone's bar and drawer
+Below 52rem, a sticky graphite bar holds the brand, Docs, the open page's title and a menu button at its right. The menu opens namp's drawer from the right, the shell inside it, over a `--dim` scrim, with `--shadow-2`, in namp's drawer time and easing. Esc, the scrim, its close button or a picked page closes it, and the focus goes back to the menu button.
+
+### Section marks
+Each h2 carries its §-number and namp's plan sign, in `muted`. When the column's container is at least 40rem, the mark stands in the margin, level with its heading. On a narrower column it hangs at the heading's left, so a wrapped heading's lines start together.
+
+### Plan signs
+namp's three: done is an `--ok` disc with a check, running is an `--accent` arc on a `--line-strong` track, and planned is a `--muted` ring. All three are drawn and one is shown, so a sign changes by crossfade only and nothing round it moves. The arc turns a quarter once on entering running, and does not move under reduced motion.
+
+### On this page
+The page's sections, each a row on a hairline, the one in view marked by an accent rule. At a container of 62rem or more it sits at the column's right and stays in sight. Narrower, it is folded under the opening.
+
+### Previous and Next
+namp's rows under the column, each with its key in a `kbd`, `[` and `]`. The `[` and `]` keys step to the page before and after, unless a text field has the focus, Ctrl or Cmd is held, or the drawer is open.
+
+### Keys
+A `kbd` as namp draws one: on `surface`, a `line-strong` edge a step deeper at its foot, its key in `muted` mono.
+
+### Touch targets
+On a coarse pointer, every control and row is at least 44px tall: the bar's links and menu, the shell's pages, the rows of On this page, its fold and each Copy.
 
 ### Needs you
 The front page's first view lays namp's Home Needs you over the Overview screenshot, ported from namp's `Headline.svelte` and `Home.svelte` rather than drawn like them (`src/lib/home/`): a panel of the ground floating on `--shadow-2`, its heading with the asks' count on `--ask-count` and the replies' outlined petrol bubble, then a lifted card per ask, its kind in the tone's ink, who and when after dots, its subject strong, the first 2 lines of its text with the second's end faded through `--mask` when more follows, and a question's recommended choice. Its topics are demo topics, and the panel says so. The first question carries namp's choices, numbered rings, the recommended one in the accent and tagged in `--ok-ink`; a click or its number key answers it and it folds out, the count one less. The cards arrive one by one by transform and opacity in the room they hold, and stand still under reduced motion. Side by side, the panel takes the stage's first 4 columns, and the screenshot, at 0.72 of its size at least so its words read, starts at the Overview's edge beside it, its sidebar cut away, so the panel keeps the height of its rows. Stacked, the panel's edges fall in the screenshot's gutters, never across a line of it.
