@@ -1,7 +1,8 @@
 // Where the reader is on a docs page, read as namp's plan reads where its work is: the section in view is
 // the last whose heading has passed the top third of the window, the first before any has, and the last
-// once the page's end is in sight. Read from IntersectionObserver as a heading crosses that line, never on
-// each scroll.
+// once the page's end is in sight, unless the reader went to a section by its link and its heading still
+// stands in the top third. Read from IntersectionObserver as a heading crosses that line and as the address
+// changes section, never on each scroll.
 
 /** Whether this browser asks for reduced motion, as namp's ui/src/lib/motion.js reads it. */
 export const still = () => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -38,8 +39,11 @@ export function inView(article, end, change) {
   if (!headings.length) return () => {};
   let atEnd = false;
   const read = () => {
-    if (atEnd && scrollY > 0) return change(headings.length - 1);
     const line = innerHeight / 3;
+    const linked = headings.findIndex((h) => `#${h.id}` === decodeURIComponent(location.hash));
+    const top = linked < 0 ? null : headings[linked].getBoundingClientRect().top;
+    if (top !== null && top >= -1 && top <= line) return change(linked);
+    if (atEnd && scrollY > 0) return change(headings.length - 1);
     const passed = headings.findLastIndex((h) => h.getBoundingClientRect().top <= line);
     change(Math.max(0, passed));
   };
@@ -53,8 +57,10 @@ export function inView(article, end, change) {
     { threshold: 1 },
   );
   if (end) ending.observe(end);
+  addEventListener("hashchange", read);
   return () => {
     crossing.disconnect();
     ending.disconnect();
+    removeEventListener("hashchange", read);
   };
 }

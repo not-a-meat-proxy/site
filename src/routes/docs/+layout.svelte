@@ -39,9 +39,10 @@
   afterNavigate(hide);
 
   // [ and ]: the page before and the one after, as namp's [ and ] step its views, as long as no text field
-  // has them, no key is held with them and the menu is closed.
+  // has them, no Ctrl or Cmd is held with them and the menu is closed. Option may be: a French Mac's
+  // keyboard types [ and ] with it.
   function step(event) {
-    if ((event.key !== "[" && event.key !== "]") || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
+    if ((event.key !== "[" && event.key !== "]") || event.defaultPrevented || event.ctrlKey || event.metaKey) return;
     if (event.target.closest?.("input, textarea, select, [contenteditable]") || drawer?.open) return;
     const to = data.pages[at + (event.key === "]" ? 1 : -1)];
     if (at < 0 || !to) return;
@@ -85,7 +86,9 @@
   </nav>
 {/snippet}
 
-<div class="docs">
+<div class="docs" data-docs>
+  <a class="skip" href="#content">Skip to the page</a>
+
   <div class="side shell">{@render shell(false)}</div>
 
   <!-- On a phone, a bar over the page: the docs' name, the open page's title and the menu. -->
@@ -106,7 +109,7 @@
     </div>
   </dialog>
 
-  <main>
+  <main id="content" tabindex="-1">
     <div class="page">
       {@render children()}
 
@@ -120,8 +123,15 @@
 <style>
   /* The shell beside the page on a wide screen, as namp's own sidebar sits; on a phone a bar over the page and
      a drawer. */
-  .docs {
+  /* The bar's height on a phone, kept clear above what the page scrolls to or the focus reaches. */
+  :global(html:has([data-docs])) {
     --bar-h: 52px;
+    scroll-padding-top: var(--bar-h);
+  }
+
+  .docs {
+    --shell-w: 280px;
+    --page-top: 56px;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto 1fr;
@@ -252,6 +262,29 @@
     display: none;
   }
 
+  main:focus {
+    outline: none;
+  }
+
+  /* The way past the shell for the keyboard, seen once it has the focus. */
+  .skip {
+    position: fixed;
+    top: var(--sp-2);
+    left: var(--sp-2);
+    z-index: 20;
+    padding: var(--sp-2) var(--sp-3);
+    border-radius: var(--r-ctl);
+    background: var(--surface);
+    box-shadow: var(--shadow-2);
+    color: var(--ink);
+    font: var(--fw-medium) var(--fs-md)/1.2 var(--cond);
+    transform: translateY(calc(-100% - var(--sp-4)));
+  }
+
+  .skip:focus-visible {
+    transform: none;
+  }
+
   /* On a phone, the bar stays at the top as the page scrolls, the menu at its right. */
   .bar {
     position: sticky;
@@ -354,13 +387,32 @@
     overflow: hidden;
   }
 
+  /* Under a finger, each control and row as tall as a thumb's target. */
+  @media (pointer: coarse) {
+    .icon {
+      padding: 11px;
+    }
+
+    .pages a {
+      min-height: 44px;
+    }
+
+    .bar .brand,
+    .bar .section {
+      padding-block: 13px;
+    }
+  }
+
   /* On a wide screen, the shell at the left, kept in sight while the page scrolls, its graphite the page's
      whole height. */
   @media (min-width: 52.01rem) {
-    .docs {
+    :global(html:has([data-docs])) {
       --bar-h: 0px;
-      grid-template-columns: 280px minmax(0, 1fr);
-      background: linear-gradient(to right, var(--bay-side) 280px, transparent 280px);
+    }
+
+    .docs {
+      grid-template-columns: var(--shell-w) minmax(0, 1fr);
+      background: linear-gradient(to right, var(--bay-side) var(--shell-w), transparent var(--shell-w));
     }
 
     .bar,
@@ -393,7 +445,7 @@
     }
 
     .page {
-      padding-top: 56px;
+      padding-top: var(--page-top);
     }
   }
 

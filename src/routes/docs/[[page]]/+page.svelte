@@ -31,15 +31,18 @@
     });
   });
 
-  // A command's Copy: copied, it says so for two seconds; with no clipboard at all, the command is
-  // selected, for the reader to copy.
+  // A command's Copy: copied, it says so for two seconds, to a screen reader too; with no clipboard at all,
+  // the command is selected, for the reader to copy.
+  let said = $state("");
+
   async function copy(event) {
     const button = event.target.closest("[data-copy]");
     if (!button) return;
     const code = button.parentElement.querySelector("code");
     if (await copyText(code.textContent)) {
       button.textContent = "Copied";
-      setTimeout(() => (button.textContent = "Copy"), 2000);
+      said = "Copied";
+      setTimeout(() => ((button.textContent = "Copy"), (said = "")), 2000);
     } else {
       getSelection().selectAllChildren(code);
     }
@@ -60,6 +63,14 @@
   </ul>
 {/snippet}
 
+<!-- On a wide page, at the column's right; first in the reading order after the shell, as it is first in sight. -->
+{#if data.page.sections.length > 1}
+  <nav class="contents aside" aria-label="On this page">
+    <p class="label" aria-hidden="true">On this page</p>
+    {@render sections()}
+  </nav>
+{/if}
+
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions:
      the clicks are the Copy buttons', which take Enter and Space themselves. -->
 <article onclick={copy} bind:this={article}>
@@ -73,13 +84,6 @@
   {@html data.page.html}
 </article>
 
-{#if data.page.sections.length > 1}
-  <nav class="contents aside" aria-label="On this page">
-    <h2>On this page</h2>
-    {@render sections()}
-  </nav>
-{/if}
-
 <nav class="turn" aria-label="Previous and next page" bind:this={end}>
   {#if previous}
     <a class="previous" href={previous.path} title="Previous page ([)"><span>Previous <kbd>[</kbd></span>{previous.title}</a>
@@ -88,6 +92,8 @@
     <a class="next" href={next.path} title="Next page (])"><span>Next <kbd>]</kbd></span>{next.title}</a>
   {/if}
 </nav>
+
+<span class="said" aria-live="polite">{said}</span>
 
 <style>
   article,
@@ -122,14 +128,14 @@
     font-size: var(--fs-xl);
     line-height: 1.25;
     letter-spacing: -0.01em;
-    scroll-margin-top: calc(var(--bar-h) + var(--sp-4));
+    scroll-margin-top: var(--sp-4);
   }
 
   article :global(h3) {
     margin: var(--sp-8) 0 var(--sp-2);
     font-size: var(--fs-lg);
     line-height: 1.3;
-    scroll-margin-top: calc(var(--bar-h) + var(--sp-4));
+    scroll-margin-top: var(--sp-4);
   }
 
   /* A section's mark: its number and namp's plan sign, before its heading on a narrow page and in the
@@ -204,7 +210,7 @@
   /* A heading's link, seen when the heading is pointed at or the link has the focus, and always
      on a screen with no pointer to hover. */
   article :global(.anchor) {
-    color: var(--faint);
+    color: var(--muted);
     font-weight: var(--fw-medium);
     text-decoration: none;
     opacity: 0;
@@ -255,6 +261,11 @@
   }
 
   article :global(:not(pre) > code) {
+    white-space: nowrap;
+  }
+
+  article :global(:not(pre) > code.long) {
+    white-space: normal;
     overflow-wrap: anywhere;
   }
 
@@ -344,6 +355,10 @@
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .contents li {
+    margin: 0;
   }
 
   .contents a {
@@ -451,6 +466,43 @@
     text-align: right;
   }
 
+  .said {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* On a narrow page each mark hangs before its heading, a wrapped heading's lines starting together. */
+  @container page (max-width: 39.99rem) {
+    article :global(h2) {
+      margin-top: var(--sp-10);
+      padding-left: var(--sp-12);
+    }
+
+    article :global(h2 > .mark) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0;
+    }
+  }
+
+  /* Under a finger, each row of On this page and each Copy as tall as a thumb's target. */
+  @media (pointer: coarse) {
+    .contents a {
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+    }
+
+    article :global(.copy) {
+      min-height: 44px;
+    }
+  }
+
   /* With room for it, each mark stands in the margin, its sign a step off the column, level with its
      heading. */
   @container page (min-width: 40rem) {
@@ -473,14 +525,14 @@
       grid-row: 1 / 3;
       display: block;
       position: sticky;
-      top: 56px;
+      top: var(--page-top);
       align-self: start;
       width: min(200px, 100% - var(--sp-10));
       margin-left: var(--sp-10);
-      padding-top: calc(var(--fs-2xl) * 1.15 + var(--sp-2));
+      padding-top: calc(var(--fs-2xl) * 1.15 + var(--sp-3));
     }
 
-    .aside h2 {
+    .aside .label {
       margin: 0 0 var(--sp-3);
       color: var(--ink);
       font: var(--fw-strong) var(--fs-sm)/1.2 var(--cond);

@@ -125,4 +125,35 @@ describe("a docs page", () => {
     expect(signs()).toEqual(["running", "planned", "planned"]);
     expect(current()).toEqual(["location", null, null]);
   });
+
+  test("marks the last section at the page's end, but the one the reader went to by its link while it stands at the top", async () => {
+    const observers = [];
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(callback) {
+          this.callback = callback;
+          observers.push(this);
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    vi.stubGlobal("scrollY", 1200);
+    render(Page, { data });
+    await tick();
+    const headings = [...document.querySelectorAll("article h2")];
+    const signs = () => headings.map((h) => h.querySelector(".mark").dataset.sign);
+    headings.forEach((h, i) => (h.getBoundingClientRect = () => ({ top: [-300, 10, 200][i] })));
+
+    observers[1].callback([{ isIntersecting: true }]);
+    await tick();
+    expect(signs()).toEqual(["done", "done", "running"]);
+
+    location.hash = "#install";
+    observers[0].callback([]);
+    await tick();
+    expect(signs()).toEqual(["done", "running", "planned"]);
+    location.hash = "";
+  });
 });

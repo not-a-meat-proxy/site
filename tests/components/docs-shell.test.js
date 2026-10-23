@@ -1,6 +1,6 @@
 // The docs' shell on a phone and from the keyboard: the six pages open in namp's drawer, Esc closes it and
 // the focus goes back to the menu; [ and ] step to the page before and the one after, as namp's [ and ]
-// step its views, but never from a text field, with a key held or with the menu open.
+// step its views, but never from a text field, with Ctrl or Cmd held or with the menu open.
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render } from "@testing-library/svelte";
 import { createRawSnippet, tick } from "svelte";
@@ -94,12 +94,17 @@ describe("[ and ]", () => {
     expect(goto).not.toHaveBeenCalled();
   });
 
-  test("do nothing from a text field, with a key held, or with the menu open", async () => {
+  test("step when typed with Option, as a French Mac types them", async () => {
+    await docs();
+    await press("]", { altKey: true });
+    expect(goto).toHaveBeenLastCalledWith("/docs/update");
+  });
+
+  test("do nothing from a text field, with Ctrl or Cmd held, or with the menu open", async () => {
     await docs();
     await press("]", {}, document.querySelector("input"));
     await press("]", { ctrlKey: true });
     await press("]", { metaKey: true });
-    await press("[", { altKey: true });
     await openMenu();
     await press("]");
     expect(goto).not.toHaveBeenCalled();

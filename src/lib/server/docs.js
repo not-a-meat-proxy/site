@@ -59,6 +59,13 @@ markdown.renderer.rules.heading_close = (tokens, i) => {
   return `${link}</${tokens[i].tag}>\n`;
 };
 
+// Inline code stays whole on its line, as a command is typed; one too long for a phone's line, an address
+// or a path, may break anywhere.
+markdown.renderer.rules.code_inline = (tokens, i) => {
+  const { content } = tokens[i];
+  return `<code${content.length > 24 ? ' class="long"' : ""}>${markdown.utils.escapeHtml(content)}</code>`;
+};
+
 // A command, fenced as sh, gets a Copy button, which the page wires; what a command prints, fenced
 // as text, gets none.
 markdown.renderer.rules.fence = (tokens, i) => {
