@@ -324,7 +324,7 @@ Quiet and exact: nothing decorates, and every edge, sign and tint says something
 - **Focus:** the one ring, 2px of `accent` outside it, 2px off.
 
 ### The install command
-The tester's command in a `surface` box with an `edge`, its words in the mono, wrapped between words so it reads whole, only the token broken, with Copy, the primary, at its right; Copied is said to a screen reader and never moves the box.
+The tester's command in a `sunken` box with a hairline (`line`), a code block's 8px corners, its words in the mono, wrapped between words so it reads whole, only the token broken, with Copy, the primary, at its right; Copied is said to a screen reader and never moves the box.
 
 ### The shell
 The docs' sidebar, graphite: the name and Docs in the condensed cut, the theme and the repository at its end, then each page a row, the open one on `bay-on` with `bay-on-ink`, its sections under it at 13px.

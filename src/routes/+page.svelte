@@ -28,11 +28,12 @@
 
   const lede = "Scale your impact with agent sessions, without losing the thread.";
 
-  // What you gain, each a row as namp draws its record's: the band of who it comes from at its left, the
-  // session's, yours or a task's, and namp's sign for it.
+  // What you gain, each a row as namp draws its record's: at its left the band of who starts that work, as
+  // namp's bands mean it, and namp's sign for it. A session asks the next decision and keeps the page of its
+  // goal and decisions, its own; work split across sessions is a task's; your machines are yours.
   const gains = [
     { term: "One thing at a time", text: "The next decision a session needs, the most urgent first.", band: "own", sign: "ask" },
-    { term: "Back in, in seconds", text: "Goal, decisions and what waits for you, on one page.", band: "you", sign: "goal" },
+    { term: "Back in, in seconds", text: "Goal, decisions and what waits for you, on one page.", band: "own", sign: "goal" },
     { term: "Good practice, built in", text: "Agents for a role, work split across sessions, goals you check.", band: "task", sign: "work" },
     { term: "Your machines, your work", text: "No namp service in between. Nothing leaves unless you choose.", band: "you", sign: "done" },
   ];
@@ -362,9 +363,8 @@
     min-width: 72px;
   }
 
-  /* The stage: the screenshot from the stage's left edge to past the page's right one, large enough to read,
-     and Needs you laid over its left part, below its top bar. Both in one cell, so the stage is as tall as
-     the taller of them and nothing under it is overlapped. */
+  /* The stage: the screenshot running past the page's right edge, and Needs you laid over its left part. Both
+     in one cell, so the stage is as tall as the taller of them and nothing under it is overlapped. */
   .stage {
     display: grid;
     grid-template: auto / minmax(0, 1fr);
@@ -378,7 +378,7 @@
   /* The screenshot sits on the ground as the app does, a surface's corners and a hairline, no shadow, for it
      neither lifts nor floats; Needs you, over it, floats. */
   .shot {
-    width: max(100%, 66rem);
+    width: var(--shot-w, 100%);
     margin: 0 0 0 var(--shot-in, 0);
     animation: arrive 900ms var(--ease-out) both 150ms;
   }
@@ -394,8 +394,7 @@
   .stage :global(.needs-you) {
     z-index: 1;
     align-self: start;
-    width: min(31rem, 100%);
-    margin-top: var(--ny-top, 0);
+    width: var(--ny-w, 100%);
     animation: arrive 900ms var(--ease-out) both 250ms;
   }
 
@@ -406,15 +405,25 @@
     }
   }
 
-  /* Side by side, the screenshot starts a column in, so Needs you over it leaves the app's Overview in view. */
+  /* Side by side, Needs you takes the stage's first 4 columns, a column being the stage less the gutter it runs
+     into, in 7. Under it lies the app's Topics sidebar alone, the first quarter of the screenshot (400 of its
+     1600px), and the screenshot is as large as lets its Overview, to 1190px where the lane starts, end at the
+     page's edge: the Overview whole beside Needs you, the lane past the edge. Both start on the stage's top
+     line, which the pitch shares. */
   @media (min-width: 64rem) {
+    .hero {
+      align-items: start;
+    }
+
     .stage {
-      --shot-in: calc((100% + var(--sp-6)) / 7 * 1);
-      --ny-top: 56px;
+      --ny-w: calc((100% - var(--gutter) + var(--sp-6)) / 7 * 4 - var(--sp-6));
+      --shot-w: calc((100% - var(--ny-w)) * 1600 / 790);
+      --shot-in: calc(var(--ny-w) - var(--shot-w) * 400 / 1600);
     }
   }
 
-  /* Stacked, on a tablet or a phone, the screenshot under Needs you, which covers its top. */
+  /* Stacked, on a tablet or a phone, Needs you, then the screenshot under it, running past the page's right
+     edge, Needs you covering its top. */
   @media (max-width: 63.99rem) {
     .stage {
       grid-template: auto auto / minmax(0, 1fr);
@@ -427,7 +436,7 @@
 
     .shot {
       grid-area: 2 / 1;
-      width: max(100%, 40rem);
+      width: max(100% - var(--sp-12), 40rem);
       margin: calc(-1 * var(--sp-12) * 2) 0 0 var(--sp-12);
     }
   }
@@ -451,7 +460,7 @@
     }
 
     .needs {
-      margin-top: calc(-1 * var(--sp-6));
+      margin-block-start: calc(-1 * var(--sp-6));
     }
   }
 
@@ -474,19 +483,24 @@
   /* What you gain, as namp's rows between hairlines: who it comes from as a band at the row's left, namp's
      sign, the gain and its line. */
   .gains {
+    display: grid;
+    grid-template-columns: calc(var(--band) + 14px - var(--sp-3)) 14px max-content minmax(0, 1fr);
+    column-gap: var(--sp-3);
     margin: 0;
     padding: 0;
     border-top: 1px solid var(--line);
     list-style: none;
   }
 
+  /* Every row on the list's columns, the titles in one as wide as the longest, the lines a step apart from it. */
   .gain {
     display: grid;
-    grid-template-columns: 14px minmax(0, 13rem) minmax(0, 1fr);
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
     align-items: baseline;
-    gap: 2px var(--sp-3);
+    row-gap: 2px;
     position: relative;
-    padding: var(--sp-3) var(--sp-4) var(--sp-3) calc(var(--band) + 14px);
+    padding: var(--sp-3) var(--sp-4) var(--sp-3) 0;
     border-bottom: 1px solid var(--line);
   }
 
@@ -513,6 +527,7 @@
   }
 
   .gain > :global(.sign) {
+    grid-column: 2;
     align-self: start;
     margin-top: 5px;
   }
@@ -523,6 +538,10 @@
     line-height: 1.3;
   }
 
+  .gain h3 {
+    margin-right: var(--sp-5);
+  }
+
   .gain p {
     margin: 0;
     color: var(--muted);
@@ -530,7 +549,8 @@
   }
 
   .needs {
-    margin: 0;
+    margin-inline: 0;
+    margin-block-end: 0;
     color: var(--muted);
     font-size: var(--fs-md);
   }
@@ -638,6 +658,10 @@
     font: var(--fw-strong) var(--fs-body)/1.3 var(--cond);
   }
 
+  .notes {
+    max-width: 70ch;
+  }
+
   .notes :global(ul) {
     margin: 0;
     padding-left: 20px;
@@ -686,16 +710,20 @@
     }
 
     .shot {
-      width: 22rem;
+      width: calc(100% - var(--sp-8));
       margin-left: var(--sp-8);
     }
 
-    .gain {
-      grid-template-columns: 14px minmax(0, 1fr);
+    .gains {
+      grid-template-columns: calc(var(--band) + 14px - var(--sp-3)) 14px minmax(0, 1fr);
+    }
+
+    .gain h3 {
+      margin-right: 0;
     }
 
     .gain p {
-      grid-column: 2;
+      grid-column: 3;
     }
 
     .command {

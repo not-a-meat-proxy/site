@@ -31,7 +31,9 @@ describe("Needs you on the home page", () => {
     expect(document.querySelector(".needs-you .demo").textContent).toBe("demo topics");
     expect([...document.querySelectorAll(".needs-you .kind")].map((el) => el.textContent)).toEqual(["Question", "Goal", "Question", "Reply"]);
     expect(count()).toBe("3");
-    expect(document.querySelector(".needs-you .n.replied").textContent).toBe("1");
+    expect(document.querySelector(".needs-you .n.replied").firstChild.textContent).toBe("1");
+    // A screen reader hears what each count counts.
+    expect(document.querySelector("#needs-you").textContent.replace(/\s+/g, " ").trim()).toBe("Needs you 3 asks, 1 reply to read");
     expect([...document.querySelectorAll(".needs-you .ask")].length).toBe(3 + 1);
     expect(subjects()[0]).toBe("When a schedule's day is the 31st, which day does it go out in a shorter month?");
   });

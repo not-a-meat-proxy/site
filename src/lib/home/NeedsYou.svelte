@@ -56,7 +56,7 @@
 <section class="needs-you" aria-labelledby="needs-you">
   <div class="top">
     <h2 id="needs-you" tabindex="-1" bind:this={heading}>
-      Needs you <span class="c ask" data-needs-count>{open.length}</span><span class="n replied" title="1 reply to read">1</span>
+      Needs you <span class="c ask"><span data-needs-count>{open.length}</span><span class="vh">{" "}{open.length > 1 ? "asks" : "ask"},{" "}</span></span><span class="n replied" title="1 reply to read">1<span class="vh">{" "}reply to read</span></span>
     </h2>
     <p class="demo">demo topics</p>
   </div>
@@ -236,7 +236,8 @@
   }
 
   /* Said to a screen reader alone. */
-  .said {
+  .said,
+  .vh {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -246,9 +247,15 @@
     white-space: nowrap;
   }
 
-  @media (max-width: 40rem) {
+  /* On a phone the headlines run to the panel's edges, no frame round a frame narrowing their text. */
+  @media (max-width: 37.5rem) {
     .needs-you {
-      padding: var(--sp-4) var(--sp-4) var(--sp-5);
+      overflow: hidden;
+      padding: var(--sp-4) 0;
+    }
+
+    .top {
+      padding-inline: var(--sp-4);
     }
   }
 </style>
