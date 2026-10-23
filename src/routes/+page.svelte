@@ -205,15 +205,14 @@
     padding-inline: var(--gutter);
   }
 
-  /* The first screen, whole: what namp is, the app, and the call. */
+  /* The first screen: what namp is, the app, and the call, sized by them rather than stretched to the
+     window, so the next section shows below it instead of an empty band. Its top clears the corner. */
   .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    align-content: center;
     align-items: center;
     gap: var(--sp-10) 64px;
-    min-height: 100svh;
-    padding-block: clamp(var(--sp-6), 5vh, 56px);
+    padding-block: clamp(80px, 13vh, 144px) clamp(var(--sp-12), 9vh, 104px);
   }
 
   @media (min-width: 64rem) {
@@ -248,8 +247,10 @@
     line-height: 1.4;
   }
 
+  /* Each clause on a line of its own when it fits; when it doesn't, it wraps evenly, never leaving a word alone. */
   .lede span {
     display: inline-block;
+    text-wrap: balance;
   }
 
   .ask {
@@ -315,6 +316,7 @@
     min-width: 0;
     padding: 6px 0;
     background: none;
+    box-shadow: none;
     color: var(--code-ink);
     font-size: var(--fs-sm);
     line-height: 1.65;
@@ -434,6 +436,13 @@
     border-top: 1px solid var(--line);
   }
 
+  /* Beside the words, the invite and the address line up on their right edge, the page's. */
+  @media (min-width: 52rem) {
+    .close .ask {
+      align-items: end;
+    }
+  }
+
   .how {
     flex: 1 1 24rem;
     max-width: 36rem;
@@ -538,11 +547,11 @@
     margin: 0;
   }
 
-  /* On a phone the hero still fits one screen: tighter steps between its parts. */
+  /* On a phone, tighter steps between the hero's parts. */
   @media (max-width: 40rem) {
     .hero {
       gap: var(--sp-8);
-      padding-block: var(--sp-6);
+      padding-block: 72px var(--sp-10);
     }
 
     .stage {

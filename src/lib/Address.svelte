@@ -84,8 +84,13 @@
     stroke-width: 1.8;
   }
 
+  /* Said to a screen reader only: the chip's check shows it, and a word beside the chip would move it. */
   .done {
-    color: var(--accent-ink);
-    font-size: var(--fs-sm);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 </style>
