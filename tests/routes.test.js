@@ -225,10 +225,12 @@ describe("the front page", () => {
     expect(res.headers.get("set-cookie")).toMatch(/namp_invite=;.*Max-Age=0/i);
   });
 
-  test("preloads namp's start faces and serves every face itself, with their licence", async () => {
+  test("preloads namp's start faces, a tester's page its command's mono too, and serves every face itself, with their licence", async () => {
     const page = await (await site.get("/")).text();
-    const preloads = [...page.matchAll(/<link rel="preload" href="([^"]+)" as="font"/g)].map((m) => m[1]);
-    expect(preloads).toEqual(["/fonts/FiraSans-Regular.woff2", "/fonts/FiraSansCondensed-Medium.woff2", "/fonts/FiraSansCondensed-SemiBold.woff2"]);
+    const preloaded = (html) => [...html.matchAll(/<link rel="preload" href="([^"]+)" as="font"/g)].map((m) => m[1]);
+    const start = ["/fonts/FiraSans-Regular.woff2", "/fonts/FiraSans-SemiBold.woff2", "/fonts/FiraSansCondensed-Medium.woff2", "/fonts/FiraSansCondensed-SemiBold.woff2"];
+    expect(preloaded(page)).toEqual(start);
+    expect(preloaded(await (await site.get("/", cookie(alice))).text()).sort()).toEqual([...start, "/fonts/FiraMono-Regular.woff2"].sort());
     const sheets = [...page.matchAll(/<link href="([^"]+\.css)" rel="stylesheet"/g)].map((m) => new URL(m[1], `${site.url}/`));
     const faces = [];
     for (const sheet of sheets) {
