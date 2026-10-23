@@ -4,17 +4,21 @@
   import Theme from "#lib/Theme.svelte";
   import { copyText } from "#lib/clipboard.js";
 
-  // The hero's screenshots, by theme: wide, and below 40rem the phone's.
+  // The hero's screenshots, from a trial server of namp v0.5.0, by theme: wide, and below 40rem the phone's.
+  // One alt for both, as a <picture> takes one, so it says what each shows.
+  const alt =
+    "A topic in namp: its session asks which day an invoice set for the 31st goes out in a shorter month, and recommends the month's last day. On a wide screen the topic's Overview shows that question under Needs you, the session and three sibling sessions on today's timeline, and the lane of its threads, goal, plan, squad and documents; on a phone, the question answered in its thread.";
+
   const shots = {
     dark: {
       wide: { src: "/shots/hero-wide-dark.webp", width: 1600, height: 1000 },
-      phone: { src: "/shots/hero-phone-dark.webp", width: 800, height: 800 },
-      alt: "A topic's canvas in namp, in Dark",
+      phone: { src: "/shots/hero-phone-dark.webp", width: 780, height: 975 },
+      alt,
     },
     light: {
       wide: { src: "/shots/hero-wide-light.webp", width: 1600, height: 1000 },
-      phone: { src: "/shots/hero-phone-light.webp", width: 800, height: 800 },
-      alt: "A topic's canvas in namp, in Light",
+      phone: { src: "/shots/hero-phone-light.webp", width: 780, height: 975 },
+      alt,
     },
   };
 
