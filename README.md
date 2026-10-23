@@ -29,6 +29,28 @@ The tools come from `mise.toml` and the commands from the `justfile`; `just` lis
 `main` takes changes only through a pull request, merged by squash, its title the commit's
 subject: a Conventional Commit, `type(scope): a prose sentence`.
 
+## Design
+
+The design skill impeccable, v4.7.0 (tag skill-v4.7.0, commit aeeb3d8, engine v0.1.16), is
+vendored under `.claude/` as namp vendors it: the skill in `.claude/skills/impeccable/` and its
+four agents in `.claude/agents/impeccable-*.md`, as `npx impeccable install --providers=claude
+--scope=project` writes them, unmodified, under the Apache-2.0 licence (NOTICE.md). Its hooks, in
+`.claude/settings.json`, run `scripts/impeccable hook` on SessionStart, after each Edit or Write,
+and on Stop.
+
+The engine is not committed (`.gitignore`): the launcher downloads it once per machine into
+`~/.impeccable/bin/0.1.16/`, checked against the release's sha256, and that download is the only
+connection impeccable makes. The rest is switched off in `.claude/settings.json`'s `env` and in
+`.impeccable/config.json`: `DO_NOT_TRACK=1` and `IMPECCABLE_NO_TELEMETRY=1`, with `"telemetry":
+false`, stop its telemetry; `IMPECCABLE_API_TIMEOUT=0` stops the roll, the GET of /api/roll; and
+`IMPECCABLE_NO_UPDATE_CHECK=1`, with `"updateCheck": false`, stops the daily version check.
+`.impeccable/` keeps only `config.json` and the `design.json` sidecar in git, and none of it goes
+into the image (`.dockerignore`).
+
+To update it: `npx impeccable update` from this folder, with `HOME` pointed at a scratch folder,
+then move the hooks it writes into `.claude/settings.local.json` back into `.claude/settings.json`
+and update the version here and in NOTICE.md.
+
 ## Routes
 
 Every answer sends `Referrer-Policy: no-referrer`.

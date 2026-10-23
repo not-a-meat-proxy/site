@@ -1,3 +1,9 @@
 node_modules/
 .svelte-kit/
 build/
+# impeccable, vendored under .claude/ (README.md, Design): its engine, which the launcher downloads once into ~/.impeccable/bin/,
+# and, of its .impeccable/ folder, all but the shared config and the design sidecar: config.local.json and the runs' state.
+/.claude/skills/impeccable/scripts/bin/
+/.impeccable/*
+!/.impeccable/config.json
+!/.impeccable/design.json
