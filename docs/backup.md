@@ -76,7 +76,7 @@ Nothing changed is no commit. Each commit is then pushed. **Commit by itself** o
 
 ## When it fails
 
-A commit or a push that fails shows on Home as a notice, at the top of the Digest: **The backup's commit failed**, or **push**, then git's reason, with **Back up now** and **Backup settings**. namp goes on working meanwhile. Most often:
+A commit or a push that fails shows on Home as a notice, at the top of **Needs you**: **The backup's commit failed**, or **push**, then git's reason, with **Back up now** and **Backup settings**. namp goes on working meanwhile. Most often:
 
 - git does not know who you are, `unable to auto-detect email address`. Tell it once:
 
