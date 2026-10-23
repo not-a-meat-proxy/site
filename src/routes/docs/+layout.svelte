@@ -1,35 +1,42 @@
 <script>
   import { page } from "$app/state";
   import GitHub from "#lib/GitHub.svelte";
+  import Theme from "#lib/Theme.svelte";
 
   let { data, children } = $props();
 </script>
 
 <div class="docs">
-  <header>
-    <a class="brand" href="/">namp</a>
-    <a class="section" href="/docs">Docs</a>
-    <GitHub class="end" />
-  </header>
+  <!-- The shell, graphite as namp's sidebar: the name, the theme, the repo and every page, the open one light with
+       its sections under it. -->
+  <div class="side shell">
+    <header>
+      <a class="brand" href="/">namp</a>
+      <a class="section" href="/docs">Docs</a>
+      <span class="end">
+        <Theme />
+        <GitHub />
+      </span>
+    </header>
 
-  <!-- Every page, the one open with its sections under it. -->
-  <nav class="pages" aria-label="Docs">
-    <ul>
-      {#each data.pages as doc (doc.path)}
-        {@const open = doc.path === page.url.pathname}
-        <li>
-          <a href={doc.path} aria-current={open ? "page" : undefined}>{doc.title}</a>
-          {#if open && doc.sections.length}
-            <ul class="sections">
-              {#each doc.sections as section (section.id)}
-                <li><a href="#{section.id}">{section.text}</a></li>
-              {/each}
-            </ul>
-          {/if}
-        </li>
-      {/each}
-    </ul>
-  </nav>
+    <nav class="pages" aria-label="Docs">
+      <ul>
+        {#each data.pages as doc (doc.path)}
+          {@const open = doc.path === page.url.pathname}
+          <li>
+            <a href={doc.path} aria-current={open ? "page" : undefined}>{doc.title}</a>
+            {#if open && doc.sections.length}
+              <ul class="sections">
+                {#each doc.sections as section (section.id)}
+                  <li><a href="#{section.id}">{section.text}</a></li>
+                {/each}
+              </ul>
+            {/if}
+          </li>
+        {/each}
+      </ul>
+    </nav>
+  </div>
 
   <main>
     {@render children()}
@@ -41,7 +48,7 @@
 </div>
 
 <style>
-  /* The sidebar on namp's rail grey, the page on paper beside it, as the app itself sits. */
+  /* The shell beside the page on a wide screen, over it on a phone, as namp's own sidebar sits. */
   .docs {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -51,33 +58,32 @@
   header {
     display: flex;
     align-items: baseline;
-    gap: 0.6rem;
-    padding: 1.25rem var(--gutter) 0;
+    gap: var(--sp-2);
   }
 
   .brand {
     color: var(--ink);
-    font: 700 1.7rem/1 var(--display);
-    font-variation-settings: "wdth" 80;
-    letter-spacing: -0.03em;
+    font: var(--fw-strong) var(--fs-xl)/1 var(--cond);
+    letter-spacing: -0.01em;
     text-decoration: none;
-  }
-
-  /* At the header's right on a phone, at the page's top right beside the sidebar. */
-  header :global(.github.end) {
-    align-self: center;
-    margin: -0.45rem -0.45rem -0.45rem auto;
   }
 
   .section {
     color: var(--muted);
-    font: 500 1.1rem/1 var(--display);
+    font: var(--fw-medium) var(--fs-lg)/1 var(--cond);
     text-decoration: none;
   }
 
   .brand:hover,
   .section:hover {
-    color: var(--teal);
+    color: var(--accent-ink);
+  }
+
+  .end {
+    display: flex;
+    gap: var(--sp-1);
+    align-self: center;
+    margin: calc(-1 * var(--sp-2)) calc(-1 * var(--sp-2)) calc(-1 * var(--sp-2)) auto;
   }
 
   .pages ul {
@@ -86,145 +92,139 @@
     list-style: none;
   }
 
-  .pages a {
+  /* A page: a slim rectangle on the shell, as a topic is in namp; the open one light. */
+  .pages > ul > li > a {
+    display: flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 6px var(--sp-3);
+    border-radius: var(--r-xs);
+    background: var(--bay-strip);
+    color: var(--bay-ink);
+    font: var(--fw-normal) var(--fs-md)/1.25 var(--cond);
+    text-decoration: none;
+    transition: box-shadow var(--dur);
+  }
+
+  .pages > ul > li > a:hover {
+    box-shadow: inset 0 0 0 1px var(--bay-muted);
+  }
+
+  .pages > ul > li > a[aria-current="page"] {
+    background: var(--bay-on);
+    color: var(--bay-on-ink);
+    font-weight: var(--fw-medium);
+  }
+
+  .sections a {
     display: block;
-    color: var(--ink);
+    padding: 3px var(--sp-2);
+    border-radius: var(--r-xs);
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    line-height: 1.35;
     text-decoration: none;
   }
 
-  .pages a:hover {
-    color: var(--teal);
-  }
-
-  .pages a[aria-current="page"] {
-    color: var(--teal-deep);
-    font-weight: 600;
+  .sections a:hover {
+    background: var(--hover);
+    color: var(--ink);
   }
 
   main {
     min-width: 0;
-    padding: 2rem var(--gutter) 3rem;
-    background: var(--paper);
+    padding: var(--sp-8) var(--gutter) var(--sp-12);
   }
 
   footer {
-    padding: 1.25rem var(--gutter) 2rem;
-    background: var(--paper);
+    padding: 0 var(--gutter) var(--sp-8);
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: var(--fs-md);
   }
 
   footer p {
     margin: 0;
     max-width: 42rem;
-    padding-top: 1.25rem;
+    padding-top: var(--sp-5);
     border-top: 1px solid var(--line);
   }
 
-  /* On a phone, the pages are a row of chips under the name, wrapping, all in sight. */
+  /* On a phone, the shell is a band over the page: the name, then the pages wrapping, all in sight. */
   @media (max-width: 52rem) {
+    .side {
+      padding: var(--sp-5) var(--gutter) var(--sp-4);
+    }
+
     .pages {
-      padding: 1rem var(--gutter) 1.25rem;
+      margin-top: var(--sp-4);
     }
 
     .pages > ul {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.45rem;
+      gap: var(--sp-1);
     }
 
-    .pages a {
-      padding: 0.3rem 0.75rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--paper);
-      font-size: 0.95rem;
-    }
-
-    .pages a[aria-current="page"] {
-      border-color: var(--teal);
-      background: var(--teal);
-      color: #fff;
+    .pages > ul > li > a {
+      min-height: 32px;
+      padding-block: var(--sp-1);
     }
 
     .sections {
       display: none;
     }
-
-    main {
-      border-top: 1px solid var(--line);
-    }
   }
 
-  /* On a wide screen, the sidebar at the left, kept in sight while the page scrolls. */
+  /* On a wide screen, the shell at the left, kept in sight while the page scrolls. */
   @media (min-width: 52.01rem) {
+    /* The shell's column takes its graphite the page's whole height, past the sticky shell's screen. */
     .docs {
-      position: relative;
-      grid-template-columns: 17rem minmax(0, 1fr);
-      grid-template-rows: auto 1fr auto;
+      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-rows: 1fr auto;
+      background: linear-gradient(to right, var(--bay-side) 280px, transparent 280px);
     }
 
-    header :global(.github.end) {
-      position: absolute;
-      top: 1.7rem;
-      right: calc(clamp(2rem, 5vw, 5rem) - 0.45rem);
-      margin: 0;
+    .side {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100svh;
+      overflow-y: auto;
+      padding: var(--sp-6) var(--sp-4) var(--sp-8);
+      scrollbar-color: var(--bay-line) var(--bay-side);
     }
 
     header {
-      grid-column: 1;
-      grid-row: 1;
-      padding: 2rem 1.5rem 0 2rem;
+      padding: 0 0 0 var(--sp-1);
     }
 
     .pages {
-      grid-column: 1;
-      grid-row: 2 / 4;
-      align-self: start;
-      position: sticky;
-      top: 0;
-      padding: 1.75rem 1.5rem 2rem 2rem;
+      margin-top: var(--sp-6);
     }
 
-    .pages > ul > li + li {
-      margin-top: 0.15rem;
-    }
-
-    .pages a {
-      padding: 0.35rem 0.75rem;
-      border-radius: 8px;
-      margin-left: -0.75rem;
-    }
-
-    .pages a[aria-current="page"] {
-      background: var(--paper);
+    .pages > ul {
+      display: grid;
+      gap: var(--sp-1);
     }
 
     .sections {
-      margin: 0.2rem 0 0.5rem !important;
-      padding-left: 0.75rem !important;
+      margin: var(--sp-2) 0 var(--sp-3) var(--sp-3) !important;
+      padding-left: var(--sp-2) !important;
       border-left: 1px solid var(--line);
-    }
-
-    .sections a {
-      padding-block: 0.2rem;
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.35;
     }
 
     main {
       grid-column: 2;
-      grid-row: 1 / 3;
-      padding: 3.5rem clamp(2rem, 5vw, 5rem) 3rem;
-      border-left: 1px solid var(--line);
+      grid-row: 1;
+      padding: 56px clamp(var(--sp-8), 5vw, 80px) var(--sp-12);
     }
 
     footer {
       grid-column: 2;
-      grid-row: 3;
-      padding-inline: clamp(2rem, 5vw, 5rem);
-      border-left: 1px solid var(--line);
+      grid-row: 2;
+      padding-inline: clamp(var(--sp-8), 5vw, 80px);
     }
   }
 </style>

@@ -78,6 +78,20 @@ describe("the docs", () => {
     expect(article).toContain('href="/docs/backup"');
   });
 
+  // namp 0.5.0 opens a topic's subjects from the lane of cards at its page's right: the Conversation
+  // button and the goal's strip under the top bar are gone, and Home's briefing is no Digest.
+  test.each(pages)("%s names no control namp 0.5.0 dropped", async (path) => {
+    const article = (await html(path)).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
+    expect(article).not.toContain("<strong>Conversation</strong>");
+    expect(article).not.toMatch(/strip under the topic's top bar|the Digest|goal on one line/);
+  });
+
+  test("/docs/first-topic opens the conversation and the goal from the lane", async () => {
+    const article = (await html("/docs/first-topic")).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
+    expect(article).toContain("from <strong>Threads</strong>, the first card of its lane");
+    for (const card of ["Threads", "Goal", "Plan", "Squad", "Pull request", "Documents"]) expect(article).toContain(`<li><strong>${card}</strong>, `);
+  });
+
   test("keep Markdown's HTML as text", async () => {
     const page = await html("/docs/install");
     expect(page).not.toContain("<token>");

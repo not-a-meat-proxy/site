@@ -9,10 +9,10 @@ namp update --check
 ```
 
 ```text
-namp 0.2.1 is out, this is 0.2.0: namp update installs it.
+namp 0.5.1 is out, this is 0.4.1: namp update installs it.
 ```
 
-When you have the latest, it says `namp 0.2.1 is the latest release.` It only checks: it changes nothing.
+When you have the latest, it says `namp 0.5.1 is the latest release.` It only checks: it changes nothing.
 
 ## Update
 
@@ -21,15 +21,15 @@ namp update
 ```
 
 ```text
-namp 0.2.1 is installed in /Users/you/.local/bin/namp, in place of 0.2.0.
-The server on port 4321 runs 0.2.1 now: http://localhost:4321/__session/
+namp 0.5.1 is installed in /Users/you/.local/bin/namp, in place of 0.4.1.
+The server on port 4321 runs 0.5.1 now: http://localhost:4321/__session/
 ```
 
 It downloads the release for your machine, checks its sha256, and puts the new namp in place of the old one. When you have the latest already, it says so and changes nothing.
 
 ## What happens to a running server
 
-When namp's server runs on port 4321, `namp update` restarts it on the new version. A page you have open picks the server up again without a reload, and your topics, threads and answers stay as they were.
+When namp's server runs on port 4321, `namp update` restarts it on the new version. A page you have open picks the server up again without a reload, and your topics, threads and answers stay as they were. The first time it needs a part the update replaced, it reloads by itself, never over something you are typing: a part that still does not load says so in its place, with **Reload**.
 
 A server on another port is restarted with `namp update --port <port>`. When none runs, the update says so, and the next `namp start` runs the new version:
 

@@ -1,11 +1,30 @@
 <script>
   import Address from "#lib/Address.svelte";
   import GitHub from "#lib/GitHub.svelte";
+  import Theme from "#lib/Theme.svelte";
   import { copyText } from "#lib/clipboard.js";
+
+  // The hero's screenshots, from a trial server of namp at v0.5.0's tag, whose interface v0.5.1 ships unchanged, by theme: wide, and below 40rem the phone's.
+  // One alt for both, as a <picture> takes one, so it says what each shows.
+  const alt =
+    "A topic in namp: its session asks which day an invoice set for the 31st goes out in a shorter month, and recommends the month's last day. On a wide screen the topic's Overview shows that question under Needs you, the session and three sibling sessions on today's timeline, and the lane of its threads, goal, plan, squad and documents; on a phone, the question answered in its thread.";
+
+  const shots = {
+    dark: {
+      wide: { src: "/shots/hero-wide-dark.webp", width: 1600, height: 1000 },
+      phone: { src: "/shots/hero-phone-dark.webp", width: 780, height: 975 },
+      alt,
+    },
+    light: {
+      wide: { src: "/shots/hero-wide-light.webp", width: 1600, height: 1000 },
+      phone: { src: "/shots/hero-phone-light.webp", width: 780, height: 975 },
+      alt,
+    },
+  };
 
   let { data } = $props();
 
-  const lede = "Scale your impact with agents, without losing the thread.";
+  const lede = "Scale your impact with agent sessions, without losing the thread.";
 
   const gains = [
     { term: "One thing at a time", text: "The next decision a session needs, the most urgent first." },
@@ -34,16 +53,16 @@
 </script>
 
 <svelte:head>
-  <title>namp: scale your impact with agents, without losing the thread</title>
+  <title>namp: scale your impact with agent sessions, without losing the thread</title>
   <meta name="description" content={lede} />
 </svelte:head>
 
-<!-- The call, with the docs beside it in the hero: a lighter button, the invite the only filled one. -->
+<!-- The call, with the docs beside it in the hero: a plain button, the invite the only filled one. -->
 {#snippet ask(docs)}
   <div class="ask">
     <div class="actions">
-      {#if data.contact}<a class="button" href={data.contact}>Get an invite</a>{/if}
-      {#if docs}<a class="button quiet" href="/docs">Read the docs</a>{/if}
+      {#if data.contact}<a class="button primary" href={data.contact}>Get an invite</a>{/if}
+      {#if docs}<a class="button" href="/docs">Read the docs</a>{/if}
     </div>
     {#if address}
       <p class="write"><span>or write to</span> <Address {address} /></p>
@@ -51,21 +70,25 @@
   </div>
 {/snippet}
 
-<GitHub class="corner" />
+<div class="corner">
+  <Theme />
+  <GitHub />
+</div>
 
 <main>
   <section class="hero">
     <div>
       <p class="stage">Private alpha</p>
       <h1>Not A Meat Proxy.</h1>
-      <p class="lede">{lede}</p>
+      <!-- In two parts, each kept whole, so a line breaks at its comma or nowhere. -->
+      <p class="lede">{#each lede.split(/(?<=,) /) as part, i}{i ? " " : ""}<span>{part}</span>{/each}</p>
       {#if data.tester}
         <p class="open">Install namp, {data.tester.name}</p>
         <!-- Wrapped in its box so it reads whole: between its words, none broken but the token,
              which fills the lines after them. Copy still takes it as one line. -->
         <div class="command">
           <code bind:this={shown}>{#each command.split(" ") as word, i}{i ? " " : ""}<span class:token={word === data.tester.token}>{word}</span>{/each}</code>
-          <button type="button" onclick={copy}>{copied ? "Copied" : "Copy"}</button>
+          <button type="button" class="primary" onclick={copy}>{copied ? "Copied" : "Copy"}</button>
         </div>
         <a class="after" href="/docs">Read the docs</a>
       {:else}
@@ -77,23 +100,23 @@
         {@render ask(true)}
       {/if}
     </div>
+    <!-- One picture per theme, the theme's shown by [data-theme] and the other's not displayed. Both lazy, so
+         the browser fetches only the one it lays out, the hidden theme's never: it starts once the page's first
+         layout, a moment later than an eager image, hidden by the screenshot's arrival. -->
     <figure class="shot">
-      <picture>
-        <source media="(max-width: 40rem)" srcset="/shots/topic-thread.webp" width="792" height="660" />
-        <img
-          src="/shots/topic.webp"
-          width="1600"
-          height="969"
-          alt="A topic's canvas in namp: a question the session asked, with the recommended choice taken as the answer, and the session's reply in the thread beside it"
-        />
-      </picture>
+      {#each Object.entries(shots) as [name, shot] (name)}
+        <picture class="for-{name}">
+          <source media="(max-width: 40rem)" srcset={shot.phone.src} width={shot.phone.width} height={shot.phone.height} />
+          <img src={shot.wide.src} width={shot.wide.width} height={shot.wide.height} alt={shot.alt} loading="lazy" />
+        </picture>
+      {/each}
     </figure>
   </section>
 
   <section class="more">
     <div>
       <h2>Agents work in parallel. You don't.</h2>
-      <p class="cost">Run a few at once and you become their relay, approving work you've lost track of.</p>
+      <p class="cost">Run a few agent sessions at once and you become their relay, approving work you've lost track of.</p>
     </div>
 
     <div class="gains">
@@ -112,7 +135,7 @@
 
     <div id="install" class="close">
       {#if data.tester}
-        <h3 class="install">Install namp, {data.tester.name}</h3>
+        <h3 class="install">Two steps to start</h3>
         <div class="steps">
           <ol>
             <li>
@@ -167,11 +190,13 @@
     overflow-x: clip;
   }
 
-  /* The repo, at the page's top right, over the hero rather than in a bar of its own. */
-  :global(.github.corner) {
+  /* The theme and the repo, at the page's top right, over the hero rather than in a bar of its own. */
+  .corner {
+    display: flex;
+    gap: var(--sp-1);
     position: absolute;
-    top: clamp(0.75rem, 2.5vh, 1.5rem);
-    right: calc(var(--gutter) - 0.45rem);
+    top: clamp(var(--sp-3), 2.5vh, var(--sp-6));
+    right: calc(var(--gutter) - var(--sp-2));
     z-index: 1;
   }
 
@@ -180,15 +205,14 @@
     padding-inline: var(--gutter);
   }
 
-  /* The first screen, whole: what namp is, the app, and the call. */
+  /* The first screen: what namp is, the app, and the call, sized by them rather than stretched to the
+     window, so the next section shows below it instead of an empty band. Its top clears the corner. */
   .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    align-content: center;
     align-items: center;
-    gap: 2.5rem 4rem;
-    min-height: 100svh;
-    padding-block: clamp(1.5rem, 5vh, 3.5rem);
+    gap: var(--sp-10) 64px;
+    padding-block: clamp(80px, 13vh, 144px) clamp(var(--sp-12), 9vh, 104px);
   }
 
   @media (min-width: 64rem) {
@@ -199,29 +223,33 @@
 
   .stage {
     display: inline-block;
-    margin: 0 0 1.25rem;
-    padding: 0.15rem 0.65rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
+    margin: 0 0 var(--sp-5);
+    padding: 2px var(--sp-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-sm);
     color: var(--muted);
-    font-size: 0.875rem;
+    font: var(--fw-medium) var(--fs-sm)/1.4 var(--cond);
   }
 
+  /* The one display size, above namp's 32px headline: the site's name, in the condensed cut. */
   h1 {
-    margin: 0 0 1.5rem;
+    margin: 0 0 var(--sp-6);
     max-width: 9ch;
-    font: 700 clamp(3.4rem, 7.2vw, 6.75rem) / 0.86 var(--display);
-    font-variation-settings: "wdth" 80;
-    letter-spacing: -0.03em;
-    word-spacing: 0.04em;
     color: var(--ink);
+    font: var(--fw-strong) var(--fs-display) / 0.92 var(--cond);
+    letter-spacing: -0.02em;
   }
 
-  /* Balanced, so it breaks at its comma rather than leave a word alone. */
   .lede {
-    margin: 0 0 2rem;
-    font: 500 clamp(1.2rem, 1.55vw, 1.4rem) / 1.35 var(--display);
-    letter-spacing: -0.01em;
+    margin: 0 0 var(--sp-8);
+    color: var(--ink-2);
+    font-size: var(--fs-xl);
+    line-height: 1.4;
+  }
+
+  /* Each clause on a line of its own when it fits; when it doesn't, it wraps evenly, never leaving a word alone. */
+  .lede span {
+    display: inline-block;
     text-wrap: balance;
   }
 
@@ -229,86 +257,69 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 0.85rem;
+    gap: var(--sp-3);
   }
 
-  .button {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    border-radius: 999px;
-    background: var(--teal);
-    color: #fff;
-    font-weight: 500;
-    text-decoration: none;
-  }
-
-  .button:hover {
-    background: var(--teal-deep);
-    color: #fff;
-  }
-
+  /* The hero's calls stand a step taller than a control in the app, in the same cut and corners. */
   .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: var(--sp-3);
   }
 
-  /* The docs, a step back from the call: outlined, its line drawn inside so it stands as tall. */
-  .button.quiet {
-    background: transparent;
-    box-shadow: inset 0 0 0 1px var(--line);
-    color: var(--ink);
-  }
-
-  .button.quiet:hover {
-    box-shadow: inset 0 0 0 1px var(--teal);
-    color: var(--teal);
+  .actions .button {
+    padding: 11px var(--sp-5);
+    font-size: var(--fs-body);
   }
 
   /* Under a tester's command, the docs as a plain link: Copy stays the one thing to do. */
   .after {
     display: inline-block;
-    margin-top: 1rem;
-    font-weight: 500;
+    margin-top: var(--sp-4);
+    font-weight: var(--fw-medium);
   }
 
   .write {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.35rem 0.5rem;
+    gap: var(--sp-1) var(--sp-2);
     margin: 0;
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: var(--fs-md);
   }
 
   .invalid {
-    margin: 0 0 1rem;
-    color: #a3342b;
-    font-weight: 500;
+    margin: 0 0 var(--sp-4);
+    color: var(--alert-ink);
+    font-weight: var(--fw-medium);
   }
 
   .open {
-    margin: 0 0 0.6rem;
-    font: 600 1.2rem/1.3 var(--display);
+    margin: 0 0 var(--sp-3);
+    font: var(--fw-strong) var(--fs-lg)/1.3 var(--cond);
   }
 
+  /* The install command, a code block with its Copy at the right, beside its first line. */
   .command {
     display: flex;
-    align-items: stretch;
-    border: 1px solid var(--ink);
-    border-radius: 10px;
-    background: var(--ink);
-    overflow: hidden;
+    align-items: start;
+    gap: var(--sp-3);
+    padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--sunken);
   }
 
   .command code {
     flex: 1;
     min-width: 0;
-    padding: 0.9rem 1rem;
-    color: #e9f3f4;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    padding: 6px 0;
+    background: none;
+    box-shadow: none;
+    color: var(--code-ink);
+    font-size: var(--fs-sm);
+    line-height: 1.65;
   }
 
   .command code span {
@@ -323,20 +334,11 @@
 
   .command button {
     flex: none;
-    width: 5.5rem;
-    border: 0;
-    border-left: 1px solid rgb(255 255 255 / 0.15);
-    background: var(--teal);
-    color: #fff;
-    font: 500 0.95rem var(--sans);
-    cursor: pointer;
+    min-width: 72px;
   }
 
-  .command button:hover {
-    background: var(--teal-deep);
-  }
-
-  /* The screenshot sits in its column, whole, its text left as the app shows it. */
+  /* The screenshot sits in its column, whole, its text left as the app shows it: a surface's corners and
+     a hairline, no shadow, for it neither lifts nor floats. */
   .shot {
     margin: 0;
     animation: arrive 900ms cubic-bezier(0.2, 0.7, 0.1, 1) both 150ms;
@@ -347,8 +349,7 @@
     width: 100%;
     height: auto;
     border: 1px solid var(--line);
-    border-radius: 12px;
-    box-shadow: 0 24px 48px -28px rgb(23 38 43 / 0.4);
+    border-radius: var(--r-md);
   }
 
   @keyframes arrive {
@@ -358,37 +359,36 @@
     }
   }
 
-  /* The second screen, whole: why, what you gain, what it needs, and the call again. */
+  /* Then why, what you gain, what it needs, and the call again, sections apart by 40px as in namp. */
   .more {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: clamp(2rem, 6.5vh, 4rem);
-    min-height: 100svh;
-    padding-block: clamp(2rem, 5vh, 3.5rem);
+    gap: var(--sp-10);
+    padding-block: var(--sp-12) var(--sp-10);
     border-top: 1px solid var(--line);
   }
 
   h2 {
-    margin: 0 0 0.75rem;
-    font: 650 clamp(2.1rem, 4.2vw, 3.6rem) / 1.02 var(--display);
-    letter-spacing: -0.025em;
-    text-wrap: balance;
+    margin: 0 0 var(--sp-3);
+    font-size: var(--fs-2xl);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
 
   .cost {
     max-width: 48rem;
     margin: 0;
     color: var(--muted);
-    font-size: clamp(1.1rem, 1.4vw, 1.25rem);
+    font-size: var(--fs-lg);
     line-height: 1.45;
     text-wrap: pretty;
   }
 
+  /* What you gain: each between hairlines, side by side as the screen allows. */
   .gains {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.75rem 2.5rem;
+    gap: var(--sp-6) var(--sp-10);
   }
 
   @media (min-width: 36rem) {
@@ -404,26 +404,26 @@
   }
 
   .gains div {
-    padding-top: 1rem;
-    border-top: 2px solid var(--ink);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--line-strong);
   }
 
   h3 {
-    margin: 0 0 0.35rem;
-    font: 600 clamp(1.2rem, 1.6vw, 1.4rem) / 1.2 var(--display);
-    letter-spacing: -0.01em;
+    margin: 0 0 var(--sp-1);
+    font-size: var(--fs-lg);
+    line-height: 1.3;
   }
 
   .gains p {
     margin: 0;
     color: var(--muted);
-    line-height: 1.45;
+    line-height: 1.5;
   }
 
   .needs {
     margin: 0;
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: var(--fs-md);
   }
 
   .close {
@@ -431,18 +431,24 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1.25rem 3rem;
-    padding: 1.5rem clamp(1.25rem, 2.5vw, 2rem);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: var(--paper);
+    gap: var(--sp-5) var(--sp-12);
+    padding-top: var(--sp-8);
+    border-top: 1px solid var(--line);
+  }
+
+  /* Beside the words, the invite and the address line up on their right edge, the page's. */
+  @media (min-width: 52rem) {
+    .close .ask {
+      align-items: end;
+    }
   }
 
   .how {
     flex: 1 1 24rem;
     max-width: 36rem;
     margin: 0;
-    font: 500 1.15rem/1.4 var(--display);
+    font-size: var(--fs-lg);
+    line-height: 1.4;
   }
 
   /* An open invite: the steps on the left, what to know beside them on a wide screen. */
@@ -450,11 +456,18 @@
     display: block;
   }
 
+  .install {
+    margin: 0;
+    font-size: var(--fs-xl);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
   .steps {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 0 3.5rem;
-    margin-top: 0.75rem;
+    gap: 0 56px;
+    margin-top: var(--sp-4);
   }
 
   @media (min-width: 64rem) {
@@ -464,93 +477,94 @@
   }
 
   .steps p {
-    margin: 0 0 0.75rem;
+    margin: 0 0 var(--sp-3);
   }
 
   ol {
-    margin: 0 0 1.25rem;
-    padding-left: 1.4rem;
+    margin: 0 0 var(--sp-5);
+    padding-left: 22px;
   }
 
   ol li::marker {
-    font: 600 1.05rem var(--display);
     color: var(--muted);
+    font: var(--fw-strong) var(--fs-body) var(--cond);
   }
 
   ol li + li {
-    margin-top: 0.75rem;
+    margin-top: var(--sp-3);
   }
 
   .aside {
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: var(--fs-md);
   }
 
+  /* A note to heed before installing: a strip with the ask's band at its left. */
   .mac {
-    padding: 0.75rem 1rem;
-    border-left: 3px solid var(--amber);
-    background: #fbf1e6;
-    font-size: 0.95rem;
+    padding: var(--sp-3) var(--sp-4);
+    border-left: var(--flag) solid var(--ask);
+    background: var(--surface);
+    font-size: var(--fs-md);
   }
 
   .release {
-    margin-top: 1.25rem;
-    padding-top: 1.25rem;
+    margin-top: var(--sp-5);
+    padding-top: var(--sp-5);
     border-top: 1px solid var(--line);
   }
 
   .release h4 {
-    margin: 0 0 0.5rem;
-    font: 600 1.2rem/1.3 var(--display);
+    margin: 0 0 var(--sp-2);
+    font-size: var(--fs-lg);
+    line-height: 1.3;
   }
 
-  .notes :global(h1),
-  .notes :global(h2),
-  .notes :global(h3) {
-    margin: 0.75rem 0 0.25rem;
-    font: 600 1rem/1.3 var(--display);
+  .notes :global(:is(h1, h2, h3)) {
+    margin: var(--sp-3) 0 var(--sp-1);
+    font: var(--fw-strong) var(--fs-body)/1.3 var(--cond);
   }
 
   .notes :global(ul) {
     margin: 0;
-    padding-left: 1.2rem;
+    padding-left: 20px;
   }
 
   footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 0.5rem 2rem;
-    padding-block: 1.5rem 2.5rem;
+    gap: var(--sp-2) var(--sp-8);
+    padding-block: var(--sp-6) var(--sp-10);
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: var(--fs-md);
   }
 
   footer a {
-    font-weight: 500;
+    font-weight: var(--fw-medium);
   }
 
   footer p {
     margin: 0;
   }
 
-  /* On a phone the hero still fits one screen: tighter steps between its parts. */
+  /* On a phone, tighter steps between the hero's parts. */
   @media (max-width: 40rem) {
     .hero {
-      gap: 1.75rem;
-      padding-block: 1.5rem;
+      gap: var(--sp-8);
+      padding-block: 72px var(--sp-10);
     }
 
     .stage {
-      margin-bottom: 1rem;
+      margin-bottom: var(--sp-4);
     }
 
     h1 {
-      margin-bottom: 1.25rem;
+      margin-bottom: var(--sp-5);
     }
 
     .lede {
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--sp-6);
+      font-size: var(--fs-lg);
     }
 
     .shot img {
@@ -559,18 +573,12 @@
 
     .command {
       flex-direction: column;
+      align-items: stretch;
+      padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3);
     }
 
     .command code {
-      padding: 0.8rem 0.85rem;
-      font-size: 0.8rem;
-    }
-
-    .command button {
-      width: auto;
-      padding: 0.7rem;
-      border-left: 0;
-      border-top: 1px solid rgb(255 255 255 / 0.15);
+      font-size: var(--fs-xs);
     }
   }
 </style>

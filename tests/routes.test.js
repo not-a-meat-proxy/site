@@ -188,8 +188,8 @@ describe("the front page", () => {
     const page = await res.text();
     expect(page).not.toContain("<header");
     expect(page).toContain("Not A Meat Proxy.");
-    expect(page).toContain("<title>namp: scale your impact with agents, without losing the thread</title>");
-    expect(page).toContain("Scale your impact with agents, without losing the thread.");
+    expect(page).toContain("<title>namp: scale your impact with agent sessions, without losing the thread</title>");
+    expect(page).toContain("Scale your impact with agent sessions, without losing the thread.");
     expect(page).toContain('href="mailto:invites@example.com"');
     expect(page).toContain("Get an invite");
     expect(page).not.toContain("install.sh | sh");
@@ -223,6 +223,20 @@ describe("the front page", () => {
     expect(page).not.toContain(bob);
     expect(page).toContain("That invite link doesn't work");
     expect(res.headers.get("set-cookie")).toMatch(/namp_invite=;.*Max-Age=0/i);
+  });
+
+  test("preloads namp's start faces and serves every face itself, with their licence", async () => {
+    const page = await (await site.get("/")).text();
+    const preloads = [...page.matchAll(/<link rel="preload" href="([^"]+)" as="font"/g)].map((m) => m[1]);
+    expect(preloads).toEqual(["/fonts/FiraSans-Regular.woff2", "/fonts/FiraSansCondensed-Medium.woff2", "/fonts/FiraSansCondensed-SemiBold.woff2"]);
+    const sheets = [...page.matchAll(/<link href="([^"]+\.css)" rel="stylesheet"/g)].map((m) => new URL(m[1], `${site.url}/`));
+    const faces = [];
+    for (const sheet of sheets) {
+      const css = await (await site.get(sheet.pathname)).text();
+      for (const [, face] of css.matchAll(/url\("?([^")]+\.woff2)"?\)/g)) faces.push(new URL(face, sheet).pathname);
+    }
+    expect(faces).toHaveLength(14);
+    for (const face of [...faces, "/fonts/OFL.txt"]) expect((await site.get(face)).status, face).toBe(200);
   });
 });
 
