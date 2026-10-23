@@ -401,7 +401,7 @@
      1600px), and the screenshot at 0.72 of its size at least, so its words read (about 10px), or larger where
      the stage lets its Overview end, at 1190px where the lane starts, by the page's edge. What runs past the
      edge is more of the app: the timeline's end and the lane. Both start on the stage's top line, which the
-     pitch shares. The screenshot starts where the Overview does, at 390px, the sidebar cut away, so Needs
+     pitch shares. The screenshot starts where the Overview does, at 392px, the sidebar cut away, so Needs
      you keeps the height of its rows and the page's ground shows under it once an answered question folds
      away. In the stage's own width (cqw), which both read. */
   @media (min-width: 72rem) {
@@ -419,8 +419,22 @@
       --shot-in: calc(var(--ny-w) - var(--shot-w) * 400 / 1600);
     }
 
+    /* The frame is the cut screenshot's, from its 392nd px, past the sidebar's border: the image runs under
+       it, so its hairline and corners are the same on all four sides. */
+    .shot {
+      width: calc(var(--shot-w) * 1208 / 1600);
+      margin-left: calc(var(--shot-in) + var(--shot-w) * 392 / 1600);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+    }
+
     .shot img {
-      clip-path: inset(0 0 0 calc(100% * 390 / 1600) round var(--r-md));
+      width: var(--shot-w);
+      max-width: none;
+      margin-left: calc(var(--shot-w) * -392 / 1600);
+      border: 0;
+      border-radius: 0;
     }
   }
 
