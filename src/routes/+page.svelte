@@ -230,14 +230,16 @@
   }
 
   /* The first screen: what namp is and the call in columns 1 to 5, the app at work from column 6 to past the
-     page's edge, sized by what they show, so the next section shows below them. Its top clears the corner. */
+     page's edge, sized by what they show, so the next section shows below them. Its top clears the corner.
+     Side by side from 72rem, where Needs you's 4 columns still hold its choices on a line or two; stacked
+     below. */
   .hero {
     align-items: center;
     row-gap: var(--sp-10);
     padding-block: clamp(72px, 10vh, 104px) clamp(var(--sp-12), 8vh, 88px);
   }
 
-  @media (min-width: 64rem) {
+  @media (min-width: 72rem) {
     .pitch {
       grid-column: 1 / 6;
     }
@@ -407,24 +409,34 @@
 
   /* Side by side, Needs you takes the stage's first 4 columns, a column being the stage less the gutter it runs
      into, in 7. Under it lies the app's Topics sidebar alone, the first quarter of the screenshot (400 of its
-     1600px), and the screenshot is as large as lets its Overview, to 1190px where the lane starts, end at the
-     page's edge: the Overview whole beside Needs you, the lane past the edge. Both start on the stage's top
-     line, which the pitch shares. */
-  @media (min-width: 64rem) {
+     1600px), and the screenshot at 0.72 of its size at least, so its words read (about 10px), or larger where
+     the stage lets its Overview end, at 1190px where the lane starts, by the page's edge. What runs past the
+     edge is more of the app: the timeline's end and the lane. Both start on the stage's top
+     line, which the pitch shares, and Needs you is never shorter than the screenshot, so the sidebar stays
+     covered once an answered question folds away. In the stage's own width (cqw), which both read. */
+  @media (min-width: 72rem) {
     .hero {
       align-items: start;
     }
 
     .stage {
-      --ny-w: calc((100% - var(--gutter) + var(--sp-6)) / 7 * 4 - var(--sp-6));
-      --shot-w: calc((100% - var(--ny-w)) * 1600 / 790);
+      container-type: inline-size;
+    }
+
+    .stage > :global(*) {
+      --ny-w: calc((100cqw - var(--gutter) + var(--sp-6)) / 7 * 4 - var(--sp-6));
+      --shot-w: max(calc((100cqw - var(--ny-w)) * 1600 / 790), 1152px);
       --shot-in: calc(var(--ny-w) - var(--shot-w) * 400 / 1600);
+    }
+
+    .stage :global(.needs-you) {
+      min-height: calc(var(--shot-w) * 1000 / 1600);
     }
   }
 
-  /* Stacked, on a tablet or a phone, Needs you, then the screenshot under it, running past the page's right
-     edge, Needs you covering its top. */
-  @media (max-width: 63.99rem) {
+  /* Stacked, on a tablet or a phone, Needs you, then the screenshot under it, Needs you covering its top: on a
+     phone the shot of the question answered in its thread, from where the session's reply starts. */
+  @media (max-width: 71.99rem) {
     .stage {
       grid-template: auto auto / minmax(0, 1fr);
     }
@@ -709,9 +721,12 @@
       font-size: var(--fs-lg);
     }
 
+    /* The phone's shot, 780 by 975, under Needs you to its 590th px, so what shows starts with the owner's
+       answer in its thread; it stops at the gutter, as the panel over it does. */
     .shot {
-      width: calc(100% - var(--sp-8));
-      margin-left: var(--sp-8);
+      --w: calc(100% - var(--gutter) - var(--sp-8));
+      width: var(--w);
+      margin: calc(var(--w) * -975 / 780 * 590 / 975) 0 0 var(--sp-8);
     }
 
     .gains {
