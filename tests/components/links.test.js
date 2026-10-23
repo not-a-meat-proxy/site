@@ -13,9 +13,9 @@ const repo = "https://github.com/not-a-meat-proxy/site";
 
 afterEach(cleanup);
 
-// The hero's links and buttons, in the order they show.
+// The hero's links and buttons beside the app, in the order they show.
 function hero() {
-  return [...document.querySelectorAll(".hero a, .hero button")].map((el) => [el.textContent.trim(), el.className]);
+  return [...document.querySelectorAll(".hero .pitch a, .hero .pitch button")].map((el) => [el.textContent.trim(), el.className]);
 }
 
 describe("the hero", () => {

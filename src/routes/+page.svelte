@@ -2,6 +2,8 @@
   import Address from "#lib/Address.svelte";
   import GitHub from "#lib/GitHub.svelte";
   import Theme from "#lib/Theme.svelte";
+  import NeedsYou from "#lib/home/NeedsYou.svelte";
+  import Sign from "#lib/home/Sign.svelte";
   import { copyText } from "#lib/clipboard.js";
 
   // The hero's screenshots, from a trial server of namp at v0.5.0's tag, whose interface v0.5.1 ships unchanged, by theme: wide, and below 40rem the phone's.
@@ -26,11 +28,13 @@
 
   const lede = "Scale your impact with agent sessions, without losing the thread.";
 
+  // What you gain, each a row as namp draws its record's: the band of who it comes from at its left, the
+  // session's, yours or a task's, and namp's sign for it.
   const gains = [
-    { term: "One thing at a time", text: "The next decision a session needs, the most urgent first." },
-    { term: "Back in, in seconds", text: "Goal, decisions and what waits for you, on one page." },
-    { term: "Good practice, built in", text: "Agents for a role, work split across sessions, goals you check." },
-    { term: "Your machines, your work", text: "No namp service in between. Nothing leaves unless you choose." },
+    { term: "One thing at a time", text: "The next decision a session needs, the most urgent first.", band: "own", sign: "ask" },
+    { term: "Back in, in seconds", text: "Goal, decisions and what waits for you, on one page.", band: "you", sign: "goal" },
+    { term: "Good practice, built in", text: "Agents for a role, work split across sessions, goals you check.", band: "task", sign: "work" },
+    { term: "Your machines, your work", text: "No namp service in between. Nothing leaves unless you choose.", band: "you", sign: "done" },
   ];
 
   // The address Ask for an invite writes to, shown for a visitor with no mail app: none when
@@ -55,6 +59,9 @@
 <svelte:head>
   <title>namp: scale your impact with agent sessions, without losing the thread</title>
   <meta name="description" content={lede} />
+  <!-- A tester's command is in the mono, on the first screen: its face preloads with the start faces
+       (app.html), so the command never reflows as it arrives. -->
+  {#if data.tester}<link rel="preload" href="/fonts/FiraMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />{/if}
 </svelte:head>
 
 <!-- The call, with the docs beside it in the hero: a plain button, the invite the only filled one. -->
@@ -76,9 +83,9 @@
 </div>
 
 <main>
-  <section class="hero">
-    <div>
-      <p class="stage">Private alpha</p>
+  <section class="hero grid">
+    <div class="pitch">
+      <p class="alpha">Private alpha</p>
       <h1>Not A Meat Proxy.</h1>
       <!-- In two parts, each kept whole, so a line breaks at its comma or nowhere. -->
       <p class="lede">{#each lede.split(/(?<=,) /) as part, i}{i ? " " : ""}<span>{part}</span>{/each}</p>
@@ -100,75 +107,79 @@
         {@render ask(true)}
       {/if}
     </div>
-    <!-- One picture per theme, the theme's shown by [data-theme] and the other's not displayed. Both lazy, so
-         the browser fetches only the one it lays out, the hidden theme's never: it starts once the page's first
-         layout, a moment later than an eager image, hidden by the screenshot's arrival. -->
-    <figure class="shot">
-      {#each Object.entries(shots) as [name, shot] (name)}
-        <picture class="for-{name}">
-          <source media="(max-width: 40rem)" srcset={shot.phone.src} width={shot.phone.width} height={shot.phone.height} />
-          <img src={shot.wide.src} width={shot.wide.width} height={shot.wide.height} alt={shot.alt} loading="lazy" />
-        </picture>
-      {/each}
-    </figure>
+    <!-- The app at work, its Overview bleeding off the page's right edge, and over its left part namp's
+         Needs you, live. -->
+    <div class="stage">
+      <!-- One picture per theme, the theme's shown by [data-theme] and the other's not displayed. Both lazy, so
+           the browser fetches only the one it lays out, the hidden theme's never: it starts once the page's first
+           layout, a moment later than an eager image, hidden by the screenshot's arrival. -->
+      <figure class="shot">
+        {#each Object.entries(shots) as [name, shot] (name)}
+          <picture class="for-{name}">
+            <source media="(max-width: 40rem)" srcset={shot.phone.src} width={shot.phone.width} height={shot.phone.height} />
+            <img src={shot.wide.src} width={shot.wide.width} height={shot.wide.height} alt={shot.alt} loading="lazy" />
+          </picture>
+        {/each}
+      </figure>
+      <NeedsYou />
+    </div>
   </section>
 
-  <section class="more">
-    <div>
+  <section class="more grid">
+    <div class="why">
       <h2>Agents work in parallel. You don't.</h2>
       <p class="cost">Run a few agent sessions at once and you become their relay, approving work you've lost track of.</p>
     </div>
 
-    <div class="gains">
+    <ul class="gains">
       {#each gains as gain (gain.term)}
-        <div>
+        <li class="gain o-{gain.band}">
+          <Sign kind={gain.sign} />
           <h3>{gain.term}</h3>
           <p>{gain.text}</p>
-        </div>
+        </li>
       {/each}
-    </div>
+    </ul>
 
     <p class="needs">
       Runs on macOS (Apple Silicon) or Linux (x86-64, ARM64) with <a href="https://github.com/herdrdev/herdr">herdr</a>, and
       runs <a href="https://claude.com/claude-code">Claude Code</a> sessions today.
     </p>
 
-    <div id="install" class="close">
+    <div id="install" class="close" class:tester={data.tester}>
       {#if data.tester}
         <h3 class="install">Two steps to start</h3>
-        <div class="steps">
-          <ol>
-            <li>
-              <p>Run the command above in a terminal. It's yours alone: it carries your invite.</p>
-              <p class="aside">
-                It checks for herdr and Claude Code, puts <code>namp</code> in <code>~/.local/bin</code> and keeps your
-                invite in <code>~/.config/namp</code>, so <code>namp update</code> can fetch the next release.
-              </p>
-            </li>
-            <li>
-              <p>In a herdr pane, run <code>namp start</code>, then open the page it prints.</p>
-            </li>
-          </ol>
-          <div>
-            <p class="mac">
-              On a Mac, install with the command, never by downloading namp in a browser: macOS stops a binary a
-              browser downloaded from running, and this alpha isn't notarized.
+        <ol>
+          <li>
+            <p>Run the command above in a terminal. It's yours alone: it carries your invite.</p>
+            <p class="aside">
+              It checks for herdr and Claude Code, puts <code>namp</code> in <code>~/.local/bin</code> and keeps your
+              invite in <code>~/.config/namp</code>, so <code>namp update</code> can fetch the next release.
             </p>
-            {#if data.down}
-              <p class="release invalid" role="alert">The release store is not answering, so the release isn't shown: try again in a minute.</p>
-            {:else if data.release}
-              <div class="release">
-                <h4>namp {data.release.version}, released {data.release.date}</h4>
-                {#if data.release.notes}
-                  <div class="notes">{@html data.release.notes}</div>
-                {:else}
-                  <p>This release has no notes.</p>
-                {/if}
-              </div>
-            {:else}
-              <p class="release">No release is out yet: the command works once the first one is.</p>
-            {/if}
-          </div>
+          </li>
+          <li>
+            <p>In a herdr pane, run <code>namp start</code>, then open the page it prints.</p>
+          </li>
+        </ol>
+        <div class="know">
+          <p class="mac">
+            On a Mac, install with the command, never by downloading namp in a browser: macOS stops a binary a
+            browser downloaded from running, and this alpha isn't notarized.
+          </p>
+          {#if data.down}
+            <p class="release invalid" role="alert">The release store is not answering, so the release isn't shown: try again in a minute.</p>
+          {:else if data.release}
+            <div class="release">
+              <h4>namp {data.release.version}, released {data.release.date}</h4>
+              {#if data.release.notes}
+                <div class="notes">{@html data.release.notes}</div>
+              {:else}
+                <p>This release has no notes.</p>
+              {/if}
+            </div>
+          {:else}
+            <p class="release">No release is out yet: the command works once the first one is.</p>
+          {/if}
         </div>
       {:else}
         <p class="how">Each tester gets a personal invite link. It shows your install command on this page, and every update comes through it.</p>
@@ -184,8 +195,8 @@
 </footer>
 
 <style>
-  /* The screenshot arrives from the right (arrive): clipped here, it never widens the page into a
-     sideways scroll while it moves in. On main, as body's overflow would pass to the viewport. */
+  /* The screenshot bleeds off the page's right edge and arrives from the right (arrive): clipped here, it
+     never widens the page into a sideways scroll. On main, as body's overflow would pass to the viewport. */
   main {
     overflow-x: clip;
   }
@@ -197,7 +208,7 @@
     position: absolute;
     top: clamp(var(--sp-3), 2.5vh, var(--sp-6));
     right: calc(var(--gutter) - var(--sp-2));
-    z-index: 1;
+    z-index: 2;
   }
 
   main > section,
@@ -205,23 +216,37 @@
     padding-inline: var(--gutter);
   }
 
-  /* The first screen: what namp is, the app, and the call, sized by them rather than stretched to the
-     window, so the next section shows below it instead of an empty band. Its top clears the corner. */
-  .hero {
+  /* The page's one grid: 12 columns between the gutters, every block of the page starting on its lines. On a
+     narrower screen each block takes the whole width. */
+  .grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--sp-6);
+  }
+
+  .grid > * {
+    grid-column: 1 / -1;
+  }
+
+  /* The first screen: what namp is and the call in columns 1 to 5, the app at work from column 6 to past the
+     page's edge, sized by what they show, so the next section shows below them. Its top clears the corner. */
+  .hero {
     align-items: center;
-    gap: var(--sp-10) 64px;
-    padding-block: clamp(80px, 13vh, 144px) clamp(var(--sp-12), 9vh, 104px);
+    row-gap: var(--sp-10);
+    padding-block: clamp(72px, 10vh, 104px) clamp(var(--sp-12), 8vh, 88px);
   }
 
   @media (min-width: 64rem) {
-    .hero {
-      grid-template-columns: minmax(20rem, 5fr) minmax(0, 7fr);
+    .pitch {
+      grid-column: 1 / 6;
+    }
+
+    .stage {
+      grid-column: 6 / -1;
     }
   }
 
-  .stage {
+  .alpha {
     display: inline-block;
     margin: 0 0 var(--sp-5);
     padding: 2px var(--sp-2);
@@ -233,8 +258,8 @@
 
   /* The one display size, above namp's 32px headline: the site's name, in the condensed cut. */
   h1 {
-    margin: 0 0 var(--sp-6);
     max-width: 9ch;
+    margin: 0 0 var(--sp-6);
     color: var(--ink);
     font: var(--fw-strong) var(--fs-display) / 0.92 var(--cond);
     letter-spacing: -0.02em;
@@ -337,11 +362,25 @@
     min-width: 72px;
   }
 
-  /* The screenshot sits in its column, whole, its text left as the app shows it: a surface's corners and
-     a hairline, no shadow, for it neither lifts nor floats. */
+  /* The stage: the screenshot from the stage's left edge to past the page's right one, large enough to read,
+     and Needs you laid over its left part, below its top bar. Both in one cell, so the stage is as tall as
+     the taller of them and nothing under it is overlapped. */
+  .stage {
+    display: grid;
+    grid-template: auto / minmax(0, 1fr);
+    margin-right: calc(-1 * var(--gutter));
+  }
+
+  .stage > :global(*) {
+    grid-area: 1 / 1;
+  }
+
+  /* The screenshot sits on the ground as the app does, a surface's corners and a hairline, no shadow, for it
+     neither lifts nor floats; Needs you, over it, floats. */
   .shot {
-    margin: 0;
-    animation: arrive 900ms cubic-bezier(0.2, 0.7, 0.1, 1) both 150ms;
+    width: max(100%, 66rem);
+    margin: 0 0 0 var(--shot-in, 0);
+    animation: arrive 900ms var(--ease-out) both 150ms;
   }
 
   .shot img {
@@ -352,6 +391,14 @@
     border-radius: var(--r-md);
   }
 
+  .stage :global(.needs-you) {
+    z-index: 1;
+    align-self: start;
+    width: min(31rem, 100%);
+    margin-top: var(--ny-top, 0);
+    animation: arrive 900ms var(--ease-out) both 250ms;
+  }
+
   @keyframes arrive {
     from {
       opacity: 0;
@@ -359,13 +406,53 @@
     }
   }
 
-  /* Then why, what you gain, what it needs, and the call again, sections apart by 40px as in namp. */
+  /* Side by side, the screenshot starts a column in, so Needs you over it leaves the app's Overview in view. */
+  @media (min-width: 64rem) {
+    .stage {
+      --shot-in: calc((100% + var(--sp-6)) / 7 * 1);
+      --ny-top: 56px;
+    }
+  }
+
+  /* Stacked, on a tablet or a phone, the screenshot under Needs you, which covers its top. */
+  @media (max-width: 63.99rem) {
+    .stage {
+      grid-template: auto auto / minmax(0, 1fr);
+    }
+
+    .stage :global(.needs-you) {
+      grid-area: 1 / 1;
+      width: min(36rem, calc(100% - var(--gutter)));
+    }
+
+    .shot {
+      grid-area: 2 / 1;
+      width: max(100%, 40rem);
+      margin: calc(-1 * var(--sp-12) * 2) 0 0 var(--sp-12);
+    }
+  }
+
+  /* Then why, what you gain, what it needs, and the call again, on the hero's grid, sections apart by 40px as
+     in namp. */
   .more {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-10);
+    row-gap: var(--sp-10);
     padding-block: var(--sp-12) var(--sp-10);
     border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 64rem) {
+    .why {
+      grid-column: 1 / 6;
+    }
+
+    .gains,
+    .needs {
+      grid-column: 6 / -1;
+    }
+
+    .needs {
+      margin-top: calc(-1 * var(--sp-6));
+    }
   }
 
   h2 {
@@ -384,37 +471,59 @@
     text-wrap: pretty;
   }
 
-  /* What you gain: each between hairlines, side by side as the screen allows. */
+  /* What you gain, as namp's rows between hairlines: who it comes from as a band at the row's left, namp's
+     sign, the gain and its line. */
   .gains {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .gain {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--sp-6) var(--sp-10);
+    grid-template-columns: 14px minmax(0, 13rem) minmax(0, 1fr);
+    align-items: baseline;
+    gap: 2px var(--sp-3);
+    position: relative;
+    padding: var(--sp-3) var(--sp-4) var(--sp-3) calc(var(--band) + 14px);
+    border-bottom: 1px solid var(--line);
   }
 
-  @media (min-width: 36rem) {
-    .gains {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  .gain::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 0;
+    width: var(--band);
+    height: var(--mark-h);
+    background: var(--line-strong);
   }
 
-  @media (min-width: 64rem) {
-    .gains {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
+  .gain.o-you::before {
+    background: var(--band-you);
   }
 
-  .gains div {
-    padding-top: var(--sp-4);
-    border-top: 1px solid var(--line-strong);
+  .gain.o-own::before {
+    background: var(--band-own);
+  }
+
+  .gain.o-task::before {
+    background: var(--band-task);
+  }
+
+  .gain > :global(.sign) {
+    align-self: start;
+    margin-top: 5px;
   }
 
   h3 {
-    margin: 0 0 var(--sp-1);
+    margin: 0;
     font-size: var(--fs-lg);
     line-height: 1.3;
   }
 
-  .gains p {
+  .gain p {
     margin: 0;
     color: var(--muted);
     line-height: 1.5;
@@ -426,34 +535,52 @@
     font-size: var(--fs-md);
   }
 
+  /* The call again, between hairlines, on the hero's lines: why ask in columns 1 to 5, the invite at column 6;
+     for a tester the steps in columns 1 to 5, what to know at column 6. */
   .close {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--sp-5) var(--sp-12);
+    row-gap: var(--sp-5);
     padding-top: var(--sp-8);
     border-top: 1px solid var(--line);
   }
 
-  /* Beside the words, the invite and the address line up on their right edge, the page's. */
-  @media (min-width: 52rem) {
-    .close .ask {
-      align-items: end;
+  @media (min-width: 64rem) {
+    .close {
+      display: grid;
+      grid-template-columns: subgrid;
+      align-items: center;
+    }
+
+    .close > * {
+      grid-column: 1 / 6;
+    }
+
+    .close > .ask,
+    .close > .know {
+      grid-column: 6 / -1;
+    }
+
+    .close.tester {
+      align-items: start;
+    }
+
+    .close.tester .install {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 63.99rem) {
+    .close {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
     }
   }
 
   .how {
-    flex: 1 1 24rem;
     max-width: 36rem;
     margin: 0;
     font-size: var(--fs-lg);
     line-height: 1.4;
-  }
-
-  /* An open invite: the steps on the left, what to know beside them on a wide screen. */
-  .close:has(.install) {
-    display: block;
   }
 
   .install {
@@ -463,25 +590,12 @@
     letter-spacing: -0.01em;
   }
 
-  .steps {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0 56px;
-    margin-top: var(--sp-4);
-  }
-
-  @media (min-width: 64rem) {
-    .steps {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-  }
-
-  .steps p {
+  .close.tester p {
     margin: 0 0 var(--sp-3);
   }
 
   ol {
-    margin: 0 0 var(--sp-5);
+    margin: 0;
     padding-left: 22px;
   }
 
@@ -547,14 +661,18 @@
     margin: 0;
   }
 
-  /* On a phone, tighter steps between the hero's parts. */
+  /* On a phone, tighter steps between the hero's parts, and a gain's line under its name. */
   @media (max-width: 40rem) {
+    .grid {
+      column-gap: var(--sp-4);
+    }
+
     .hero {
-      gap: var(--sp-8);
+      row-gap: var(--sp-8);
       padding-block: 72px var(--sp-10);
     }
 
-    .stage {
+    .alpha {
       margin-bottom: var(--sp-4);
     }
 
@@ -567,8 +685,17 @@
       font-size: var(--fs-lg);
     }
 
-    .shot img {
-      max-width: 26rem;
+    .shot {
+      width: 22rem;
+      margin-left: var(--sp-8);
+    }
+
+    .gain {
+      grid-template-columns: 14px minmax(0, 1fr);
+    }
+
+    .gain p {
+      grid-column: 2;
     }
 
     .command {
