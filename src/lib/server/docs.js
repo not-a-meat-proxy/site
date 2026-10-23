@@ -83,9 +83,10 @@ function render(slug, file) {
   if (!title) throw new Error(`docs/${file}.md has no title`);
   const description = tokens.find((token, i) => token.type === "inline" && tokens[i - 1]?.type === "paragraph_open")?.content ?? "";
   const sections = tokens.filter((token) => token.type === "heading_close" && token.tag === "h2").map((token) => token.meta);
-  // The opening, the title and the paragraph under it, apart from the rest, for On this page to sit
-  // between them on a narrow screen.
-  const lede = tokens.findIndex((token, i) => token.type === "paragraph_close" && tokens.slice(0, i).some((t) => t.tag === "h1"));
+  // The opening, the title and what comes before the first section, apart from the rest, for On this page
+  // to sit between them on a narrow screen.
+  const first = tokens.findIndex((token) => token.type === "heading_open" && token.tag === "h2");
+  const lede = (first < 0 ? tokens.length : first) - 1;
   const html = (part) => markdown.renderer.render(part, markdown.options, {});
   return {
     slug,

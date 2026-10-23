@@ -95,7 +95,7 @@
   <div class="bar shell">
     <a class="brand" href="/">namp</a>
     <a class="section" href="/docs">Docs</a>
-    {#if open?.path !== "/docs"}<span class="title">{open?.title}</span>{/if}
+    {#if open}<span class="title">{open.title}</span>{/if}
     <button type="button" class="icon menu" bind:this={menu} onclick={show} aria-label="The docs' pages" aria-haspopup="dialog">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" /></svg>
     </button>
@@ -238,6 +238,7 @@
   }
 
   .page {
+    position: relative;
     display: grid;
     grid-template-columns: [full-start] minmax(var(--gutter), 1fr) [column-start] minmax(0, 64ch) [column-end] minmax(var(--gutter), 1fr) [full-end];
     align-content: start;

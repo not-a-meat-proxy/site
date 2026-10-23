@@ -1,7 +1,9 @@
 // Where the reader is on a docs page, read as namp's plan reads where its work is: the section in view is
-// the last whose heading has passed the top third of the window, the first before any has, and the last
-// once the page's end is in sight, unless the reader went to a section by its link and its heading still
-// stands in the top third. Read from IntersectionObserver as a heading crosses that line and as the address
+// the last whose heading has passed a line at the top third of the window, the first before any has, unless
+// the reader went to a section by its link and its heading still stands above that line. As the page's
+// last screens come, the line moves down with what is left to scroll, so the last sections, too short to
+// reach the top third, each come into view in turn, the last at the very end. Read from IntersectionObserver
+// as a heading crosses the line, as `end`, the page's last window, shows, and as the address
 // changes section, never on each scroll.
 
 /** Whether this browser asks for reduced motion, as namp's ui/src/lib/motion.js reads it. */
@@ -28,7 +30,7 @@ export function turn(arc) {
 
 /**
  * Calls `change` with the index of the section in view among `article`'s h2s whenever it may have changed,
- * `end` being what shows the page has been read to its end. Returns what stops it.
+ * `end` being the page's last window. Returns what stops it.
  * @param {HTMLElement} article
  * @param {Element | undefined} end
  * @param {(index: number) => void} change
@@ -37,25 +39,20 @@ export function inView(article, end, change) {
   if (!article || typeof IntersectionObserver !== "function") return () => {};
   const headings = [...article.querySelectorAll("h2")];
   if (!headings.length) return () => {};
-  let atEnd = false;
   const read = () => {
-    const line = innerHeight / 3;
+    const range = document.documentElement.scrollHeight - innerHeight;
+    const from = Math.max(0, range - (innerHeight * 2) / 3);
+    const moved = range > from ? Math.min(1, Math.max(0, (scrollY - from) / (range - from))) : 0;
+    const line = innerHeight / 3 + ((innerHeight * 2) / 3) * moved;
     const linked = headings.findIndex((h) => `#${h.id}` === decodeURIComponent(location.hash));
     const top = linked < 0 ? null : headings[linked].getBoundingClientRect().top;
-    if (top !== null && top >= -1 && top <= line) return change(linked);
-    if (atEnd && scrollY > 0) return change(headings.length - 1);
+    if (top !== null && top >= -1 && top <= innerHeight / 3) return change(linked);
     const passed = headings.findLastIndex((h) => h.getBoundingClientRect().top <= line);
     change(Math.max(0, passed));
   };
   const crossing = new IntersectionObserver(read, { rootMargin: "0px 0px -67% 0px" });
   headings.forEach((h) => crossing.observe(h));
-  const ending = new IntersectionObserver(
-    ([entry]) => {
-      atEnd = entry.isIntersecting;
-      read();
-    },
-    { threshold: 1 },
-  );
+  const ending = new IntersectionObserver(read, { threshold: Array.from({ length: 41 }, (_, i) => i / 40) });
   if (end) ending.observe(end);
   addEventListener("hashchange", read);
   return () => {

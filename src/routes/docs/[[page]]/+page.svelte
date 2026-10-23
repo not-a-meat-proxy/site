@@ -74,7 +74,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions:
      the clicks are the Copy buttons', which take Enter and Space themselves. -->
 <article onclick={copy} bind:this={article}>
-  {@html data.page.opening}
+  <header class="opening">{@html data.page.opening}</header>
   {#if data.page.sections.length > 1}
     <details class="contents folded">
       <summary>On this page</summary>
@@ -84,7 +84,7 @@
   {@html data.page.html}
 </article>
 
-<nav class="turn" aria-label="Previous and next page" bind:this={end}>
+<nav class="turn" aria-label="Previous and next page">
   {#if previous}
     <a class="previous" href={previous.path} title="Previous page ([)"><span>Previous <kbd>[</kbd></span>{previous.title}</a>
   {/if}
@@ -94,6 +94,7 @@
 </nav>
 
 <span class="said" aria-live="polite">{said}</span>
+<div class="tail" aria-hidden="true" bind:this={end}></div>
 
 <style>
   article,
@@ -113,9 +114,18 @@
     letter-spacing: -0.01em;
   }
 
-  /* The opening: the paragraph under the title says what the page is for. */
+  /* The opening: the paragraph under the title says what the page is for, and the opening stands apart from
+     the sections under it. */
+  .opening {
+    margin-bottom: var(--sp-10);
+  }
+
+  .opening :global(> :last-child) {
+    margin-bottom: 0;
+  }
+
   article :global(h1 + p) {
-    margin: 0 0 var(--sp-10);
+    margin: 0 0 var(--sp-4);
     color: var(--ink-2);
     font-size: var(--fs-lg);
     line-height: 1.5;
@@ -184,7 +194,7 @@
   }
 
   article :global(.ps .planned circle) {
-    stroke: var(--faint);
+    stroke: var(--muted);
   }
 
   article :global(.ps .track) {
@@ -207,8 +217,8 @@
     stroke-width: 1.9;
   }
 
-  /* A heading's link, seen when the heading is pointed at or the link has the focus, and always
-     on a screen with no pointer to hover. */
+  /* A heading's link, seen when the heading is pointed at or the link has the focus; a screen with no
+     pointer to hover links a section from On this page. */
   article :global(.anchor) {
     color: var(--muted);
     font-weight: var(--fw-medium);
@@ -223,12 +233,6 @@
 
   article :global(.anchor:hover) {
     color: var(--accent-ink);
-  }
-
-  @media (hover: none) {
-    article :global(.anchor) {
-      opacity: 1;
-    }
   }
 
   article :global(p),
@@ -381,10 +385,14 @@
     color: var(--ink);
   }
 
-  /* Under the opening on a narrow page, folded. */
+  /* Under the opening on a narrow page, folded, as far from the opening as from the first section. */
   .folded {
-    margin: calc(-1 * var(--sp-6)) 0 0;
+    margin: calc(var(--sp-8) - var(--sp-10)) 0 0;
     border-block: 1px solid var(--line);
+  }
+
+  article .folded + :global(h2) {
+    margin-top: var(--sp-8);
   }
 
   .folded summary {
@@ -464,6 +472,17 @@
     grid-column: 2;
     align-items: end;
     text-align: right;
+  }
+
+  /* The page's last window, which tells where the reader is as the page's end comes. */
+  .tail {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    height: 100vh;
+    pointer-events: none;
+    visibility: hidden;
   }
 
   .said {
