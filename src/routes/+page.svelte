@@ -479,19 +479,19 @@
     }
   }
 
-  /* Under Needs you, the ground again for a moment, wherever the panel ends: its asks run longer than the
-     screenshot's one, so the Overview shows again only some way below, not as a row cut by its edge. It feathers
-     at its right, where the Overview runs on beside it. */
+  /* Under Needs you, the ground down to the hero's floor (the hero clips it), wherever the panel ends, an answer
+     shortening it included: under the panel the Overview would show as rows cut by its edge. It feathers in the
+     Overview's gutter past the panel, where the Overview's right column runs on, dimmed. */
   .spot :global(.needs-you::after) {
     content: "";
     position: absolute;
     z-index: -1;
     top: 100%;
     left: calc(-64 * var(--u));
-    right: 0;
-    height: calc(96 * var(--u));
-    background: linear-gradient(var(--bg) 30%, transparent);
-    mask-image: linear-gradient(90deg, var(--mask) calc(100% - 48 * var(--u)), transparent);
+    right: calc(-40 * var(--u));
+    height: 100svh;
+    background: var(--bg);
+    mask-image: linear-gradient(90deg, var(--mask) calc(100% - 40 * var(--u)), transparent);
     pointer-events: none;
   }
 
