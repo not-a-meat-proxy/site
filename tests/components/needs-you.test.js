@@ -61,6 +61,16 @@ describe("Needs you on the home page", () => {
     expect(document.querySelector(".needs-you .said").textContent).toBe("Answered: The 1st of the next month. 2 things need you.");
   });
 
+  test("the hero keeps the room Needs you held as an answered ask folds out, so nothing round it moves", async () => {
+    await page();
+    const spot = document.querySelector(".hero .spot");
+    spot.getBoundingClientRect = () => ({ height: 612.5 });
+    expect(spot.style.minHeight).toBe("");
+    await fireEvent.click(question().querySelectorAll("button.choice")[0]);
+    await vi.waitFor(() => expect(question()).toBeNull());
+    expect(spot.style.minHeight).toBe("612.5px");
+  });
+
   test("by the keyboard, a choice's number key picks it while the question has the focus", async () => {
     await page();
     const first = question().querySelector("button.choice");

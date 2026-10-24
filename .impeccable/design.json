@@ -1,0 +1,1489 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T13:40:55.265Z",
+  "title": "Design System: namp's site",
+  "extensions": {
+    "colorMeta": {
+      "bay-rail": {
+        "role": "neutral",
+        "displayName": "Graphite Rail",
+        "tonalRamp": [
+          "#090b0e",
+          "#222427",
+          "#3e4043",
+          "#5b5e61",
+          "#7e8084",
+          "#a2a5a9",
+          "#c8cbcf",
+          "#eceff3"
+        ]
+      },
+      "bay-side": {
+        "role": "neutral",
+        "displayName": "Graphite Sidebar",
+        "tonalRamp": [
+          "#090b0e",
+          "#212427",
+          "#3d4043",
+          "#5a5e62",
+          "#7d8184",
+          "#a1a5a9",
+          "#c7cbcf",
+          "#ebeff3"
+        ]
+      },
+      "bay-ink": {
+        "role": "neutral",
+        "displayName": "Bay Ink",
+        "tonalRamp": [
+          "#090b0e",
+          "#212427",
+          "#3d4043",
+          "#5b5e61",
+          "#7d8184",
+          "#a1a5a9",
+          "#c7cbcf",
+          "#ebeff3"
+        ]
+      },
+      "bay-muted": {
+        "role": "neutral",
+        "displayName": "Bay Muted",
+        "tonalRamp": [
+          "#070c11",
+          "#1f252b",
+          "#3a4047",
+          "#585e66",
+          "#7a8189",
+          "#9ea5ad",
+          "#c4cbd4",
+          "#e8eff8"
+        ]
+      },
+      "bay-line": {
+        "role": "neutral",
+        "displayName": "Bay Line",
+        "tonalRamp": [
+          "#070c11",
+          "#1f252b",
+          "#3a4047",
+          "#585e66",
+          "#7a8189",
+          "#9ea5ad",
+          "#c4cbd4",
+          "#e8eff8"
+        ]
+      },
+      "bay-strip": {
+        "role": "neutral",
+        "displayName": "Bay Strip",
+        "tonalRamp": [
+          "#080b10",
+          "#202429",
+          "#3c4045",
+          "#595e64",
+          "#7c8187",
+          "#a0a5ab",
+          "#c6cbd2",
+          "#eaeff6"
+        ]
+      },
+      "bay-on": {
+        "role": "neutral",
+        "displayName": "Bay On",
+        "tonalRamp": [
+          "#080c0f",
+          "#212428",
+          "#3c4044",
+          "#5a5e62",
+          "#7c8185",
+          "#a0a5aa",
+          "#c6cbd0",
+          "#eaeff4"
+        ]
+      },
+      "bay-on-ink": {
+        "role": "neutral",
+        "displayName": "Bay On Ink",
+        "tonalRamp": [
+          "#090b0e",
+          "#212428",
+          "#3d4044",
+          "#5a5e62",
+          "#7d8185",
+          "#a1a5a9",
+          "#c7cbcf",
+          "#ebeff3"
+        ]
+      },
+      "bay-ask": {
+        "role": "neutral",
+        "displayName": "Bay Ask",
+        "tonalRamp": [
+          "#170600",
+          "#3c1900",
+          "#642f02",
+          "#904703",
+          "#bd6622",
+          "#e58b4b",
+          "#feb98c",
+          "#feeade"
+        ]
+      },
+      "bay-work": {
+        "role": "neutral",
+        "displayName": "Bay Work",
+        "tonalRamp": [
+          "#000f08",
+          "#002c1e",
+          "#014c37",
+          "#036f52",
+          "#129671",
+          "#4abc95",
+          "#74e3ba",
+          "#bfffe4"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Slate Ground",
+        "tonalRamp": [
+          "#070c0f",
+          "#1f2528",
+          "#3a4144",
+          "#585f62",
+          "#7a8285",
+          "#9ea6aa",
+          "#c4ccd0",
+          "#e8f0f4"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Lifted Strip",
+        "tonalRamp": [
+          "#060c10",
+          "#1e2529",
+          "#3a4145",
+          "#575f63",
+          "#798286",
+          "#9da6ab",
+          "#c3ccd1",
+          "#e7f0f5"
+        ]
+      },
+      "sunken": {
+        "role": "neutral",
+        "displayName": "Sunken",
+        "tonalRamp": [
+          "#060c0f",
+          "#1e2528",
+          "#3a4144",
+          "#575f63",
+          "#798285",
+          "#9da6aa",
+          "#c3ccd0",
+          "#e7f0f4"
+        ]
+      },
+      "hover": {
+        "role": "neutral",
+        "displayName": "Hover",
+        "tonalRamp": [
+          "#060c10",
+          "#1e2529",
+          "#394145",
+          "#565f64",
+          "#798287",
+          "#9da6ab",
+          "#c2ccd1",
+          "#e6f0f6"
+        ]
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selected",
+        "tonalRamp": [
+          "#050c10",
+          "#1d252a",
+          "#384146",
+          "#565f65",
+          "#788288",
+          "#9ca6ac",
+          "#c1ccd3",
+          "#e5f1f7"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "#080c0e",
+          "#202527",
+          "#3b4143",
+          "#595f61",
+          "#7b8184",
+          "#9fa6a9",
+          "#c5cccf",
+          "#e9f0f3"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "tonalRamp": [
+          "#060c0f",
+          "#1e2529",
+          "#3a4145",
+          "#575f63",
+          "#798286",
+          "#9da6ab",
+          "#c3ccd1",
+          "#e7f0f5"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "#050c10",
+          "#1d252a",
+          "#384146",
+          "#555f65",
+          "#788288",
+          "#9ca7ad",
+          "#c1cdd3",
+          "#e5f1f7"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint",
+        "tonalRamp": [
+          "#060c10",
+          "#1d2529",
+          "#384146",
+          "#565f64",
+          "#788287",
+          "#9ca6ac",
+          "#c2ccd2",
+          "#e5f1f6"
+        ]
+      },
+      "on-accent": {
+        "role": "primary",
+        "displayName": "On Accent",
+        "tonalRamp": [
+          "#010f0a",
+          "#172823",
+          "#32443e",
+          "#50625c",
+          "#72857f",
+          "#95aaa3",
+          "#bbd0c9",
+          "#def4ed"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "#050c10",
+          "#1d252a",
+          "#384146",
+          "#565f65",
+          "#788288",
+          "#9ca6ac",
+          "#c1ccd3",
+          "#e5f0f7"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Line Strong",
+        "tonalRamp": [
+          "#050c12",
+          "#1c262c",
+          "#374148",
+          "#545f67",
+          "#76828a",
+          "#9aa7af",
+          "#c0cdd5",
+          "#e4f1f9"
+        ]
+      },
+      "edge": {
+        "role": "neutral",
+        "displayName": "Edge",
+        "tonalRamp": [
+          "#050c11",
+          "#1c262a",
+          "#384147",
+          "#555f65",
+          "#778288",
+          "#9ba7ad",
+          "#c1cdd3",
+          "#e4f1f7"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Petrol Green",
+        "tonalRamp": [
+          "#000f08",
+          "#002c1e",
+          "#014c37",
+          "#036f52",
+          "#129671",
+          "#4abc95",
+          "#74e3ba",
+          "#bfffe4"
+        ]
+      },
+      "accent-ink": {
+        "role": "primary",
+        "displayName": "Accent Ink",
+        "tonalRamp": [
+          "#000f09",
+          "#012c1f",
+          "#024c38",
+          "#046e53",
+          "#269574",
+          "#54bb98",
+          "#7ce2bd",
+          "#c0ffe5"
+        ]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Accent Soft",
+        "tonalRamp": [
+          "#000f0a",
+          "#0e2a22",
+          "#2a463e",
+          "#48655c",
+          "#6a887e",
+          "#8dada3",
+          "#b3d3c8",
+          "#d6f7ec"
+        ]
+      },
+      "accent-line": {
+        "role": "primary",
+        "displayName": "Accent Line",
+        "tonalRamp": [
+          "#000f09",
+          "#002c20",
+          "#044c3a",
+          "#2d6b58",
+          "#528e7a",
+          "#76b39e",
+          "#9cdac4",
+          "#bfffe8"
+        ]
+      },
+      "ask": {
+        "role": "tertiary",
+        "displayName": "Ask Orange",
+        "tonalRamp": [
+          "#180600",
+          "#3d1800",
+          "#662d00",
+          "#924502",
+          "#c65f00",
+          "#f0843a",
+          "#feb990",
+          "#ffeade"
+        ]
+      },
+      "ask-ink": {
+        "role": "tertiary",
+        "displayName": "Ask Ink",
+        "tonalRamp": [
+          "#170600",
+          "#3b1a01",
+          "#633000",
+          "#8f4804",
+          "#b9682a",
+          "#e28d51",
+          "#ffb98a",
+          "#feeadd"
+        ]
+      },
+      "ask-soft": {
+        "role": "tertiary",
+        "displayName": "Ask Soft",
+        "tonalRamp": [
+          "#150701",
+          "#302014",
+          "#4d3b2f",
+          "#6c594c",
+          "#907c6e",
+          "#b5a091",
+          "#dcc6b7",
+          "#feeadc"
+        ]
+      },
+      "ask-count": {
+        "role": "tertiary",
+        "displayName": "Ask Count",
+        "tonalRamp": [
+          "#170600",
+          "#3b1a01",
+          "#633000",
+          "#8f4804",
+          "#b9682a",
+          "#e28d51",
+          "#ffb98a",
+          "#feeadd"
+        ]
+      },
+      "on-ask": {
+        "role": "tertiary",
+        "displayName": "On Ask",
+        "tonalRamp": [
+          "#130903",
+          "#2d2118",
+          "#4a3d33",
+          "#685b50",
+          "#8c7d72",
+          "#b1a196",
+          "#d7c7bb",
+          "#fcebde"
+        ]
+      },
+      "ask-wash": {
+        "role": "tertiary",
+        "displayName": "Ask Wash",
+        "tonalRamp": [
+          "#0f0a06",
+          "#29231e",
+          "#453e39",
+          "#645c56",
+          "#877e79",
+          "#aba39d",
+          "#d1c9c2",
+          "#f6ede6"
+        ]
+      },
+      "alert": {
+        "role": "tertiary",
+        "displayName": "Blocked Pink",
+        "tonalRamp": [
+          "#1d000d",
+          "#460128",
+          "#750147",
+          "#a60f67",
+          "#d0418a",
+          "#fa69af",
+          "#feb0d0",
+          "#ffe7f0"
+        ]
+      },
+      "alert-ink": {
+        "role": "tertiary",
+        "displayName": "Alert Ink",
+        "tonalRamp": [
+          "#1c000e",
+          "#46012a",
+          "#720a49",
+          "#963267",
+          "#be578b",
+          "#e77caf",
+          "#ffafd3",
+          "#ffe7f1"
+        ]
+      },
+      "alert-soft": {
+        "role": "tertiary",
+        "displayName": "Alert Soft",
+        "tonalRamp": [
+          "#19030f",
+          "#351a28",
+          "#533545",
+          "#735363",
+          "#977586",
+          "#bd99aa",
+          "#e4bed1",
+          "#fee7f2"
+        ]
+      },
+      "ok": {
+        "role": "tertiary",
+        "displayName": "Done Green",
+        "tonalRamp": [
+          "#000f05",
+          "#012d17",
+          "#034d2b",
+          "#007040",
+          "#06995a",
+          "#46bf7e",
+          "#71e6a2",
+          "#c4ffd9"
+        ]
+      },
+      "ok-ink": {
+        "role": "tertiary",
+        "displayName": "Ok Ink",
+        "tonalRamp": [
+          "#000f05",
+          "#012d17",
+          "#034d2b",
+          "#007040",
+          "#06995a",
+          "#46bf7e",
+          "#71e6a2",
+          "#c4ffd9"
+        ]
+      },
+      "ok-soft": {
+        "role": "tertiary",
+        "displayName": "Ok Soft",
+        "tonalRamp": [
+          "#000f07",
+          "#102a1e",
+          "#2c463a",
+          "#496557",
+          "#6b8879",
+          "#8fad9e",
+          "#b5d3c3",
+          "#d8f7e7"
+        ]
+      },
+      "band-you": {
+        "role": "secondary",
+        "displayName": "You Violet",
+        "tonalRamp": [
+          "#0f002a",
+          "#2b0061",
+          "#452785",
+          "#6248a8",
+          "#846cd0",
+          "#a891f9",
+          "#cbc1ff",
+          "#eeecfe"
+        ]
+      },
+      "band-own": {
+        "role": "secondary",
+        "displayName": "Session Blue",
+        "tonalRamp": [
+          "#000923",
+          "#002152",
+          "#013b86",
+          "#205aaf",
+          "#447fd7",
+          "#69a5fe",
+          "#abcdff",
+          "#e5efff"
+        ]
+      },
+      "band-task": {
+        "role": "secondary",
+        "displayName": "Task Cyan",
+        "tonalRamp": [
+          "#000e11",
+          "#002a30",
+          "#034853",
+          "#026a78",
+          "#0990a3",
+          "#1cb8d0",
+          "#57dff8",
+          "#d0f7fe"
+        ]
+      },
+      "code-ink": {
+        "role": "neutral",
+        "displayName": "Code Ink",
+        "tonalRamp": [
+          "#090c0d",
+          "#212526",
+          "#3c4042",
+          "#5a5e60",
+          "#7c8183",
+          "#a1a5a7",
+          "#c6cbcd",
+          "#eaeff1"
+        ]
+      },
+      "dim": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "rgba(8, 10, 12, .5)"
+      },
+      "bay-rail-light": {
+        "role": "neutral",
+        "displayName": "Graphite Rail (Light)",
+        "tonalRamp": [
+          "#090b0f",
+          "#212428",
+          "#3d4044",
+          "#5a5e63",
+          "#7d8086",
+          "#a1a5aa",
+          "#c7cbd0",
+          "#ebeff4"
+        ]
+      },
+      "bay-side-light": {
+        "role": "neutral",
+        "displayName": "Graphite Sidebar (Light)",
+        "tonalRamp": [
+          "#090b10",
+          "#212429",
+          "#3d4045",
+          "#5a5e63",
+          "#7d8086",
+          "#a1a5ab",
+          "#c7cbd1",
+          "#ebeff5"
+        ]
+      },
+      "bay-ink-light": {
+        "role": "neutral",
+        "displayName": "Bay Ink (Light)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#232426",
+          "#3e4041",
+          "#5c5e5f",
+          "#7f8082",
+          "#a3a5a7",
+          "#c9cbcd",
+          "#edeff1"
+        ]
+      },
+      "bay-muted-light": {
+        "role": "neutral",
+        "displayName": "Bay Muted (Light)",
+        "tonalRamp": [
+          "#080c10",
+          "#20242a",
+          "#3b4046",
+          "#595e64",
+          "#7b8187",
+          "#9fa5ac",
+          "#c5cbd2",
+          "#e9eff7"
+        ]
+      },
+      "bay-line-light": {
+        "role": "neutral",
+        "displayName": "Bay Line (Light)",
+        "tonalRamp": [
+          "#070c11",
+          "#1f252b",
+          "#3b4047",
+          "#585e65",
+          "#7a8189",
+          "#9fa5ad",
+          "#c4cbd4",
+          "#e8eff8"
+        ]
+      },
+      "bay-strip-light": {
+        "role": "neutral",
+        "displayName": "Bay Strip (Light)",
+        "tonalRamp": [
+          "#080b10",
+          "#21242a",
+          "#3c4046",
+          "#5a5e64",
+          "#7c8187",
+          "#a0a5ac",
+          "#c6cbd2",
+          "#eaeff7"
+        ]
+      },
+      "bay-on-light": {
+        "role": "neutral",
+        "displayName": "Bay On (Light)",
+        "tonalRamp": [
+          "#090b0d",
+          "#222426",
+          "#3e4042",
+          "#5b5e60",
+          "#7e8083",
+          "#a2a5a8",
+          "#c8cbce",
+          "#eceff2"
+        ]
+      },
+      "bay-on-ink-light": {
+        "role": "neutral",
+        "displayName": "Bay On Ink (Light)",
+        "tonalRamp": [
+          "#090b0e",
+          "#212428",
+          "#3d4044",
+          "#5a5e62",
+          "#7d8185",
+          "#a1a5a9",
+          "#c7cbcf",
+          "#ebeff3"
+        ]
+      },
+      "bay-ask-light": {
+        "role": "neutral",
+        "displayName": "Bay Ask (Light)",
+        "tonalRamp": [
+          "#170600",
+          "#3c1900",
+          "#642f02",
+          "#904703",
+          "#bd6622",
+          "#e58b4b",
+          "#feb98c",
+          "#feeade"
+        ]
+      },
+      "bay-work-light": {
+        "role": "neutral",
+        "displayName": "Bay Work (Light)",
+        "tonalRamp": [
+          "#000f08",
+          "#002c1e",
+          "#014c37",
+          "#036f52",
+          "#129671",
+          "#4abc95",
+          "#74e3ba",
+          "#bfffe4"
+        ]
+      },
+      "bg-light": {
+        "role": "neutral",
+        "displayName": "Slate Ground (Light)",
+        "tonalRamp": [
+          "#090b0d",
+          "#222426",
+          "#3e4042",
+          "#5b5e60",
+          "#7e8083",
+          "#a2a5a8",
+          "#c8cbce",
+          "#eceff2"
+        ]
+      },
+      "surface-light": {
+        "role": "neutral",
+        "displayName": "Lifted Strip (Light)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "sunken-light": {
+        "role": "neutral",
+        "displayName": "Sunken (Light)",
+        "tonalRamp": [
+          "#090b0e",
+          "#222427",
+          "#3e4043",
+          "#5b5e61",
+          "#7e8084",
+          "#a2a5a8",
+          "#c8cbcf",
+          "#eceff3"
+        ]
+      },
+      "hover-light": {
+        "role": "neutral",
+        "displayName": "Hover (Light)",
+        "tonalRamp": [
+          "#090b0e",
+          "#222427",
+          "#3e4043",
+          "#5b5e61",
+          "#7e8084",
+          "#a2a5a8",
+          "#c8cbcf",
+          "#eceff3"
+        ]
+      },
+      "selected-light": {
+        "role": "neutral",
+        "displayName": "Selected (Light)",
+        "tonalRamp": [
+          "#080c0e",
+          "#212527",
+          "#3c4043",
+          "#5a5e62",
+          "#7c8184",
+          "#a1a5a9",
+          "#c6cbcf",
+          "#eaeff3"
+        ]
+      },
+      "ink-light": {
+        "role": "neutral",
+        "displayName": "Ink (Light)",
+        "tonalRamp": [
+          "#070c10",
+          "#20252a",
+          "#3b4046",
+          "#585e64",
+          "#7b8187",
+          "#9fa5ac",
+          "#c5cbd2",
+          "#e8eff6"
+        ]
+      },
+      "ink-2-light": {
+        "role": "neutral",
+        "displayName": "Ink 2 (Light)",
+        "tonalRamp": [
+          "#060c12",
+          "#1e252c",
+          "#3a4048",
+          "#575e67",
+          "#79818a",
+          "#9da6af",
+          "#c3cbd5",
+          "#e7eff9"
+        ]
+      },
+      "muted-light": {
+        "role": "neutral",
+        "displayName": "Muted (Light)",
+        "tonalRamp": [
+          "#070b11",
+          "#1f242b",
+          "#3b4048",
+          "#585e66",
+          "#7b8189",
+          "#9fa5ae",
+          "#c4cbd4",
+          "#e8eff9"
+        ]
+      },
+      "faint-light": {
+        "role": "neutral",
+        "displayName": "Faint (Light)",
+        "tonalRamp": [
+          "#080b10",
+          "#20242a",
+          "#3c4046",
+          "#595e65",
+          "#7c8188",
+          "#a0a5ac",
+          "#c6cbd3",
+          "#e9eff7"
+        ]
+      },
+      "on-accent-light": {
+        "role": "primary",
+        "displayName": "On Accent (Light)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "line-light": {
+        "role": "neutral",
+        "displayName": "Line (Light)",
+        "tonalRamp": [
+          "#090b0e",
+          "#212427",
+          "#3d4043",
+          "#5b5e61",
+          "#7d8184",
+          "#a1a5a9",
+          "#c7cbcf",
+          "#ebeff3"
+        ]
+      },
+      "line-strong-light": {
+        "role": "neutral",
+        "displayName": "Line Strong (Light)",
+        "tonalRamp": [
+          "#080c10",
+          "#20242a",
+          "#3b4046",
+          "#595e64",
+          "#7b8187",
+          "#9fa5ac",
+          "#c5cbd2",
+          "#e9eff6"
+        ]
+      },
+      "edge-light": {
+        "role": "neutral",
+        "displayName": "Edge (Light)",
+        "tonalRamp": [
+          "#070c10",
+          "#20252a",
+          "#3b4046",
+          "#595e65",
+          "#7b8188",
+          "#9fa5ad",
+          "#c5cbd3",
+          "#e9eff7"
+        ]
+      },
+      "accent-light": {
+        "role": "primary",
+        "displayName": "Petrol Green (Light)",
+        "tonalRamp": [
+          "#000f09",
+          "#012c1f",
+          "#024c38",
+          "#2c6b55",
+          "#518f77",
+          "#75b49b",
+          "#9bdbc1",
+          "#c0ffe5"
+        ]
+      },
+      "accent-ink-light": {
+        "role": "primary",
+        "displayName": "Accent Ink (Light)",
+        "tonalRamp": [
+          "#000f09",
+          "#012c1f",
+          "#0c4b38",
+          "#316a56",
+          "#558e78",
+          "#79b39c",
+          "#9edac1",
+          "#c2fee5"
+        ]
+      },
+      "accent-soft-light": {
+        "role": "primary",
+        "displayName": "Accent Soft (Light)",
+        "tonalRamp": [
+          "#000f09",
+          "#152921",
+          "#30453c",
+          "#4e635a",
+          "#70867d",
+          "#93aba1",
+          "#b9d1c7",
+          "#dcf5ea"
+        ]
+      },
+      "accent-line-light": {
+        "role": "primary",
+        "displayName": "Accent Line (Light)",
+        "tonalRamp": [
+          "#000f08",
+          "#002c1e",
+          "#1e4939",
+          "#3d6857",
+          "#608b79",
+          "#83b09d",
+          "#a9d7c3",
+          "#ccfbe6"
+        ]
+      },
+      "ask-light": {
+        "role": "tertiary",
+        "displayName": "Ask Orange (Light)",
+        "tonalRamp": [
+          "#190500",
+          "#3e1601",
+          "#692a00",
+          "#974000",
+          "#c55f22",
+          "#ef844c",
+          "#ffb895",
+          "#ffeae0"
+        ]
+      },
+      "ask-ink-light": {
+        "role": "tertiary",
+        "displayName": "Ask Ink (Light)",
+        "tonalRamp": [
+          "#1a0400",
+          "#401500",
+          "#6b2800",
+          "#8f4622",
+          "#b66946",
+          "#de8e6a",
+          "#feb899",
+          "#ffe9e0"
+        ]
+      },
+      "ask-soft-light": {
+        "role": "tertiary",
+        "displayName": "Ask Soft (Light)",
+        "tonalRamp": [
+          "#130803",
+          "#2e2118",
+          "#4b3c33",
+          "#695a50",
+          "#8d7d72",
+          "#b2a196",
+          "#d8c7bb",
+          "#fdebdf"
+        ]
+      },
+      "ask-count-light": {
+        "role": "tertiary",
+        "displayName": "Ask Count (Light)",
+        "tonalRamp": [
+          "#160701",
+          "#321f15",
+          "#4f3b2f",
+          "#6e584c",
+          "#927b6e",
+          "#b79f92",
+          "#dec5b7",
+          "#feeadf"
+        ]
+      },
+      "on-ask-light": {
+        "role": "tertiary",
+        "displayName": "On Ask (Light)",
+        "tonalRamp": [
+          "#190500",
+          "#401400",
+          "#6a2903",
+          "#8d4828",
+          "#b36b4a",
+          "#db8f6e",
+          "#ffb798",
+          "#feeae1"
+        ]
+      },
+      "ask-wash-light": {
+        "role": "tertiary",
+        "displayName": "Ask Wash (Light)",
+        "tonalRamp": [
+          "#120905",
+          "#2c211c",
+          "#493d37",
+          "#675b54",
+          "#8a7d76",
+          "#afa19a",
+          "#d6c7bf",
+          "#faebe3"
+        ]
+      },
+      "alert-light": {
+        "role": "tertiary",
+        "displayName": "Blocked Pink (Light)",
+        "tonalRamp": [
+          "#1d000d",
+          "#470028",
+          "#711046",
+          "#953564",
+          "#bd5987",
+          "#e67eac",
+          "#feb0d0",
+          "#ffe7f0"
+        ]
+      },
+      "alert-ink-light": {
+        "role": "tertiary",
+        "displayName": "Alert Ink (Light)",
+        "tonalRamp": [
+          "#1d000c",
+          "#470026",
+          "#6b1f43",
+          "#8d3f61",
+          "#b46183",
+          "#dd86a8",
+          "#feb0ce",
+          "#ffe7ef"
+        ]
+      },
+      "alert-soft-light": {
+        "role": "tertiary",
+        "displayName": "Alert Soft (Light)",
+        "tonalRamp": [
+          "#14060c",
+          "#2f1f25",
+          "#4c3a40",
+          "#6b585e",
+          "#8e7a81",
+          "#b39ea5",
+          "#dac4cb",
+          "#fee7ef"
+        ]
+      },
+      "ok-light": {
+        "role": "tertiary",
+        "displayName": "Done Green (Light)",
+        "tonalRamp": [
+          "#001005",
+          "#002d17",
+          "#014d2b",
+          "#216e46",
+          "#499267",
+          "#6eb78b",
+          "#94deb0",
+          "#c5ffd9"
+        ]
+      },
+      "ok-ink-light": {
+        "role": "tertiary",
+        "displayName": "Ok Ink (Light)",
+        "tonalRamp": [
+          "#000f05",
+          "#002d17",
+          "#094d2c",
+          "#2f6c49",
+          "#538f6b",
+          "#78b58f",
+          "#9ddcb4",
+          "#c5ffd9"
+        ]
+      },
+      "ok-soft-light": {
+        "role": "tertiary",
+        "displayName": "Ok Soft (Light)",
+        "tonalRamp": [
+          "#020f06",
+          "#17281e",
+          "#334539",
+          "#506356",
+          "#728679",
+          "#96ab9d",
+          "#bbd1c2",
+          "#dff5e6"
+        ]
+      },
+      "band-you-light": {
+        "role": "secondary",
+        "displayName": "You Violet (Light)",
+        "tonalRamp": [
+          "#0e002b",
+          "#290a5b",
+          "#432d7d",
+          "#604d9f",
+          "#8270c6",
+          "#a695ee",
+          "#cbc1fe",
+          "#eeecfe"
+        ]
+      },
+      "band-own-light": {
+        "role": "secondary",
+        "displayName": "Session Blue (Light)",
+        "tonalRamp": [
+          "#000923",
+          "#002151",
+          "#083c81",
+          "#2b5ca4",
+          "#4e80cc",
+          "#71a6f4",
+          "#accdfe",
+          "#e5efff"
+        ]
+      },
+      "band-task-light": {
+        "role": "secondary",
+        "displayName": "Task Cyan (Light)",
+        "tonalRamp": [
+          "#000e11",
+          "#002a31",
+          "#034853",
+          "#016a78",
+          "#2c8e9f",
+          "#57b4c5",
+          "#7fdbed",
+          "#d0f7ff"
+        ]
+      },
+      "code-ink-light": {
+        "role": "neutral",
+        "displayName": "Code Ink (Light)",
+        "tonalRamp": [
+          "#070c10",
+          "#20252a",
+          "#3b4046",
+          "#585e64",
+          "#7b8187",
+          "#9fa5ac",
+          "#c5cbd2",
+          "#e8eff6"
+        ]
+      },
+      "dim-light": {
+        "role": "neutral",
+        "displayName": "Scrim (Light)",
+        "canonical": "rgba(12, 20, 24, .32)"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero's headline, once per site; namp has no size above 32px."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "The front page's second screen's heading, a step under the display."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "A page's title."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "A section's heading; a gain's term on the front page."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "A sub-heading."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "The docs and the front page's text."
+      },
+      "body-list": {
+        "displayName": "Body List",
+        "purpose": "Lists and the shell's pages."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons and controls."
+      },
+      "label-strong": {
+        "displayName": "Label Strong",
+        "purpose": "The primary button."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "An aside, a release's date."
+      },
+      "meta-xs": {
+        "displayName": "Meta Xs",
+        "purpose": "A page's sections in the shell."
+      },
+      "count": {
+        "displayName": "Count",
+        "purpose": "Counts and keys, tabular figures."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Code blocks and the install command."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-1",
+        "value": "var(--shadow-1)",
+        "purpose": "Seat: a small strip seated on the ground."
+      },
+      {
+        "name": "shadow-lift",
+        "value": "var(--shadow-lift)",
+        "purpose": "Lift: what needs the reader, a Needs you card, a docs note."
+      },
+      {
+        "name": "shadow-2",
+        "value": "var(--shadow-2)",
+        "purpose": "Float: what floats over the page, the skip link and namp's drawer."
+      }
+    ],
+    "motion": [
+      {
+        "name": "dur",
+        "value": ".15s",
+        "purpose": "A control's colour change."
+      },
+      {
+        "name": "dur-drawer",
+        "value": ".2s",
+        "purpose": "namp's drawer sliding in from the right."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Every arrival: rows, the drawer, the tour's traced outline (600ms)."
+      },
+      {
+        "name": "arrive-row",
+        "value": "520ms ease-out, 10px up and from 0 opacity",
+        "purpose": "namp's rows arriving one after another: Needs you's cards, the tour's rows."
+      },
+      {
+        "name": "work-turn",
+        "value": "2.4s linear infinite",
+        "purpose": "namp's working light, the accent's conic light going round what a session works on; none under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "40rem"
+      },
+      {
+        "name": "docs-shell",
+        "value": "52rem"
+      },
+      {
+        "name": "front-columns",
+        "value": "64rem"
+      },
+      {
+        "name": "hero-side-by-side",
+        "value": "72rem"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "The default control: a strip in the condensed cut with an edge round it.",
+      "html": "<button class=\"ds-btn\">Read the docs</button>",
+      "css": ".ds-btn { padding: 7px 14px; border: 1px solid var(--edge); border-radius: var(--r-ctl); background: var(--surface); color: var(--ink); font: var(--fw-medium) var(--fs-md)/1.2 var(--cond); cursor: pointer; transition: background var(--dur), border-color var(--dur); } .ds-btn:hover { border-color: var(--muted); background: var(--hover); } .ds-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary per place, in the accent: Get an invite, Copy.",
+      "html": "<button class=\"ds-btn-primary\">Get an invite</button>",
+      "css": ".ds-btn-primary { padding: 7px 14px; border: 1px solid var(--accent); border-radius: var(--r-ctl); background: var(--accent); color: var(--on-accent); font: var(--fw-strong) var(--fs-md)/1.2 var(--cond); cursor: pointer; transition: background var(--dur), border-color var(--dur); } .ds-btn-primary:hover { border-color: var(--accent-ink); background: var(--accent-ink); } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Inline code",
+      "kind": "chip",
+      "refersTo": "code-inline",
+      "description": "A chip on sunken with its hairline drawn.",
+      "html": "<p class=\"ds-p\">Run <code class=\"ds-code\">namp start</code> in a herdr pane.</p>",
+      "css": ".ds-p { color: var(--ink); font: var(--fs-body)/1.55 var(--font); } .ds-code { padding: 1px 5px; border-radius: var(--r-xs); background: var(--sunken); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font-family: var(--mono); font-size: var(--fs-inline); }"
+    },
+    {
+      "name": "Install command",
+      "kind": "custom",
+      "description": "The tester's command in a sunken box, Copy, the primary, at its right.",
+      "html": "<div class=\"ds-cmd\"><code>curl -fsSL https://namp.cloudgt.dev/install.sh | sh -s -- &lt;token&gt;</code><button class=\"ds-cmd-copy\">Copy</button></div>",
+      "css": ".ds-cmd { display: flex; align-items: start; gap: var(--sp-3); padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--sunken); } .ds-cmd code { flex: 1; padding: 6px 0; color: var(--code-ink); font: var(--fs-sm)/1.65 var(--mono); } .ds-cmd-copy { min-width: 72px; padding: 7px 14px; border: 1px solid var(--accent); border-radius: var(--r-ctl); background: var(--accent); color: var(--on-accent); font: var(--fw-strong) var(--fs-md)/1.2 var(--cond); cursor: pointer; } .ds-cmd-copy:hover { background: var(--accent-ink); border-color: var(--accent-ink); } .ds-cmd-copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+    },
+    {
+      "name": "Lifted ask",
+      "kind": "card",
+      "description": "What needs the reader, as namp's Needs you card: on --ask-fill with --shadow-lift and the ask's flag band.",
+      "html": "<div class=\"ds-ask\"><span class=\"ds-ask-kind\">Question</span><strong class=\"ds-ask-subject\">Which day does an invoice set for the 31st go out?</strong><span class=\"ds-ask-text\">In a shorter month, the month's last day is recommended.</span></div>",
+      "css": ".ds-ask { position: relative; display: grid; gap: 2px; padding: var(--sp-3) var(--sp-5) var(--sp-4) calc(var(--flag) + var(--sp-4)); background: var(--ask-fill); box-shadow: var(--shadow-lift); color: var(--ink); font: var(--fs-md)/1.45 var(--font); } .ds-ask::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--flag); background: var(--ask); } .ds-ask-kind { color: var(--ask-ink); font: var(--fw-medium) var(--fs-sm) var(--cond); } .ds-ask-subject { font-weight: var(--fw-strong); } .ds-ask-text { color: var(--ink-2); }"
+    },
+    {
+      "name": "Tour gain",
+      "kind": "nav",
+      "description": "A gain of the tour, a tab as namp's choice: a numbered ring, the chosen one filled in the accent on surface, between hairlines.",
+      "html": "<div class=\"ds-gains\" role=\"tablist\"><button class=\"ds-gain\" role=\"tab\" aria-selected=\"true\"><span class=\"ds-nb\">1</span><span class=\"ds-term\">One thing at a time</span><span class=\"ds-text\">The next decision a session needs, the most urgent first.</span></button><button class=\"ds-gain\" role=\"tab\" aria-selected=\"false\"><span class=\"ds-nb\">2</span><span class=\"ds-term\">Back in, in seconds</span><span class=\"ds-text\">Goal, decisions and what waits for you, on one page.</span></button></div>",
+      "css": ".ds-gains { display: grid; border-top: 1px solid var(--line); } .ds-gain { display: grid; grid-template-columns: 22px minmax(0, 1fr); column-gap: var(--sp-3); row-gap: 2px; align-items: baseline; padding: var(--sp-3); border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--ink); text-align: left; cursor: pointer; } .ds-gain:hover { background: var(--hover); } .ds-gain:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; } .ds-gain[aria-selected='true'] { background: var(--surface); } .ds-nb { display: inline-grid; place-items: center; align-self: center; width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--muted); font: var(--fw-strong) var(--fs-xs)/1 var(--cond); } .ds-gain[aria-selected='true'] .ds-nb { background: var(--accent); box-shadow: none; color: var(--on-accent); } .ds-term { font: var(--fw-strong) var(--fs-xl)/1.2 var(--cond); } .ds-text { grid-column: 2; color: var(--muted); font: var(--fs-md)/1.45 var(--font); }"
+    },
+    {
+      "name": "Key",
+      "kind": "chip",
+      "description": "A kbd as namp draws one: on surface, a line-strong edge a step deeper at its foot, its key in muted mono.",
+      "html": "<kbd class=\"ds-kbd\">]</kbd>",
+      "css": ".ds-kbd { display: inline-block; padding: 2px 5px; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: var(--r-xs); background: var(--surface); color: var(--muted); font: var(--fw-medium) var(--fs-2xs)/1 var(--mono); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Many at Once, One at a Time",
+    "overview": "**Creative North Star: \"Many at Once, One at a Time\"**, namp's own. The site is namp's look on a public page, close kin to the app even where it is a docs site: the same tokens, faces, shell and signs, so a visitor who installs namp finds the page they were shown. Its values live in `src/app.css`, the faces in `src/fonts.css`, and a component's own rules in its `<style>`. This file says how to use them, its frontmatter carrying `app.css`'s tokens by their roles, which `tests/components/design.test.js` keeps equal. namp's DESIGN.md, in the namp repository, is the source this one follows: a role or a rule the site takes from the app keeps its name and value there.\n\nnamp gives a person running many agent sessions the sense of working on one thing at a time. The site does the same for its visitor: one thing in front of them at a time, the app shown at work rather than claimed, and the next action plain. What matters lifts from the ground; everything else lies flat on it.\n\nQuiet and exact: nothing decorates, and every edge, sign and tint says something. The density is carried by type, not by boxes: headings, labels and buttons in Fira Sans Condensed, the text in Fira Sans. Colour is spent only where it says something: the one accent for focus, links and the primary action, the hues of namp's signs where the app's signs show, and what waits for the reader.",
+    "keyCharacteristics": [
+      "A graphite shell, a step deeper than the ground, in both palettes: the docs' sidebar, as namp's.",
+      "The page on a plain ground, its parts separated by space, then hairlines, then a tint.",
+      "What needs the reader lifted: a fade, a shadow and a flag band, as namp's Needs you; the rest flat.",
+      "One accent, and namp's state hues each with its own sign, used as the app uses them.",
+      "The condensed cut for headings, labels, buttons and the shell.",
+      "Small corners on controls, none on rows and places."
+    ],
+    "rules": [
+      {
+        "name": "The Role Rule",
+        "body": "Read a token by its role, never a value. A new role goes into `src/app.css` with a comment, in both palettes and in the system-light block, then into this frontmatter, then is read. A role namp has keeps namp's name and value.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Palettes Rule",
+        "body": "Dark, the default, and Light, a soft palette of a cool grey ground, white strips lifting from it and accents at a lower chroma. `<html data-theme>` picks one, set by `app.html`'s head script before the first paint from the choice kept in the browser or else the system's setting; a visitor with no script follows the system's setting through `prefers-color-scheme`, the same values. What differs by theme, an icon or a screenshot, is drawn for both and shown by the theme, never swapped once the page loads.",
+        "section": "colors"
+      },
+      {
+        "name": "The Shell Rule",
+        "body": "The shell is graphite in both palettes, a step deeper than the ground, in `--bay-*`. Inside `.shell` the ground's roles read as the shell's, so a link, a ring or a control drawn there takes the shell's colours without knowing it is there. The open page in the shell's list is light, `--bay-on`.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Black Rule",
+        "body": "Text is `--ink`, then `--ink-2` and `--muted`, each at 4.5:1 on every ground. `--faint` is for marks only, at 3:1: a sign, a stroke, a dot, a separator.",
+        "section": "colors"
+      },
+      {
+        "name": "The Signs Rule",
+        "body": "Where the site shows namp's signs, they keep namp's hue and shape: `--ok` and a check for done, `--ask` and a `?` for what waits, `--alert` and a warning sign for blocked, a turning arc in the accent for working. Words in a hue take its `-ink` token, never the mark's colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Self-Hosted Rule",
+        "body": "The faces are `src/fonts.css`'s `@font-face`, served from `static/fonts` with their licence, each a start face subset to what the pages write and a rest face fetched only for a character the start face lacks. `app.html` preloads the start faces the first screen paints in. Nothing loads from another host.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Uppercase Rule",
+        "body": "No uppercase labels and no tracked small caps. Weights 400, 500 and 600. Times, versions and counts take tabular figures.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Grid Rule",
+        "body": "Every block of a page starts on the same left edge and its columns share the same lines: a heading, its text, a row of points and a call line up, or they differ by a step of the grid on purpose. The front page's grid is 12 columns between the gutters, `--sp-6` apart (`--sp-4` on a phone): on the first screen what namp is and the call in columns 1 to 5, and from column 6 namp's Overview, dimmed and running off the page's right edge, with Needs you lit in it; on the second the why, the gains and the call in columns 1 to 5, and the whole Overview from column 6; for a tester, after them, the two steps in columns 1 to 5 under a heading across the grid, and what to know from column 6. Each screen is the window's height at least, its blocks centred in it; content taller than the window keeps its natural height. Under 64rem every block takes the whole width and the second screen keeps its natural height, and the first view stacks under 72rem, where Needs you would squeeze its choices.",
+        "section": "layout"
+      },
+      {
+        "name": "The Steps Rule",
+        "body": "Space in 4px steps, `--sp-1` to `--sp-12`, and `--gutter` for the page's margin.",
+        "section": "layout"
+      },
+      {
+        "name": "The Lift Rule",
+        "body": "What needs the reader lifts from the ground, as in namp: a strip on `--ask-fill`, fading from `--ask-wash` at its left to the strip by mid-row, with `--shadow-lift` and a flag band, `--flag` wide, in `--ask`; a reply waiting for reading lifts the same way in the accent, from `--accent-soft`. Everything else lies on the ground. Nothing else casts a shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Card In Card Rule",
+        "body": "Separate with whitespace first, then a hairline (`--line`), then a tint (`--hover`, `--sunken`). A row has no box and no radius; a surface sits on the ground, never inside another.",
+        "section": "shapes"
+      },
+      {
+        "name": "The One Primary Rule",
+        "body": "One primary button per place, in the accent. Every other control is the default strip or a link.",
+        "section": "components"
+      },
+      {
+        "name": "The Focus Rule",
+        "body": "One ring, `:focus-visible` in the accent. Never `outline: none` without a look in its place.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** read a token by its role, and add a new role to `src/app.css` in both palettes, and here, before reading it.",
+      "**Do** show namp at work, its real screens and signs, rather than describe it.",
+      "**Do** keep each page's blocks on one grid.",
+      "**Do** separate with whitespace first, then a hairline, then a tint.",
+      "**Do** keep the primary button to once per place.",
+      "**Do** let every sign that moves stand still under reduced motion.",
+      "**Do** set the theme before the first paint, and draw what differs by theme for both."
+    ],
+    "donts": [
+      "**Don't** use black: text is `ink`, then `ink-2` and `muted`, and `faint` is for marks only.",
+      "**Don't** put a card in a card, or a box round a row.",
+      "**Don't** write uppercase labels.",
+      "**Don't** cast a shadow for anything that neither lifts nor floats.",
+      "**Don't** load a font, a script or an asset from another host.",
+      "**Don't** invent customers, testimonials, numbers or claims."
+    ]
+  }
+}

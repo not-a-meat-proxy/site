@@ -1,5 +1,5 @@
-// The front page's ways out besides the invite: the docs from the hero, a plain button beside
-// "Get an invite" or under a tester's command, and the site's repo from GitHub's mark, on the
+// The front page's ways out besides the invite: the docs from the hero, a plain link under the call
+// or under a tester's command, and the site's repo from GitHub's mark, on the
 // front page and in the docs' header.
 import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render } from "@testing-library/svelte";
@@ -19,10 +19,10 @@ function hero() {
 }
 
 describe("the hero", () => {
-  test("shows Read the docs beside Get an invite, the invite the only filled button", async () => {
+  test("shows Read the docs under Get an invite, the invite the only filled button", async () => {
     render(Page, { data: visitor });
     await tick();
-    const actions = [...document.querySelectorAll(".hero .actions a")];
+    const actions = [...document.querySelectorAll(".hero .ask a")];
     expect(actions.map((a) => [a.textContent, a.getAttribute("href")])).toEqual([
       ["Get an invite", "mailto:invites@example.com"],
       ["Read the docs", "/docs"],
@@ -34,7 +34,7 @@ describe("the hero", () => {
   test("with no contact, shows Read the docs alone", async () => {
     render(Page, { data: { ...visitor, contact: null } });
     await tick();
-    const actions = [...document.querySelectorAll(".hero .actions a")];
+    const actions = [...document.querySelectorAll(".hero .ask a")];
     expect(actions.map((a) => [a.textContent, a.getAttribute("href"), a.className.includes("primary")])).toEqual([
       ["Read the docs", "/docs", false],
     ]);
@@ -50,10 +50,12 @@ describe("the hero", () => {
     expect(document.querySelector(".hero .command").compareDocumentPosition(docs)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
-  test("leaves the docs out of the call again further down", async () => {
+  test("leaves the docs out of the call again on the second screen", async () => {
     render(Page, { data: visitor });
     await tick();
-    expect(document.querySelector(".close").textContent).not.toContain("Read the docs");
+    const call = document.querySelector(".tour .call");
+    expect(call.textContent).toContain("Get an invite");
+    expect(call.textContent).not.toContain("Read the docs");
   });
 });
 

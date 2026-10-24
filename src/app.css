@@ -10,7 +10,8 @@
   --cond: "Fira Sans Condensed", "Fira Sans", "Arial Narrow", sans-serif;
   --mono: "Fira Mono", ui-monospace, Menlo, monospace;
   --fs-2xs: 11px; --fs-xs: 12px; --fs-sm: 13px; --fs-md: 14px; --fs-body: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 32px;
-  --fs-display: clamp(3.5rem, 7.2vw, 6.5rem);
+  --fs-display: clamp(3.5rem, min(7.4vw, 13svh), 8.5rem);
+  --fs-section: clamp(2.6rem, 3.6vw, 4.4rem); /* the front page's second screen's heading, a step under the display */
   --fs-inline: .86em; /* code inside a line of text */
   --fw-normal: 400; --fw-medium: 500; --fw-strong: 600;
 
@@ -23,7 +24,6 @@
   --flag: 6px; /* the ask's band at a note's left */
 
   --r-2xs: 2px; --r-full: 999px; --r-round: 50%;
-  --band: 5px; --mark-h: 16px; /* an origin band at a row's left, as namp draws it */
 
   --dur: .15s;
   --dur-drawer: .2s;

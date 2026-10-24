@@ -95,9 +95,15 @@ colors:
 typography:
   display:
     fontFamily: '"Fira Sans Condensed", "Fira Sans", "Arial Narrow", sans-serif'
-    fontSize: clamp(3.5rem, 7.2vw, 6.5rem)
+    fontSize: clamp(3.5rem, min(7.4vw, 13svh), 8.5rem)
     fontWeight: 600
-    lineHeight: 0.92
+    lineHeight: 0.9
+    letterSpacing: -0.03em
+  section:
+    fontFamily: '"Fira Sans Condensed", "Fira Sans", "Arial Narrow", sans-serif'
+    fontSize: clamp(2.6rem, 3.6vw, 4.4rem)
+    fontWeight: 600
+    lineHeight: 0.95
     letterSpacing: -0.02em
   headline:
     fontFamily: '"Fira Sans Condensed", "Fira Sans", "Arial Narrow", sans-serif'
@@ -196,18 +202,6 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.xs}"
     padding: 1px 5px
-  origin-band-you:
-    backgroundColor: "{colors.band-you}"
-    width: 5px
-    height: 16px
-  origin-band-own:
-    backgroundColor: "{colors.band-own}"
-    width: 5px
-    height: 16px
-  origin-band-task:
-    backgroundColor: "{colors.band-task}"
-    width: 5px
-    height: 16px
 ---
 
 # Design System: namp's site
@@ -224,19 +218,19 @@ Quiet and exact: nothing decorates, and every edge, sign and tint says something
 - A graphite shell, a step deeper than the ground, in both palettes: the docs' sidebar, as namp's.
 - The page on a plain ground, its parts separated by space, then hairlines, then a tint.
 - What needs the reader lifted: a fade, a shadow and a flag band, as namp's Needs you; the rest flat.
-- One accent, and namp's state and origin hues each with its own shape, used as the app uses them.
+- One accent, and namp's state hues each with its own sign, used as the app uses them.
 - The condensed cut for headings, labels, buttons and the shell.
 - Small corners on controls, none on rows and places.
 
 ## Colors
 
-A cool slate ground with a graphite shell, one green accent, and namp's origin and state hues, nothing pure black and nothing pure white on Dark. Dark is the default and each role's frontmatter key is its Dark value; Light is the same role as `<role>-light`. The hex pairs below are Dark then Light.
+A cool slate ground with a graphite shell, one green accent, and namp's state hues, nothing pure black and nothing pure white on Dark. Dark is the default and each role's frontmatter key is its Dark value; Light is the same role as `<role>-light`. The hex pairs below are Dark then Light.
 
 ### Primary
 - **Petrol Green** (`accent`, #58c9a1 / #428069): focus, links, selection and the primary action. `accent-ink` writes words in it, `accent-soft` tints behind it, `accent-line` edges with it, `on-accent` is the ink on it.
 
 ### Secondary
-- **You Violet** (`band-you`, #a28bf2 / #8c7ad1), **Session Blue** (`band-own`, #5f9bf5 / #5588d4) and **Task Cyan** (`band-task`, #2cc0d8 / #3293a4): namp's origin bands, who started a piece of work, used where the site draws namp's rows.
+- **You Violet** (`band-you`, #a28bf2 / #8c7ad1), **Session Blue** (`band-own`, #5f9bf5 / #5588d4) and **Task Cyan** (`band-task`, #2cc0d8 / #3293a4): namp's origin bands, who started a piece of work, kept with namp's values so a row the site draws as namp's takes them. The site draws no origin band today: they show only inside namp's screenshots, and no other mark may borrow their hues.
 
 ### Tertiary
 - **Ask Orange** (`ask`, #f5883f / #d26a30): what waits for the reader, its sign, its flag band and, through `ask-wash`, its fade. `ask-ink` writes words in it; `ask-count` with `on-ask` fills a count.
@@ -270,7 +264,8 @@ A cool slate ground with a graphite shell, one green accent, and namp's origin a
 **Character:** One family in two cuts. The condensed cut carries the density where the page names and acts; the plain cut carries what you read.
 
 ### Hierarchy
-- **Display** (600, clamp(3.5rem, 7.2vw, 6.5rem), 0.92, -0.02em, condensed): the site's own, once per site, the hero's headline. namp has no size above 32px.
+- **Display** (600, clamp(3.5rem, min(7.4vw, 13svh), 8.5rem), 0.9, -0.03em, condensed): the site's own, once per site, the hero's headline. namp has no size above 32px.
+- **Section** (600, clamp(2.6rem, 3.6vw, 4.4rem), 0.95, -0.02em, condensed): the front page's second screen's heading, a step under the display, so the second screen opens as a screen of its own.
 - **Headline** (600, 32px, 1.15, -0.01em, condensed): a page's title, a section's on the front page.
 - **Title** (600, 22px, 1.25, -0.01em, condensed): a section's heading; the hero's lede in the plain cut at 400.
 - **Subtitle** (600, 18px, 1.3, condensed): a sub-heading.
@@ -293,7 +288,7 @@ Two shapes, as namp has a shell and a place. The front page has no shell: the pa
 The rhythm is 4px steps, `--sp-1` to `--sp-12`. Text keeps a measure of 65 to 75 characters. Sections stand apart by more space above a heading than below it. Where a column must change, it changes at a few widths only, and nothing runs wider than the screen or scrolls sideways but a code block.
 
 ### Named Rules
-**The One Grid Rule.** Every block of a page starts on the same left edge and its columns share the same lines: a heading, its text, a row of points and a call line up, or they differ by a step of the grid on purpose. The front page's grid is 12 columns between the gutters, `--sp-6` apart (`--sp-4` on a phone): what namp is and the call in columns 1 to 5, the app at work from column 6 to past the page's right edge, and below them each section's heading in columns 1 to 5 and its rows or its call from column 6. Under 64rem every block takes the whole width, and the first view stacks under 72rem, where Needs you's 4 columns would squeeze its choices.
+**The One Grid Rule.** Every block of a page starts on the same left edge and its columns share the same lines: a heading, its text, a row of points and a call line up, or they differ by a step of the grid on purpose. The front page's grid is 12 columns between the gutters, `--sp-6` apart (`--sp-4` on a phone): on the first screen what namp is and the call in columns 1 to 5, and from column 6 namp's Overview, dimmed and running off the page's right edge, with Needs you lit in it; on the second the why, the gains and the call in columns 1 to 5, and the whole Overview from column 6; for a tester, after them, the two steps in columns 1 to 5 under a heading across the grid, and what to know from column 6. Each screen is the window's height at least, its blocks centred in it; content taller than the window keeps its natural height. Under 64rem every block takes the whole width and the second screen keeps its natural height, and the first view stacks under 72rem, where Needs you would squeeze its choices.
 
 **The Steps Rule.** Space in 4px steps, `--sp-1` to `--sp-12`, and `--gutter` for the page's margin.
 
@@ -304,14 +299,14 @@ Depth is mostly tonal: the ground, a sunken fill a step under it, a strip a step
 ### Shadow Vocabulary
 - **Seat** (`--shadow-1`): a chosen segment, a small strip seated on the ground.
 - **Lift** (`--shadow-lift`): what needs the reader, as namp's Needs you rows and lane cards.
-- **Float** (`--shadow-2`): what floats over the page, a notice, a menu, Needs you over the hero's screenshot.
+- **Float** (`--shadow-2`): what floats over the page, the skip link and namp's drawer.
 
 ### Named Rules
 **The Lift Rule.** What needs the reader lifts from the ground, as in namp: a strip on `--ask-fill`, fading from `--ask-wash` at its left to the strip by mid-row, with `--shadow-lift` and a flag band, `--flag` wide, in `--ask`; a reply waiting for reading lifts the same way in the accent, from `--accent-soft`. Everything else lies on the ground. Nothing else casts a shadow.
 
 ## Shapes
 
-Corners are small and mean something. Controls and counts take 4px (`--r-ctl`), chips 6px, code blocks and surfaces 8px. A row and a place take none, so the page reads as rows and regions, not tiles. Round is for people, dots and rings. An origin band and a flag band are square-ended rectangles. Lines are 1px.
+Corners are small and mean something. Controls and counts take 4px (`--r-ctl`), chips 6px, code blocks and surfaces 8px. A row and a place take none, so the page reads as rows and regions, not tiles. Round is for people, dots and rings. A flag band is a square-ended rectangle. Lines are 1px.
 
 ### Named Rules
 **The No Card In Card Rule.** Separate with whitespace first, then a hairline (`--line`), then a tint (`--hover`, `--sunken`). A row has no box and no radius; a surface sits on the ground, never inside another.
@@ -351,13 +346,13 @@ namp's rows under the column, each with its key in a `kbd`, `[` and `]`. The `[`
 A `kbd` as namp draws one: on `surface`, a `line-strong` edge a step deeper at its foot, its key in `muted` mono.
 
 ### Touch targets
-On a coarse pointer, every control and row is at least 44px tall: the bar's links and menu, the shell's pages, the rows of On this page, its fold and each Copy.
+On a coarse pointer, every control and row is at least 44px tall: the bar's links and menu, the shell's pages, the rows of On this page, its fold, each Copy, the call's address and Read the docs, and Needs you's choices.
 
 ### Needs you
-The front page's first view lays namp's Home Needs you over the Overview screenshot, ported from namp's `Headline.svelte` and `Home.svelte` rather than drawn like them (`src/lib/home/`): a panel of the ground floating on `--shadow-2`, its heading with the asks' count on `--ask-count` and the replies' outlined petrol bubble, then a lifted card per ask, its kind in the tone's ink, who and when after dots, its subject strong, the first 2 lines of its text with the second's end faded through `--mask` when more follows, and a question's recommended choice. Its topics are demo topics, and the panel says so. The first question carries namp's choices, numbered rings, the recommended one in the accent and tagged in `--ok-ink`; a click or its number key answers it and it folds out, the count one less. The cards arrive one by one by transform and opacity in the room they hold, and stand still under reduced motion. Side by side, the panel takes the stage's first 4 columns, and the screenshot, at 0.72 of its size at least so its words read, starts at the Overview's edge beside it, its sidebar cut away, so the panel keeps the height of its rows. Stacked, the panel's edges fall in the screenshot's gutters, never across a line of it.
+The front page's first screen lights namp's Home Needs you where the Overview's own is, ported from namp's `Headline.svelte` and `Home.svelte` rather than drawn like them (`src/lib/home/`). Behind it the Overview, the wide screenshot with its sidebar cut away, at one of its px per thousandth of the window's height (`--u`, 0.8px to 1.05px), lies under namp's `--dim` with a wash of the ground over it (30% in Dark, 80% in Light, where the scrim alone would leave a grey slab), so its lines are there but hardly read, and fades into the ground at its left, under the words, at its top and at its foot, a little under the panel; the panel itself has no frame or shadow of its own, only the ground, so it reads as the part of the page that's lit, and its asks lift on `--shadow-lift` as in namp. A short fade of the ground under it keeps the dimmed Overview from showing again as a row cut by its edge. The panel: its heading with the asks' count on `--ask-count` and the replies' outlined petrol bubble, then a lifted card per ask, its kind in the tone's ink, who and when after dots, its subject strong, the first 2 lines of its text with the second's end faded through `--mask` when more follows, and a question's recommended choice. How many asks it shows is a prop (`show`). Its topics are demo topics, and the panel says so. The first question carries namp's choices, numbered rings, the recommended one in the accent and tagged in `--ok-ink`; a click or its number key answers it and it folds out, the count one less. The cards arrive one by one by transform and opacity in the room they hold, and stand still under reduced motion. Answering the demo question keeps the hero's room, so nothing moves: the panel shortens and the dimmed Overview shows where the asks were. On a phone the Overview is not shown behind it, and the panel stands alone on the ground.
 
-### Rows
-What the front page lists, it lists as namp's record rows: between hairlines, a 5px origin band at the row's left in `--band-you`, `--band-own` or `--band-task`, and namp's sign (a question mark, an open goal ring, the turning arc, a check), never as cards.
+### The tour
+The second screen shows what you gain on the Overview itself (`src/lib/home/Tour.svelte`), the whole wide screenshot with its sidebar cut away, framed by a hairline and a surface's 8px corners, as tall as the screen lets it be. The gains are a tablist of namp's choices: a ring with the number, the chosen one filled in the accent on `surface`, between hairlines; arrow keys, Home and End move the choice, and the choice is said politely. Choosing one dims the rest of the Overview under `--dim` (at half strength in Light, so the lights stay on), traces an accent outline round its part along its path (600ms, `--ease-out`, by `stroke-dashoffset`), brings the part's rows in one after another as namp's rows arrive, each staying as it is until its turn, and sets namp's working light going round the outline: the accent's conic light namp turns round what a session works on (`work-turn`, 2.4s). Each part has its number at its corner. Your machines has no part of its own: its outline is the whole Overview's, tagged with the address namp serves it at, `localhost:4321`. While the screen is in view the tour moves on every 4 seconds, until the visitor's first click, hover or focus on a gain; under reduced motion it never moves, outlines appear without tracing and the light is not lit. Under 64rem the second screen starts on a hairline, and each gain stands over its own cut of the app, the first the phone's, your machines the whole Overview with its address, each cut's outline traced once as it comes into view.
 
 ### Inline code
 A chip on `sunken` with its hairline drawn, 1px by 5px, so its padding never reads as a stray space.

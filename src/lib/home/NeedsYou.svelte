@@ -5,7 +5,8 @@
   // one as the page loads, by transform and opacity alone in the room they already hold, and stand still
   // for a browser asking for reduced motion (app.css). The first question carries its choices, as namp's
   // question does where it is answered in place: picking one, by a click or its number key, answers it, and
-  // it folds out of Needs you as an answered ask leaves it, the count one less.
+  // it folds out of Needs you as an answered ask leaves it, the count one less. `show` is how many of the
+  // demo's asks it lists, from the first; `onanswer` is told just before an answered ask folds out.
   import { tick } from "svelte";
   import { cubicOut } from "svelte/easing";
   import { slide } from "svelte/transition";
@@ -15,9 +16,12 @@
 
   /** @import { Ask, Choice } from "./demo.js" */
 
+  /** @type {{ show?: number, onanswer?: () => void }} */
+  let { show = asks.length, onanswer } = $props();
+
   /** @type {Record<string, string>} */
   let answered = $state({});
-  let open = $derived(asks.filter((a) => !(a.id in answered)));
+  let open = $derived(asks.slice(0, show).filter((a) => !(a.id in answered)));
   let said = $state("");
   /** @type {HTMLElement | undefined} */
   let heading = $state();
@@ -35,6 +39,7 @@
 
   /** @param {Ask} a @param {Choice} c */
   async function pick(a, c) {
+    onanswer?.();
     answered[a.id] = c.text;
     said = `Answered: ${c.text}. ${needWords(open.length)}`;
     // The focus was on a choice that is gone: it goes to the heading, where the count says what is left.
@@ -80,7 +85,7 @@
         {/if}
       </div>
     {/each}
-    <div class="item" style:--i={asks.length}>
+    <div class="item" style:--i={show}>
       <Headline {...reply} tone="replied" />
     </div>
   </div>
@@ -88,12 +93,9 @@
 </section>
 
 <style>
-  /* A panel of the page's ground floating over the screenshot, its asks lifted from it as on namp's Home. */
+  /* On the page's ground, as namp's Home lays it: no frame of its own, its asks lifted from the ground. */
   .needs-you {
-    padding: var(--sp-5) var(--sp-6) var(--sp-6);
-    border-radius: var(--r-md);
     background: var(--bg);
-    box-shadow: var(--shadow-2);
   }
 
   .top {
@@ -192,6 +194,14 @@
     text-align: left;
   }
 
+  /* On a touch screen a choice takes a finger: 44px tall. */
+  @media (pointer: coarse) {
+    .choice {
+      align-items: center;
+      min-height: 44px;
+    }
+  }
+
   .choice:hover {
     border-color: transparent;
     background: var(--hover);
@@ -245,17 +255,5 @@
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
-  }
-
-  /* On a phone the headlines run to the panel's edges, no frame round a frame narrowing their text. */
-  @media (max-width: 37.5rem) {
-    .needs-you {
-      overflow: hidden;
-      padding: var(--sp-4) 0;
-    }
-
-    .top {
-      padding-inline: var(--sp-4);
-    }
   }
 </style>
