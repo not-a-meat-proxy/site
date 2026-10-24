@@ -16,10 +16,12 @@ The tools come from `mise.toml` and the commands from the `justfile`; `just` lis
 - `just test` runs the tests: the built server against a fake S3, the tester script, the commit
   rule and the page's components. They need no bucket and no secret.
 - `just dev` serves the site with hot reload, against the bucket of the `S3_*` variables.
-- `bun run build`, then `PORT=3000 ORIGIN=http://localhost:3000 bun server.js`, runs the built
-  server as Railway does, against the bucket of the `S3_*` variables. Without `ORIGIN` or
-  `PROTOCOL_HEADER`, the server takes every request as https, so a plain-http run would put
-  `https://` in the installer's default site. On Railway, the Dockerfile sets
+- `bun run build`, then `PORT=3000 bun server.js`, runs the built server as Railway does, against
+  the bucket of the `S3_*` variables. It reads a request's origin from its `Host` header and its
+  protocol from the header `PROTOCOL_HEADER` names, else https: adapter-node 6 reads no `ORIGIN`
+  at run time. A plain-http run therefore puts `https://` in the installer's default site and the
+  tester's command, unless its requests carry that header, as `PROTOCOL_HEADER=x-forwarded-proto`
+  with `X-Forwarded-Proto: http`; `just dev` has none of this. On Railway, the Dockerfile sets
   `PROTOCOL_HEADER=x-forwarded-proto`.
 - `just tester add <name>` adds a tester and prints their invite link once, `just tester revoke
   <name>` ends it, and `just tester list` shows them. It reads and writes the bucket of the `S3_*`
@@ -28,6 +30,33 @@ The tools come from `mise.toml` and the commands from the `justfile`; `just` lis
 
 `main` takes changes only through a pull request, merged by squash, its title the commit's
 subject: a Conventional Commit, `type(scope): a prose sentence`.
+
+## Design
+
+PRODUCT.md and DESIGN.md at the root are what the site is for and how it looks, which impeccable
+reads before any design work. DESIGN.md follows namp's own, its frontmatter carrying
+`src/app.css`'s tokens by their roles, kept equal by `tests/components/design.test.js`: a new
+token goes into both.
+
+The design skill impeccable, v4.7.0 (tag skill-v4.7.0, commit aeeb3d8, engine v0.1.16), is
+vendored under `.claude/` as namp vendors it: the skill in `.claude/skills/impeccable/` and its
+four agents in `.claude/agents/impeccable-*.md`, as `npx impeccable install --providers=claude
+--scope=project` writes them, unmodified, under the Apache-2.0 licence (NOTICE.md). Its hooks, in
+`.claude/settings.json`, run `scripts/impeccable hook` on SessionStart, after each Edit or Write,
+and on Stop.
+
+The engine is not committed (`.gitignore`): the launcher downloads it once per machine into
+`~/.impeccable/bin/0.1.16/`, checked against the release's sha256, and that download is the only
+connection impeccable makes. The rest is switched off in `.claude/settings.json`'s `env` and in
+`.impeccable/config.json`: `DO_NOT_TRACK=1` and `IMPECCABLE_NO_TELEMETRY=1`, with `"telemetry":
+false`, stop its telemetry; `IMPECCABLE_API_TIMEOUT=0` stops the roll, the GET of /api/roll; and
+`IMPECCABLE_NO_UPDATE_CHECK=1`, with `"updateCheck": false`, stops the daily version check.
+`.impeccable/` keeps only `config.json` and the `design.json` sidecar in git, and none of it goes
+into the image (`.dockerignore`).
+
+To update it: `npx impeccable update` from this folder, with `HOME` pointed at a scratch folder,
+then move the hooks it writes into `.claude/settings.local.json` back into `.claude/settings.json`
+and update the version here and in NOTICE.md.
 
 ## Routes
 

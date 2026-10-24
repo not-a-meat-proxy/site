@@ -148,25 +148,23 @@ describe("the theme button", () => {
   });
 });
 
-describe("the hero's screenshots", () => {
+describe("the Overview's screenshots", () => {
   afterEach(cleanup);
 
-  test("one picture per theme, each wide with the phone's below 40rem, lazy so the hidden one is not fetched", async () => {
+  test("on the second screen, one picture per theme, lazy so the hidden one is not fetched", async () => {
     render(Page, { data: visitor });
     await tick();
-    const pictures = [...document.querySelectorAll(".shot picture")];
+    const pictures = [...document.querySelectorAll(".tour picture")];
     expect(
       pictures.map((p) => [
         p.classList[0],
-        p.querySelector("source").getAttribute("media"),
-        p.querySelector("source").getAttribute("srcset"),
         p.querySelector("img").getAttribute("src"),
         p.querySelector("img").getAttribute("loading"),
         Boolean(p.querySelector("img").getAttribute("alt")),
       ]),
     ).toEqual([
-      ["for-dark", "(max-width: 40rem)", "/shots/hero-phone-dark.webp", "/shots/hero-wide-dark.webp", "lazy", true],
-      ["for-light", "(max-width: 40rem)", "/shots/hero-phone-light.webp", "/shots/hero-wide-light.webp", "lazy", true],
+      ["for-dark", "/shots/hero-wide-dark.webp", "lazy", true],
+      ["for-light", "/shots/hero-wide-light.webp", "lazy", true],
     ]);
   });
 });
