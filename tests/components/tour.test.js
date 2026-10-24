@@ -120,8 +120,24 @@ describe("the tour moving on by itself", () => {
     expect(document.querySelector(".tour .said").textContent).toBe("");
   });
 
+  test("waits while the pointer rests on the gains, and moves on a full 4 seconds after it leaves", async () => {
+    render(Tour, { alt: "namp's Overview", shots });
+    inView();
+    const list = document.querySelector("[role=tablist]");
+    await fireEvent.pointerEnter(list);
+    vi.advanceTimersByTime(12000);
+    await tick();
+    expect(chosen()).toBe(0);
+    await fireEvent.pointerLeave(list);
+    vi.advanceTimersByTime(3900);
+    await tick();
+    expect(chosen()).toBe(0);
+    vi.advanceTimersByTime(100);
+    await tick();
+    expect(chosen()).toBe(1);
+  });
+
   test.each([
-    ["a hover", (list) => fireEvent.pointerEnter(list)],
     ["a focus", (list) => fireEvent.focusIn(list.querySelector("[role=tab]"))],
     ["a click", (list) => fireEvent.click(list.querySelectorAll("[role=tab]")[1])],
   ])("stops for good at the visitor's first %s on a gain", async (_, act) => {

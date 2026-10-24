@@ -3,8 +3,8 @@
   // does it. The gains are a tablist beside the whole Overview, the hero's screenshot with its sidebar cut away.
   // Choosing one traces its outline round that part, dims the rest as namp dims a page under its drawer, sets
   // namp's working light going round it and brings the part's rows in as namp's rows arrive. While the section is
-  // in view it moves to the next gain every 4 seconds, until the visitor's first click, hover or focus on a gain,
-  // and never for a browser asking for reduced motion. Below 64rem each gain stands over its own cut of the app,
+  // in view it moves to the next gain every 4 seconds, waiting while the pointer rests on the gains, until the
+  // visitor's first click or focus on one, and never for a browser asking for reduced motion. Below 64rem each gain stands over its own cut of the app,
   // its outline traced as it scrolls into view. The screenshots' addresses by theme are the page's --wide and
   // --phone (+page.svelte).
   import { onMount } from "svelte";
@@ -55,8 +55,15 @@
   const EVERY = 4000;
 
   let sel = $state(0);
-  // Whether the tour still moves on by itself: until the visitor's first click, hover or focus on a gain.
+  // Whether the tour still moves on by itself: until the visitor's first click or focus on a gain.
   let auto = $state(true);
+  // Whether the pointer rests on the gains: the tour waits, a cursor crossing them on its way to the call
+  // leaving it moving.
+  let over = false;
+  let seen = false;
+  let still = false;
+  /** @type {ReturnType<typeof setInterval> | undefined} */
+  let timer;
   let said = $state("");
   /** @type {HTMLElement | undefined} */
   let root = $state();
@@ -84,9 +91,23 @@
     if (told) said = `On the Overview: ${gains[sel].place}.`;
   }
 
+  // Moves on by itself while in view, the tour not taken in hand nor waiting on the pointer, a full 4 seconds
+  // after it last started.
+  function run() {
+    clearInterval(timer);
+    if (seen && auto && !over && !still) timer = setInterval(() => pick(sel + 1), EVERY);
+  }
+
   // The visitor took the tour in hand: it stops moving by itself, for good.
   function hold() {
     auto = false;
+    run();
+  }
+
+  /** @param {boolean} on */
+  function rest(on) {
+    over = on;
+    run();
   }
 
   /** @param {KeyboardEvent} e */
@@ -100,17 +121,15 @@
   }
 
   onMount(() => {
-    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    /** @type {ReturnType<typeof setInterval> | undefined} */
-    let timer;
-    const seen = new IntersectionObserver(
+    still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const view = new IntersectionObserver(
       ([e]) => {
-        clearInterval(timer);
-        if (e.isIntersecting && auto && !still) timer = setInterval(() => (auto ? pick(sel + 1) : clearInterval(timer)), EVERY);
+        seen = e.isIntersecting;
+        run();
       },
       { threshold: 0.4 },
     );
-    seen.observe(/** @type {HTMLElement} */ (root));
+    view.observe(/** @type {HTMLElement} */ (root));
     // The narrow layout's cuts trace their outline as they come into view, once.
     const cuts = new IntersectionObserver(
       (entries) => {
@@ -121,7 +140,7 @@
     for (const c of root?.querySelectorAll(".cut") ?? []) cuts.observe(c);
     return () => {
       clearInterval(timer);
-      seen.disconnect();
+      view.disconnect();
       cuts.disconnect();
     };
   });
@@ -133,7 +152,7 @@
     <p class="cost">Run a few agent sessions at once and you become their relay, approving work you've lost track of.</p>
 
     <!-- The gains as tabs, each showing its part of the Overview beside them. -->
-    <div class="gains" role="tablist" aria-label="What you gain" aria-orientation="vertical" tabindex="-1" onpointerenter={hold} onfocusin={hold}>
+    <div class="gains" role="tablist" aria-label="What you gain" aria-orientation="vertical" tabindex="-1" onpointerenter={() => rest(true)} onpointerleave={() => rest(false)} onfocusin={hold}>
       {#each gains as gain, i (gain.term)}
         <button
           type="button"
