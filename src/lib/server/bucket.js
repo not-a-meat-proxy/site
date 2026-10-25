@@ -34,3 +34,21 @@ export async function text(key) {
 export async function exists(key) {
   return ask(`HEAD ${key}`, () => bucket().file(key).exists());
 }
+
+// The object's bytes, or null when the bucket has no such key, as text() reads it.
+export async function bytes(key) {
+  return ask(`GET ${key}`, async () => {
+    try {
+      return await bucket().file(key).bytes();
+    } catch (err) {
+      if (err?.code === "NoSuchKey") return null;
+      throw err;
+    }
+  });
+}
+
+// The bucket key of a release's notes image, releases/<tag>/<name>, or null for a tag or a name
+// that is none (namp's docs/releases/<tag>/<name>).
+export function releaseImage(tag, name) {
+  return /^v\d+\.\d+\.\d+$/.test(tag) && /^[a-z0-9][a-z0-9-]*\.(webp|png)$/.test(name) ? `releases/${tag}/${name}` : null;
+}
