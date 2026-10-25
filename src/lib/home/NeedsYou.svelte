@@ -1,7 +1,7 @@
 <script>
-  // namp's Home Needs you, live over the hero's screenshot, as namp's Home.svelte draws it: its heading with
-  // the count of the asks and, beside it, the petrol bubble of the replies waiting for reading, then a
-  // headline per ask, then the reply. Its topics are demo topics, and say so. The headlines arrive one by
+  // namp's Needs you, live over the hero's screenshot where the Overview's own is, its heading as namp's
+  // Overview.svelte draws it: the count of the asks and, beside it, the petrol bubble of what waits for
+  // reading (ReadCount.svelte), then a headline per ask, as namp's Home lists them, then the reply. Its topics are demo topics, and say so. The headlines arrive one by
   // one as the page loads, by transform and opacity alone in the room they already hold, and stand still
   // for a browser asking for reduced motion (app.css). The first question carries its choices, as namp's
   // question does where it is answered in place: picking one, by a click or its number key, answers it, and
@@ -61,7 +61,7 @@
 <section class="needs-you" aria-labelledby="needs-you">
   <div class="top">
     <h2 id="needs-you" tabindex="-1" bind:this={heading}>
-      Needs you <span class="c ask"><span data-needs-count>{open.length}</span><span class="vh">{" "}{open.length > 1 ? "asks" : "ask"},{" "}</span></span><span class="n replied" title="1 reply to read">1<span class="vh">{" "}reply to read</span></span>
+      Needs you <span class="c ask"><span data-needs-count>{open.length}</span><span class="vh">{" "}{open.length > 1 ? "asks" : "ask"},{" "}</span></span><span class="n replied" title="1 reply or heads-up to read">1<span class="vh">{" "}reply or heads-up to read</span></span>
     </h2>
     <p class="demo">demo topics</p>
   </div>
@@ -104,16 +104,18 @@
     align-items: baseline;
     justify-content: space-between;
     gap: var(--sp-1) var(--sp-4);
-    margin-bottom: var(--sp-4);
+    margin-bottom: var(--sp-3);
   }
 
+  /* The Overview's heading: smaller than Home's, its counts close beside it. */
   h2 {
     display: flex;
     align-items: center;
-    gap: var(--sp-3);
+    gap: var(--sp-2);
     margin: 0;
-    font-size: var(--fs-xl);
-    line-height: 1.2;
+    font-size: var(--fs-lg);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
   }
 
   h2:focus {
@@ -124,29 +126,34 @@
     outline: 2px solid var(--accent);
   }
 
+  /* The asks' count, a 20px box on the ask's apricot, as the Overview's tally. */
   .c.ask {
-    padding: 0 9px;
+    display: inline-grid;
+    place-items: center;
+    box-sizing: border-box;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
     border-radius: var(--r-xs);
     background: var(--ask-count);
     color: var(--on-ask);
-    font-size: var(--fs-md);
+    font-size: var(--fs-xs);
     font-weight: var(--fw-strong);
     font-variant-numeric: tabular-nums;
-    line-height: 22px;
   }
 
-  /* The replies waiting, an outlined petrol bubble close beside the asks' box and as tall. */
+  /* What waits for reading, an outlined petrol bubble as tall as the asks' box. */
   .n.replied {
     display: inline-grid;
     place-items: center;
+    box-sizing: border-box;
     min-width: 20px;
-    height: 22px;
-    margin-left: calc(var(--sp-1) - var(--sp-3));
-    padding: 0 9px;
+    height: 20px;
+    padding: 0 6px;
     border-radius: var(--r-xs);
     box-shadow: inset 0 0 0 1px var(--accent);
     color: var(--accent-ink);
-    font: var(--fw-strong) var(--fs-md) / 1 var(--cond);
+    font: var(--fw-strong) var(--fs-xs) / 1 var(--cond);
   }
 
   .demo {
@@ -178,7 +185,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    margin: var(--sp-2) 0 0 -10px;
+    margin: var(--sp-2) 0 var(--sp-1) -10px;
   }
 
   .choice {
@@ -194,11 +201,10 @@
     text-align: left;
   }
 
-  /* On a touch screen a choice takes a finger: 44px tall. */
+  /* On a touch screen a choice is 44px tall to tap, its ring's 22px and 10px above and below. */
   @media (pointer: coarse) {
     .choice {
-      align-items: center;
-      min-height: 44px;
+      padding-block: 10px;
     }
   }
 
