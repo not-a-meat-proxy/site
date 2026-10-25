@@ -156,10 +156,14 @@ describe("the front page's notes", () => {
     }
   }
 
-  test("show a <tag>/<name> image from /releases/<tag>/<name>, with its alt text", async () => {
+  test("show a <tag>/<name> image from /releases/<tag>/<name>, with its alt text, loaded lazily and opening whole in a tab", async () => {
     const page = await rendered("![The drawer beside a canvas](v0.6.0/beside-dark.webp)\n\n![In Light](v0.6.0/beside-light.png \"Light\")\n");
-    expect(page).toContain('<img src="/releases/v0.6.0/beside-dark.webp" alt="The drawer beside a canvas">');
-    expect(page).toContain('<img src="/releases/v0.6.0/beside-light.png" alt="In Light" title="Light">');
+    expect(page).toContain(
+      '<a href="/releases/v0.6.0/beside-dark.webp" target="_blank" rel="noopener"><img src="/releases/v0.6.0/beside-dark.webp" alt="The drawer beside a canvas" loading="lazy"></a>',
+    );
+    expect(page).toContain(
+      '<a href="/releases/v0.6.0/beside-light.png" target="_blank" rel="noopener"><img src="/releases/v0.6.0/beside-light.png" alt="In Light" title="Light" loading="lazy"></a>',
+    );
     expect((await site.get("/releases/v0.6.0/beside-dark.webp", cookie(alice))).status).toBe(200);
   });
 

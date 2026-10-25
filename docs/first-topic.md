@@ -6,7 +6,7 @@ A topic holds one piece of work: its goal, the plan its session follows towards 
 
 Open the address `namp start` printed, `http://localhost:4321/__session/`. It opens on Home, a briefing across your topics since you left:
 
-- **Needs you**: only what waits for you to act, such as a question to answer, a goal to accept or a session that is blocked. A question, a reply or a heads-up opens its thread as a layer beside the briefing, where you answer it, its topic one click away by the arrow in the layer's head, **Open in** and the topic's title on hover. The rest opens in its topic.
+- **Needs you**: only what waits for you to act, such as a question to answer, a goal to accept or a session that is blocked. A question, a reply or a heads-up opens its thread as a layer beside the briefing, where you answer it. The arrow in the layer's head opens its topic. The rest opens in its topic.
 - **While you were away**: what came of each topic, what was done, decided, waits on you or is blocked, each marked at its left by who started it: you, the session, or a task the session handed out.
 - **Running now** and **Next**: what the sessions work on, and what their plans hold next.
 
@@ -63,7 +63,7 @@ Pick a choice with a click, or its number once the question has the focus, or ty
 
 A topic's conversation opens in the drawer at the right of its page, from **Threads**, the first card of its lane. **Needs you** lists the threads waiting for you to act. **With you** lists the threads you are in, and **Sessions** the sessions' talk among themselves. `j` and `k` move between the threads, and `Esc` hides the drawer.
 
-To write to a session from any page, press the pencil in the top bar, **New message**, or `m`. The box opens over the page with the current topic's session mentioned first, the Main session's off a topic. Send it with Ctrl+Enter, Cmd+Enter on a Mac: it goes as a thread to the first topic it mentions, and the page stays where it was.
+To write to a session from any page, press the pencil in the top bar, **New message**, or `m`. The box opens over the page with the current topic's session mentioned first, or the Main session when no topic is open. Send it with Ctrl+Enter, Cmd+Enter on a Mac: it goes as a thread to the first topic it mentions, and the page stays where it was.
 
 ## Archive a topic
 

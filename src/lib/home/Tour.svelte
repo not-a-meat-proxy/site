@@ -37,6 +37,8 @@
       text: "Agents for a role, work split across sessions, goals you check.",
       place: "the topic's goal, plan and squad",
       box: [964, 164, 316, 259],
+      // Its number at the top right corner: its left one is a few px from Needs you's outline, which it would cover.
+      corner: "right",
       rows: [[976, 171, 292, 69], [976, 250, 292, 89], [976, 349, 292, 67]],
       cut: { shot: "wide", x: 1276, y: 164, w: 316, h: 259 },
     },
@@ -215,8 +217,8 @@
       </div>
     {/key}
     {#each gains as gain, i (gain.term)}
-      {@const [x, y] = gain.box}
-      <span class="badge nb" class:on={sel === i} style="left:{(x / W) * 100}%;top:{(y / H) * 100}%" aria-hidden="true">{i + 1}</span>
+      {@const [x, y, w] = gain.box}
+      <span class="badge nb" class:on={sel === i} style="left:{((gain.corner === "right" ? x + w : x) / W) * 100}%;top:{(y / H) * 100}%" aria-hidden="true">{i + 1}</span>
     {/each}
     <span class="where" class:on={sel === gains.length - 1} aria-hidden="true">localhost:4321</span>
   </div>
