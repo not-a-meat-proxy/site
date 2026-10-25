@@ -6,11 +6,11 @@
   import Tour from "#lib/home/Tour.svelte";
   import { copyText } from "#lib/clipboard.js";
 
-  // namp's screenshots, from a trial server of namp at v0.5.0's tag, whose interface v0.5.1 ships unchanged, by
-  // theme: the wide one, a topic's Overview, under the hero and whole on the second screen; the phone's, the
-  // question answered in its thread, among the second screen's cuts on a narrow one.
+  // namp's screenshots, from a trial server of namp v0.6.0, by theme: the wide one, a topic's Overview, under the
+  // hero and whole on the second screen; the phone's, on an iPhone, the question opened as a layer from a thread
+  // that links it, among the second screen's cuts on a narrow one.
   const alt =
-    "A topic's Overview in namp: under Needs you its session asks which day an invoice set for the 31st goes out in a shorter month, and recommends the month's last day; today's timeline shows the session and three sibling sessions at work; the lane holds the topic's threads, goal, plan, squad and documents.";
+    "A topic's Overview in namp: under Needs you its session asks which day an invoice set for the 31st goes out in a shorter month, and recommends the month's last day; under it Recent with you, the owner's latest threads with the session; today's timeline shows the session and three sibling sessions at work; Since you were here counts 2 items done, 1 decision and 1 change; the lane holds the topic's threads, goal, plan, squad and documents.";
 
   const shots = {
     dark: { wide: { src: "/shots/hero-wide-dark.webp", width: 1600, height: 1000 } },
@@ -435,26 +435,29 @@
     }
   }
 
-  /* The spot: as wide as the Overview's own Needs you, 727px of the screenshot from its 430th, and on it
+  /* The spot: as wide as the Overview's own Needs you, 916px of the screenshot from its 344th, and on it
      Needs you, on the ground, a margin of its own round it lit. Behind it the Overview from the same place:
-     past the sidebar, 392px in, and under its header, 70px down, as the 1208 by 930 it shows of it. It lies
+     past the sidebar, 312px in, and under its header, 52px down, as the 1288 by 948 it shows of it. It lies
      dimmed under namp's --dim, fading into the ground at its left and its bottom, and runs off the page's
-     right edge. */
+     right edge. A column narrower than 916 --u narrows the spot: the Overview behind it then takes the spot's
+     own scale, its px the spot's width in 916ths, so its Needs you stays under the spot's. */
   .spot {
+    container-type: inline-size;
     position: relative;
-    width: min(100%, calc(727 * var(--u)));
+    width: min(100%, calc(916 * var(--u)));
   }
 
   .backdrop {
+    --u: calc(100cqw / 916);
     position: absolute;
     z-index: -1;
-    top: calc(-20 * var(--u));
-    left: calc(-38 * var(--u));
-    width: calc(1208 * var(--u));
+    top: calc(-24 * var(--u));
+    left: calc(-32 * var(--u));
+    width: calc(1288 * var(--u));
     /* Down to a little under Needs you, never past the screen's floor: the spot is centred in it, so the floor
        is half a screen and half the spot below the spot's middle. */
-    height: min(calc(100% + 116 * var(--u)), calc(50svh + 50% + 20 * var(--u)));
-    background: var(--wide) calc(-392 * var(--u)) calc(-70 * var(--u)) / calc(1600 * var(--u)) auto no-repeat;
+    height: min(calc(100% + 116 * var(--u)), calc(50svh + 50% + 24 * var(--u)));
+    background: var(--wide) calc(-312 * var(--u)) calc(-52 * var(--u)) / calc(1600 * var(--u)) auto no-repeat;
     mask-image:
       linear-gradient(90deg, transparent, var(--mask) calc(160 * var(--u))),
       linear-gradient(transparent, var(--mask) calc(120 * var(--u)), var(--mask) calc(100% - 120 * var(--u)), transparent);
@@ -488,10 +491,10 @@
     z-index: -1;
     top: 100%;
     left: calc(-64 * var(--u));
-    right: calc(-40 * var(--u));
+    right: calc(-28 * var(--u));
     height: 100svh;
     background: var(--bg);
-    mask-image: linear-gradient(90deg, var(--mask) calc(100% - 40 * var(--u)), transparent);
+    mask-image: linear-gradient(90deg, var(--mask) calc(100% - 28 * var(--u)), transparent);
     pointer-events: none;
   }
 

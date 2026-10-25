@@ -89,7 +89,7 @@ describe("the gains", () => {
     render(Tour, { alt: "namp's Overview", shots });
     await fireEvent.click(tabs()[3]);
     expect(document.querySelector(".where.on").textContent).toBe("localhost:4321");
-    expect(document.querySelector(".mark.on").getAttribute("width")).toBe(String(1208 - 2));
+    expect(document.querySelector(".mark.on").getAttribute("width")).toBe(String(1288 - 2));
   });
 });
 
