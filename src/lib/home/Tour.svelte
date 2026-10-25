@@ -26,7 +26,7 @@
     },
     {
       term: "Back in, in seconds",
-      text: "Goal, decisions and what waits for you, on one page.",
+      text: "What was done and decided since you left, on one line.",
       place: "Since you were here, what the topic did while you were away",
       box: [20, 918, 410, 46],
       rows: [[32, 930, 386, 22]],
