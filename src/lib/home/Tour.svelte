@@ -14,7 +14,7 @@
 
   // Places on the Overview as the screenshot shows it from its 312th px, its sidebar cut away: 1288 by 1000. A
   // gain's part (box), the rows in it that arrive (rows), and its cut for the narrow layout (cut, in the wide
-  // screenshot's own px, or the phone's).
+  // screenshot's CSS px, or the phone's). The first cut frames the phone layer's question and its choices.
   const gains = [
     {
       term: "One thing at a time",
@@ -22,7 +22,7 @@
       place: "Needs you",
       box: [20, 64, 940, 191],
       rows: [[32, 110, 916, 133]],
-      cut: { shot: "phone", x: 0, y: 0, w: 780, h: 884 },
+      cut: { shot: "phone", x: 0, y: 272, w: 780, h: 700 },
     },
     {
       term: "Back in, in seconds",
@@ -77,7 +77,8 @@
   /** @param {number[]} b */
   const row = ([x, y, w, h]) =>
     `${at([x, y, w, h])};--size:${(1600 / w) * 100}% auto;--pos:${((x + 312) / (1600 - w)) * 100}% ${(y / (1000 - h)) * 100}%`;
-  // A cut of the app for the narrow layout, in its screenshot's own px: the wide one 1600 by 1000, the phone's 780 by 1688.
+  // A cut of the app for the narrow layout, in its screenshot's px: the wide one's CSS px, 1600 by 1000 (its file is
+  // 2x, 3200 by 2000, sized by %), the phone's file px, 780 by 1688.
   /** @param {{ shot: string, x: number, y: number, w: number, h: number }} c */
   function cut({ shot, x, y, w, h }) {
     const [sw, sh] = shot === "phone" ? [780, 1688] : [1600, 1000];

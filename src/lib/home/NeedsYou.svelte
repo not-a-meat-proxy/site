@@ -238,8 +238,9 @@
     color: var(--on-accent);
   }
 
+  /* The choice's words take their own width, so Recommended stands right after them, as namp's Question has it,
+     however wide the card. */
   .choice-text {
-    flex: 1;
     min-width: 0;
   }
 

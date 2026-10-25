@@ -161,13 +161,15 @@
   /* The screenshot runs past the page's right edge: clipped here, it never widens the page into a sideways
      scroll. On main, as body's overflow would pass to the viewport. The screenshots' addresses by theme, read as
      backgrounds here and in the second screen (Tour.svelte), so only the theme's is fetched. */
-  /* --wash is how much of the ground lies over the hero's dimmed Overview, and --veil how strongly the second
-     screen dims the Overview round a gain's part: Light's scrim darkens a light screenshot into a grey slab, so
-     there the ground takes more of it and the veil is half as strong. */
+  /* --wash is how much of the ground lies over the hero's dimmed Overview, --shade the scrim under it, and --veil
+     how strongly the second screen dims the Overview round a gain's part: Light's scrim darkens a light
+     screenshot into a grey slab, so there the hero's Overview fades by the ground alone, its own ground then the
+     page's, and the veil is half as strong. */
   main {
     --wide: url("/shots/hero-wide-dark.webp");
     --phone: url("/shots/hero-phone-dark.webp");
     --wash: 30%;
+    --shade: var(--dim);
     --veil: 1;
     overflow-x: clip;
   }
@@ -175,7 +177,8 @@
   :global([data-theme="light"]) main {
     --wide: url("/shots/hero-wide-light.webp");
     --phone: url("/shots/hero-phone-light.webp");
-    --wash: 80%;
+    --wash: 74%;
+    --shade: transparent;
     --veil: 0.5;
   }
 
@@ -183,7 +186,8 @@
     :global(:root:not([data-theme])) main {
       --wide: url("/shots/hero-wide-light.webp");
       --phone: url("/shots/hero-phone-light.webp");
-      --wash: 80%;
+      --wash: 74%;
+      --shade: transparent;
       --veil: 0.5;
     }
   }
@@ -439,12 +443,21 @@
      Needs you, on the ground, a margin of its own round it lit. Behind it the Overview from the same place:
      past the sidebar, 312px in, and under its header, 52px down, as the 1288 by 948 it shows of it. It lies
      dimmed under namp's --dim, fading into the ground at its left and its bottom, and runs off the page's
-     right edge. A column narrower than 916 --u narrows the spot: the Overview behind it then takes the spot's
-     own scale, its px the spot's width in 916ths, so its Needs you stays under the spot's. */
+     right edge. Beside the words, the spot is narrower than its columns where it must be for the Overview's
+     lane to show beside it: 1180px of the Overview, Needs you, its gutter and most of the lane, fit from the
+     spot's left to the page's edge, the lane's end running off it. A column narrower than 916 --u narrows the
+     spot too. The Overview behind then takes the spot's own scale, its px the spot's width in 916ths, so its
+     Needs you stays under the spot's. */
   .spot {
     container-type: inline-size;
     position: relative;
     width: min(100%, calc(916 * var(--u)));
+  }
+
+  @media (min-width: 72rem) {
+    .spot {
+      width: min(100%, calc(916 * var(--u)), calc((100% + var(--gutter)) * 916 / 1180));
+    }
   }
 
   .backdrop {
@@ -465,15 +478,16 @@
     animation: arrive 900ms var(--ease-out) both 150ms;
   }
 
-  /* namp's scrim, and over it a wash of the ground (--wash): the Overview's lines lose their contrast in either
-     theme, where the scrim alone would only darken Light's into a grey slab round the lit Needs you. */
+  /* namp's scrim (--shade), and over it a wash of the ground (--wash): the Overview's lines lose their contrast
+     in either theme. Light has no scrim, which would only darken its ground into a grey slab round the lit
+     Needs you. */
   .backdrop::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
       linear-gradient(color-mix(in srgb, var(--bg) var(--wash), transparent) 0 0),
-      linear-gradient(var(--dim), var(--dim));
+      linear-gradient(var(--shade), var(--shade));
   }
 
   @keyframes arrive {
@@ -611,15 +625,26 @@
     padding-left: 20px;
   }
 
-  /* A notes image, served from /releases/<tag>/<name>: the column's width at most, on its own line, edged as
-     the hero's screenshots are. */
+  /* A notes image, served from /releases/<tag>/<name>: on its own line, the column's width at most and 80% of
+     the screen's height, so a wide shot keeps the column and a phone's stands at a phone's size, edged as the
+     hero's screenshots are. Images stand further apart than a paragraph's lines, and a run of them further
+     still from what follows, so each reads as a shot of its own and the run ends before the next heading. */
   .notes :global(img) {
     display: block;
+    width: auto;
     max-width: 100%;
     height: auto;
-    margin: var(--sp-2) 0;
+    max-height: 80svh;
     border-radius: var(--r-sm);
     box-shadow: 0 0 0 1px var(--line);
+  }
+
+  .notes :global(p:has(> img:only-child)) {
+    margin: var(--sp-6) 0;
+  }
+
+  .notes :global(p:has(> img:only-child) + :not(p:has(> img:only-child))) {
+    margin-top: var(--sp-10);
   }
 
   /* For a visitor, the second screen's call: what an invite gives, the call, what namp runs on. */
