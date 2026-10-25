@@ -608,6 +608,17 @@
     padding-left: 20px;
   }
 
+  /* A notes image, served from /releases/<tag>/<name>: the column's width at most, on its own line, edged as
+     the hero's screenshots are. */
+  .notes :global(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: var(--sp-2) 0;
+    border-radius: var(--r-sm);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+
   /* For a visitor, the second screen's call: what an invite gives, the call, what namp runs on. */
   .how {
     max-width: 44ch;
