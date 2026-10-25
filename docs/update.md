@@ -9,10 +9,10 @@ namp update --check
 ```
 
 ```text
-namp 0.5.1 is out, this is 0.4.1: namp update installs it.
+namp 0.6.0 is out, this is 0.5.1: namp update installs it.
 ```
 
-When you have the latest, it says `namp 0.5.1 is the latest release.` It only checks: it changes nothing.
+When you have the latest, it says `namp 0.6.0 is the latest release.` It only checks: it changes nothing.
 
 ## Update
 
@@ -21,8 +21,8 @@ namp update
 ```
 
 ```text
-namp 0.5.1 is installed in /Users/you/.local/bin/namp, in place of 0.4.1.
-The server on port 4321 runs 0.5.1 now: http://localhost:4321/__session/
+namp 0.6.0 is installed in /Users/you/.local/bin/namp, in place of 0.5.1.
+The server on port 4321 runs 0.6.0 now: http://localhost:4321/__session/
 ```
 
 It downloads the release for your machine, checks its sha256, and puts the new namp in place of the old one. When you have the latest already, it says so and changes nothing.
