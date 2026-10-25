@@ -6,7 +6,7 @@ A topic holds one piece of work: its goal, the plan its session follows towards 
 
 Open the address `namp start` printed, `http://localhost:4321/__session/`. It opens on Home, a briefing across your topics since you left:
 
-- **Needs you**: only what waits for you to act, such as a question to answer, a goal to accept or a session that is blocked. A click opens it in its topic, its thread in the drawer at the right, where you answer it.
+- **Needs you**: only what waits for you to act, such as a question to answer, a goal to accept or a session that is blocked. A question, a reply or a heads-up opens its thread as a layer beside the briefing, where you answer it. The arrow in the layer's head opens its topic. The rest opens in its topic.
 - **While you were away**: what came of each topic, what was done, decided, waits on you or is blocked, each marked at its left by who started it: you, the session, or a task the session handed out.
 - **Running now** and **Next**: what the sessions work on, and what their plans hold next.
 
@@ -27,11 +27,12 @@ Then press **Start the session**. namp opens the session in a new herdr tab and 
 
 ## Read a topic
 
-A topic opens on its **Overview**. The switcher in its top bar, which names the view you are on, lists its other views: its canvas and every other document, and **Files** for a topic on a project. `[` and `]` step through them. From the top, the Overview shows:
+A topic opens on its **Overview**. The switcher in its top bar, which names the view you are on, lists its other views: **Files** for a topic on a project, **Record**, its canvas and every other document. `[` and `]` step through them. From the top, the Overview shows:
 
 - **Needs you**, what waits for you in this topic;
+- **Recent with you**, the last five threads you are in that Needs you does not list, and **All threads**;
 - its work as a timeline, over **Today**, **2 hours** or the **Week**, a line for you, the session and each session it started: click a bar to see it in the drawer;
-- **Since you were here**, everything else that happened, the newest first: work started and done, decisions the session took, messages and what they led to, changes to the canvas. On your first visit it shows **The last 7 days**.
+- **Since you were here**, one line counting what came since your last visit, such as `3 done · 1 decided · 4 changes · Everything`. Each count opens what it counts, and **Everything** the Record view. On your first visit it reads **The last 7 days**.
 
 Where the work is going sits in the lane at the right of the page, on every view of the topic, a card per subject:
 
@@ -44,7 +45,11 @@ Where the work is going sits in the lane at the right of the page, on every view
 
 Click a card to open its subject whole in the drawer at the right, and again to hide it: the goal with each criterion and what shows it holds, the whole plan as a checklist, done and dropped checked off in place, who works on the topic, and each document with the changes you have not seen yet. `{` and `}` step through the subjects. The button under the cards folds them into pills, small squares with the same click; in a narrow window they are pills by themselves, and on a phone a row above the page.
 
-Nothing on the Overview asks you to mark it read: once it has been in view, it counts as seen, and the next time you come back the record starts after it. Click a piece of work to see where it came from and what it did, and a reference to a thread, a part of the canvas or a decision to unfold it in place. **Fold all** folds them again.
+Nothing on the Overview asks you to mark it read: once the Since you were here line has been in view, it counts as seen, and the next time you come back it counts from there.
+
+**Record**, after Overview and Files in the switcher, is the topic's whole record, the newest first: work started and done, decisions the session took, messages and what they led to, changes to the canvas. Its filters, All, Work, Decisions, Conversation and Changes, each count their rows. Click a piece of work to see where it came from and what it did.
+
+A link you follow, to a thread, a part of the canvas or a decision, opens as a layer, the page staying where you read it. It opens beside the page by default, and in a window 1000px wide or narrower it takes the drawer's place. **Followed links**, in **Settings** under **Appearance**, picks **Beside** or **Leaflet**, a column at the right. Close it, or press `Esc`, to come back to the link.
 
 When the session decides something without asking you, it says so in the record, with what it chose and why. If you would have chosen otherwise, press **Overrule**: the decision comes back to you as a question.
 
@@ -56,7 +61,9 @@ Pick a choice with a click, or its number once the question has the focus, or ty
 
 ## The conversation
 
-A topic's conversation opens in the drawer at the right of its page, from **Threads**, the first card of its lane. **Needs you** lists the threads waiting for you to act. **All** lists every thread, the sessions' talk among themselves included. `j` and `k` move between the threads, and `Esc` hides the drawer.
+A topic's conversation opens in the drawer at the right of its page, from **Threads**, the first card of its lane. **Needs you** lists the threads waiting for you to act. **With you** lists the threads you are in, and **Sessions** the sessions' talk among themselves. `j` and `k` move between the threads, and `Esc` hides the drawer.
+
+To write to a session from any page, press the pencil in the top bar, **New message**, or `m`. The box opens over the page with the current topic's session mentioned first, or the Main session when no topic is open. Send it with Ctrl+Enter, Cmd+Enter on a Mac: it goes as a thread to the first topic it mentions, and the page stays where it was.
 
 ## Archive a topic
 

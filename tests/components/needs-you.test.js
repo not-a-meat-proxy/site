@@ -4,6 +4,8 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render } from "@testing-library/svelte";
 import { tick } from "svelte";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import Page from "../../src/routes/+page.svelte";
 
 const visitor = { contact: "mailto:invites@example.com", site: "https://namp.example", invalid: false, tester: null, release: null };
@@ -14,6 +16,11 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
 });
+
+// A component's own rules, as its <style> writes them: happy-dom lays nothing out.
+const style = (path) => readFileSync(resolve(import.meta.dirname, "../..", path), "utf8").split("<style>")[1];
+/** @param {string} css @param {string} sel */
+const rule = (css, sel) => css.match(new RegExp(`(?:^|\\n)\\s*${sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} \\{([^}]*)\\}`))?.[1] ?? "";
 
 const count = () => document.querySelector("[data-needs-count]").textContent;
 const subjects = () => [...document.querySelectorAll(".needs-you .subject")].map((el) => el.textContent);
@@ -33,7 +40,7 @@ describe("Needs you on the home page", () => {
     expect(count()).toBe("3");
     expect(document.querySelector(".needs-you .n.replied").firstChild.textContent).toBe("1");
     // A screen reader hears what each count counts.
-    expect(document.querySelector("#needs-you").textContent.replace(/\s+/g, " ").trim()).toBe("Needs you 3 asks, 1 reply to read");
+    expect(document.querySelector("#needs-you").textContent.replace(/\s+/g, " ").trim()).toBe("Needs you 3 asks, 1 reply or heads-up to read");
     expect([...document.querySelectorAll(".needs-you .ask")].length).toBe(3 + 1);
     expect(subjects()[0]).toBe("When a schedule's day is the 31st, which day does it go out in a shorter month?");
   });
@@ -48,6 +55,20 @@ describe("Needs you on the home page", () => {
     ]);
     // The other question shows its recommended choice on a line, as namp's Home does.
     expect(document.querySelectorAll(".needs-you span.rec")[0].textContent).toBe("Recommended: The rate on the invoice's date");
+  });
+
+  test("the recommended tag stands right after its choice's words, however wide the card", () => {
+    const css = style("src/lib/home/NeedsYou.svelte");
+    expect(rule(css, ".choice")).toMatch(/display: flex/);
+    expect(rule(css, ".choice-text")).not.toMatch(/flex:/);
+    expect(rule(css, ".tag")).toMatch(/flex: none/);
+  });
+
+  test("beside the words, the spot leaves the Overview's lane in sight, and Light's Overview fades by the ground alone, with no scrim", () => {
+    const css = style("src/routes/+page.svelte");
+    expect(css).toMatch(/@media \(min-width: 72rem\) \{\s*\.spot \{\s*width: min\(100%, calc\(916 \* var\(--u\)\), calc\(\(100% \+ var\(--gutter\)\) \* 916 \/ 1180\)\);/);
+    expect(css.match(/--shade: [^;]+;/g)).toEqual(["--shade: var(--dim);", "--shade: transparent;", "--shade: transparent;"]);
+    expect(rule(css, ".backdrop::after")).toMatch(/linear-gradient\(var\(--shade\), var\(--shade\)\)/);
   });
 
   test("a click on a choice folds the question away and lowers the count, the focus on the heading", async () => {

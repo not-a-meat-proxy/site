@@ -7,7 +7,7 @@ These pages are for the testers of its private alpha.
 ## The pages
 
 - [Install namp](/docs/install): what you need, the command from your invite, and `namp start`.
-- [Your first topic](/docs/first-topic): Home's briefing, starting a topic, reading its Overview and its lane, answering a question, the conversation, and archiving a topic.
+- [Your first topic](/docs/first-topic): Home's briefing, starting a topic, reading its Overview, its Record and its lane, following a link, answering a question, the conversation and New message, and archiving a topic.
 - [Back up your data](/docs/backup): turning the backup on with a repository named in Settings, what it commits and when, and restoring on another machine.
 - [Update namp](/docs/update): moving to the latest release, and what happens to a running server.
 - [Report an issue](/docs/report-an-issue): the versions to give, which form to pick, and what happens next.
@@ -16,7 +16,7 @@ These pages are for the testers of its private alpha.
 
 - **Topic**: one piece of work, with its goal, its plan, its canvas, the questions asked in it and its threads.
 - **Session**: an agent session working on a topic, in a herdr pane. A topic has one, and it may start more for parts of the work.
-- **Overview**: the page a topic opens on: what needs you, its work as a timeline, and what happened since you were last there.
+- **Overview**: the page a topic opens on: what needs you, the threads you were in lately, its work as a timeline, and a line counting what came since you were last there.
 - **Lane**: the cards at the right of a topic's page, its threads, goal, plan, squad, pull request and documents, each opening in the drawer.
 - **Canvas**: the Markdown document a session writes for its topic: what it decided, what it did, what waits for you.
 - **Question**: a decision a session needs from you, with its context and its choices.

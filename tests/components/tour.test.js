@@ -3,6 +3,8 @@
 // browser asking for reduced motion.
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render } from "@testing-library/svelte";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { tick } from "svelte";
 import Tour from "../../src/lib/home/Tour.svelte";
 
@@ -89,7 +91,7 @@ describe("the gains", () => {
     render(Tour, { alt: "namp's Overview", shots });
     await fireEvent.click(tabs()[3]);
     expect(document.querySelector(".where.on").textContent).toBe("localhost:4321");
-    expect(document.querySelector(".mark.on").getAttribute("width")).toBe(String(1208 - 2));
+    expect(document.querySelector(".mark.on").getAttribute("width")).toBe(String(1288 - 2));
   });
 });
 
@@ -183,5 +185,27 @@ describe("on a narrow screen", () => {
     expect(items[0].querySelector(".cut").getAttribute("style")).toContain("var(--phone)");
     seen[1]([{ isIntersecting: true, target: cut }]);
     expect(cut.classList.contains("seen")).toBe(true);
+  });
+
+  test("the first cut frames the phone layer's question and its choices, below the layer's trail and quoted line", () => {
+    render(Tour, { alt: "namp's Overview", shots });
+    const style = document.querySelector(".list li .cut").getAttribute("style");
+    expect(style).toContain("aspect-ratio: 780 / 700;");
+    expect(style).toContain(`background-position: 0% ${(272 / (1688 - 700)) * 100}%;`);
+  });
+
+  // A WebP's size from its header, whichever of its three forms it takes.
+  /** @param {string} name */
+  function size(name) {
+    const b = readFileSync(resolve(import.meta.dirname, "../../static/shots", name));
+    const kind = b.toString("ascii", 12, 16);
+    if (kind === "VP8 ") return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+    if (kind === "VP8L") return [(b.readUInt32LE(21) & 0x3fff) + 1, ((b.readUInt32LE(21) >> 14) & 0x3fff) + 1];
+    return [b.readUIntLE(24, 3) + 1, b.readUIntLE(27, 3) + 1];
+  }
+
+  test.each(["dark", "light"])("the %s wide shot is at 2x, 3200 by 2000, so a cut stays sharp on a phone's screen; the page sizes it 1600 by 1000, the px its places are in", (theme) => {
+    expect(size(`hero-wide-${theme}.webp`)).toEqual([3200, 2000]);
+    expect([shots[theme].wide.width, shots[theme].wide.height]).toEqual([1600, 1000]);
   });
 });

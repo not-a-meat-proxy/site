@@ -6,11 +6,11 @@
   import Tour from "#lib/home/Tour.svelte";
   import { copyText } from "#lib/clipboard.js";
 
-  // namp's screenshots, from a trial server of namp at v0.5.0's tag, whose interface v0.5.1 ships unchanged, by
-  // theme: the wide one, a topic's Overview, under the hero and whole on the second screen; the phone's, the
-  // question answered in its thread, among the second screen's cuts on a narrow one.
+  // namp's screenshots, from a trial server of namp v0.6.0, by theme: the wide one, a topic's Overview, under the
+  // hero and whole on the second screen; the phone's, on an iPhone, the question opened as a layer from a thread
+  // that links it, among the second screen's cuts on a narrow one.
   const alt =
-    "A topic's Overview in namp: under Needs you its session asks which day an invoice set for the 31st goes out in a shorter month, and recommends the month's last day; today's timeline shows the session and three sibling sessions at work; the lane holds the topic's threads, goal, plan, squad and documents.";
+    "A topic's Overview in namp: under Needs you its session asks which day an invoice set for the 31st goes out in a shorter month, and recommends the month's last day; under it Recent with you, the owner's latest threads with the session; today's timeline shows the session and three sibling sessions at work; Since you were here counts 2 items done, 1 decision and 1 change; the lane holds the topic's threads, goal, plan, squad and documents.";
 
   const shots = {
     dark: { wide: { src: "/shots/hero-wide-dark.webp", width: 1600, height: 1000 } },
@@ -161,13 +161,15 @@
   /* The screenshot runs past the page's right edge: clipped here, it never widens the page into a sideways
      scroll. On main, as body's overflow would pass to the viewport. The screenshots' addresses by theme, read as
      backgrounds here and in the second screen (Tour.svelte), so only the theme's is fetched. */
-  /* --wash is how much of the ground lies over the hero's dimmed Overview, and --veil how strongly the second
-     screen dims the Overview round a gain's part: Light's scrim darkens a light screenshot into a grey slab, so
-     there the ground takes more of it and the veil is half as strong. */
+  /* --wash is how much of the ground lies over the hero's dimmed Overview, --shade the scrim under it, and --veil
+     how strongly the second screen dims the Overview round a gain's part: Light's scrim darkens a light
+     screenshot into a grey slab, so there the hero's Overview fades by the ground alone, its own ground then the
+     page's, and the veil is half as strong. */
   main {
     --wide: url("/shots/hero-wide-dark.webp");
     --phone: url("/shots/hero-phone-dark.webp");
     --wash: 30%;
+    --shade: var(--dim);
     --veil: 1;
     overflow-x: clip;
   }
@@ -175,7 +177,8 @@
   :global([data-theme="light"]) main {
     --wide: url("/shots/hero-wide-light.webp");
     --phone: url("/shots/hero-phone-light.webp");
-    --wash: 80%;
+    --wash: 74%;
+    --shade: transparent;
     --veil: 0.5;
   }
 
@@ -183,7 +186,8 @@
     :global(:root:not([data-theme])) main {
       --wide: url("/shots/hero-wide-light.webp");
       --phone: url("/shots/hero-phone-light.webp");
-      --wash: 80%;
+      --wash: 74%;
+      --shade: transparent;
       --veil: 0.5;
     }
   }
@@ -435,26 +439,38 @@
     }
   }
 
-  /* The spot: as wide as the Overview's own Needs you, 727px of the screenshot from its 430th, and on it
+  /* The spot: as wide as the Overview's own Needs you, 916px of the screenshot from its 344th, and on it
      Needs you, on the ground, a margin of its own round it lit. Behind it the Overview from the same place:
-     past the sidebar, 392px in, and under its header, 70px down, as the 1208 by 930 it shows of it. It lies
+     past the sidebar, 312px in, and under its header, 52px down, as the 1288 by 948 it shows of it. It lies
      dimmed under namp's --dim, fading into the ground at its left and its bottom, and runs off the page's
-     right edge. */
+     right edge. Beside the words, the spot is narrower than its columns where it must be for the Overview's
+     lane to show beside it: 1180px of the Overview, Needs you, its gutter and most of the lane, fit from the
+     spot's left to the page's edge, the lane's end running off it. A column narrower than 916 --u narrows the
+     spot too. The Overview behind then takes the spot's own scale, its px the spot's width in 916ths, so its
+     Needs you stays under the spot's. */
   .spot {
+    container-type: inline-size;
     position: relative;
-    width: min(100%, calc(727 * var(--u)));
+    width: min(100%, calc(916 * var(--u)));
+  }
+
+  @media (min-width: 72rem) {
+    .spot {
+      width: min(100%, calc(916 * var(--u)), calc((100% + var(--gutter)) * 916 / 1180));
+    }
   }
 
   .backdrop {
+    --u: calc(100cqw / 916);
     position: absolute;
     z-index: -1;
-    top: calc(-20 * var(--u));
-    left: calc(-38 * var(--u));
-    width: calc(1208 * var(--u));
+    top: calc(-24 * var(--u));
+    left: calc(-32 * var(--u));
+    width: calc(1288 * var(--u));
     /* Down to a little under Needs you, never past the screen's floor: the spot is centred in it, so the floor
        is half a screen and half the spot below the spot's middle. */
-    height: min(calc(100% + 116 * var(--u)), calc(50svh + 50% + 20 * var(--u)));
-    background: var(--wide) calc(-392 * var(--u)) calc(-70 * var(--u)) / calc(1600 * var(--u)) auto no-repeat;
+    height: min(calc(100% + 116 * var(--u)), calc(50svh + 50% + 24 * var(--u)));
+    background: var(--wide) calc(-312 * var(--u)) calc(-52 * var(--u)) / calc(1600 * var(--u)) auto no-repeat;
     mask-image:
       linear-gradient(90deg, transparent, var(--mask) calc(160 * var(--u))),
       linear-gradient(transparent, var(--mask) calc(120 * var(--u)), var(--mask) calc(100% - 120 * var(--u)), transparent);
@@ -462,15 +478,16 @@
     animation: arrive 900ms var(--ease-out) both 150ms;
   }
 
-  /* namp's scrim, and over it a wash of the ground (--wash): the Overview's lines lose their contrast in either
-     theme, where the scrim alone would only darken Light's into a grey slab round the lit Needs you. */
+  /* namp's scrim (--shade), and over it a wash of the ground (--wash): the Overview's lines lose their contrast
+     in either theme. Light has no scrim, which would only darken its ground into a grey slab round the lit
+     Needs you. */
   .backdrop::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
       linear-gradient(color-mix(in srgb, var(--bg) var(--wash), transparent) 0 0),
-      linear-gradient(var(--dim), var(--dim));
+      linear-gradient(var(--shade), var(--shade));
   }
 
   @keyframes arrive {
@@ -488,10 +505,10 @@
     z-index: -1;
     top: 100%;
     left: calc(-64 * var(--u));
-    right: calc(-40 * var(--u));
+    right: calc(-28 * var(--u));
     height: 100svh;
     background: var(--bg);
-    mask-image: linear-gradient(90deg, var(--mask) calc(100% - 40 * var(--u)), transparent);
+    mask-image: linear-gradient(90deg, var(--mask) calc(100% - 28 * var(--u)), transparent);
     pointer-events: none;
   }
 
@@ -606,6 +623,28 @@
   .notes :global(ul) {
     margin: 0;
     padding-left: 20px;
+  }
+
+  /* A notes image, served from /releases/<tag>/<name>: on its own line, the column's width at most and 80% of
+     the screen's height, so a wide shot keeps the column and a phone's stands at a phone's size, edged as the
+     hero's screenshots are. Images stand further apart than a paragraph's lines, and a run of them further
+     still from what follows, so each reads as a shot of its own and the run ends before the next heading. */
+  .notes :global(img) {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 80svh;
+    border-radius: var(--r-sm);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+
+  .notes :global(p:has(> img:only-child)) {
+    margin: var(--sp-6) 0;
+  }
+
+  .notes :global(p:has(> img:only-child) + :not(p:has(> img:only-child))) {
+    margin-top: var(--sp-10);
   }
 
   /* For a visitor, the second screen's call: what an invite gives, the call, what namp runs on. */

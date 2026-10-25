@@ -12,45 +12,47 @@
   /** @type {{ alt: string, shots: Record<string, { wide: { src: string, width: number, height: number } }>, call?: import("svelte").Snippet }} */
   let { alt, shots, call } = $props();
 
-  // Places on the Overview as the screenshot shows it from its 392nd px, its sidebar cut away: 1208 by 1000. A
+  // Places on the Overview as the screenshot shows it from its 312th px, its sidebar cut away: 1288 by 1000. A
   // gain's part (box), the rows in it that arrive (rows), and its cut for the narrow layout (cut, in the wide
-  // screenshot's own px, or the phone's).
+  // screenshot's CSS px, or the phone's). The first cut frames the phone layer's question and its choices.
   const gains = [
     {
       term: "One thing at a time",
       text: "The next decision a session needs, the most urgent first.",
       place: "Needs you",
-      box: [26, 84, 752, 232],
-      rows: [[38, 138, 727, 166]],
-      cut: { shot: "phone", x: 0, y: 0, w: 780, h: 590 },
+      box: [20, 64, 940, 191],
+      rows: [[32, 110, 916, 133]],
+      cut: { shot: "phone", x: 0, y: 272, w: 780, h: 700 },
     },
     {
       term: "Back in, in seconds",
-      text: "Goal, decisions and what waits for you, on one page.",
-      place: "Work today, the topic's timeline",
-      box: [26, 344, 752, 380],
-      rows: [[38, 405, 727, 45], [38, 450, 727, 42], [38, 492, 727, 42], [38, 534, 727, 43], [38, 577, 727, 43]],
-      cut: { shot: "wide", x: 418, y: 344, w: 752, h: 308 },
+      text: "What was done and decided since you left, on one line.",
+      place: "Since you were here, what the topic did while you were away",
+      box: [20, 918, 410, 46],
+      rows: [[32, 930, 386, 22]],
+      cut: { shot: "wide", x: 332, y: 913, w: 410, h: 56 },
     },
     {
       term: "Good practice, built in",
       text: "Agents for a role, work split across sessions, goals you check.",
       place: "the topic's goal, plan and squad",
-      box: [806, 202, 389, 329],
-      rows: [[818, 213, 365, 86], [818, 313, 365, 110], [818, 437, 365, 82]],
-      cut: { shot: "wide", x: 1198, y: 202, w: 389, h: 329 },
+      box: [964, 164, 316, 259],
+      // Its number at the top right corner: its left one is a few px from Needs you's outline, which it would cover.
+      corner: "right",
+      rows: [[976, 171, 292, 69], [976, 250, 292, 89], [976, 349, 292, 67]],
+      cut: { shot: "wide", x: 1276, y: 164, w: 316, h: 259 },
     },
     {
       term: "Your machines, your work",
       text: "No namp service in between. Nothing leaves unless you choose.",
       place: "the whole Overview, which namp serves on your machine",
-      box: [0, 0, 1208, 1000],
+      box: [0, 0, 1288, 1000],
       rows: [],
-      cut: { shot: "wide", x: 392, y: 0, w: 1208, h: 1000 },
+      cut: { shot: "wide", x: 312, y: 0, w: 1288, h: 1000 },
     },
   ];
 
-  const W = 1208;
+  const W = 1288;
   const H = 1000;
   const EVERY = 4000;
 
@@ -76,11 +78,12 @@
   // A row of the Overview over itself: the wide screenshot, sized and placed so the box shows that row.
   /** @param {number[]} b */
   const row = ([x, y, w, h]) =>
-    `${at([x, y, w, h])};--size:${(1600 / w) * 100}% auto;--pos:${((x + 392) / (1600 - w)) * 100}% ${(y / (1000 - h)) * 100}%`;
-  // A cut of the app for the narrow layout, in its screenshot's own px: the wide one 1600 by 1000, the phone's 780 by 975.
+    `${at([x, y, w, h])};--size:${(1600 / w) * 100}% auto;--pos:${((x + 312) / (1600 - w)) * 100}% ${(y / (1000 - h)) * 100}%`;
+  // A cut of the app for the narrow layout, in its screenshot's px: the wide one's CSS px, 1600 by 1000 (its file is
+  // 2x, 3200 by 2000, sized by %), the phone's file px, 780 by 1688.
   /** @param {{ shot: string, x: number, y: number, w: number, h: number }} c */
   function cut({ shot, x, y, w, h }) {
-    const [sw, sh] = shot === "phone" ? [780, 975] : [1600, 1000];
+    const [sw, sh] = shot === "phone" ? [780, 1688] : [1600, 1000];
     const pos = (o, s, d) => (s === d ? 0 : (o / (s - d)) * 100);
     return `aspect-ratio:${w}/${h};background-image:var(--${shot});background-size:${(sw / w) * 100}% auto;background-position:${pos(x, sw, w)}% ${pos(y, sh, h)}%`;
   }
@@ -214,8 +217,8 @@
       </div>
     {/key}
     {#each gains as gain, i (gain.term)}
-      {@const [x, y] = gain.box}
-      <span class="badge nb" class:on={sel === i} style="left:{(x / W) * 100}%;top:{(y / H) * 100}%" aria-hidden="true">{i + 1}</span>
+      {@const [x, y, w] = gain.box}
+      <span class="badge nb" class:on={sel === i} style="left:{((gain.corner === "right" ? x + w : x) / W) * 100}%;top:{(y / H) * 100}%" aria-hidden="true">{i + 1}</span>
     {/each}
     <span class="where" class:on={sel === gains.length - 1} aria-hidden="true">localhost:4321</span>
   </div>
@@ -322,14 +325,14 @@
     white-space: nowrap;
   }
 
-  /* The Overview: the screenshot from its 392nd px, as tall as the screen's padding leaves, on the ground's
+  /* The Overview: the screenshot from its 312th px, as tall as the screen's padding leaves, on the ground's
      hairline and corners. */
   .over {
     grid-column: 6 / -1;
     justify-self: end;
     position: relative;
-    width: min(100%, (100svh - 2 * clamp(var(--sp-10), 7svh, 80px)) * 1208 / 1000);
-    aspect-ratio: 1208 / 1000;
+    width: min(100%, (100svh - 2 * clamp(var(--sp-10), 7svh, 80px)) * 1288 / 1000);
+    aspect-ratio: 1288 / 1000;
   }
 
   .frame {
@@ -342,10 +345,10 @@
 
   .frame img {
     display: block;
-    width: calc(100% * 1600 / 1208);
+    width: calc(100% * 1600 / 1288);
     max-width: none;
     height: auto;
-    margin-left: calc(-100% * 392 / 1208);
+    margin-left: calc(-100% * 312 / 1288);
   }
 
   .marks,

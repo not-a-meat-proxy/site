@@ -35,7 +35,7 @@ export async function fakeS3(bucket = "namp") {
     requests,
     endpoint,
     refuse: (on = true) => (refusing = on),
-    put: (key, body) => objects.set(key, Buffer.from(typeof body === "string" ? body : JSON.stringify(body))),
+    put: (key, body) => objects.set(key, Buffer.isBuffer(body) ? body : Buffer.from(typeof body === "string" ? body : JSON.stringify(body))),
     json: (key) => JSON.parse(objects.get(key).toString()),
     env: { S3_ENDPOINT: endpoint, S3_BUCKET: bucket, S3_ACCESS_KEY_ID: "test", S3_SECRET_ACCESS_KEY: "test-secret", S3_REGION: "us-east-1" },
     close: () => new Promise((done) => server.close(done)),
