@@ -165,7 +165,7 @@
     user-select: none;
   }
 
-  /* namp's plan sign (ui/src/lib/overview/PlanSign.svelte), its three shapes drawn in one place and the
+  /* namp's plan sign (ui/src/lib/topic/PlanSign.svelte), its three shapes drawn in one place and the
      mark's state showing one: done a filled disc with a check, running a turning arc on a track, planned a
      ring. Smaller than namp's 16px, to stay under the text. */
   article :global(.ps) {

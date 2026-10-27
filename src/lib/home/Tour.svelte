@@ -1,59 +1,51 @@
 <script>
-  // The front page's second screen: why namp, and what you gain, each shown on the part of namp's Overview that
-  // does it. The gains are a tablist beside the whole Overview, the hero's screenshot with its sidebar cut away.
+  // The front page's second screen: why namp, and what you gain, each shown on the part of a topic's canvas page
+  // that does it. The gains are a tablist beside the whole page, the tour's screenshot with its sidebar cut away.
   // Choosing one traces its outline round that part, dims the rest as namp dims a page under its drawer, sets
   // namp's working light going round it and brings the part's rows in as namp's rows arrive. While the section is
   // in view it moves to the next gain every 4 seconds, waiting while the pointer rests on the gains, until the
-  // visitor's first click or focus on one, and never for a browser asking for reduced motion. Below 64rem each gain stands over its own cut of the app,
-  // its outline traced as it scrolls into view. The screenshots' addresses by theme are the page's --wide and
-  // --phone (+page.svelte).
+  // visitor's first click or focus on one, and never for a browser asking for reduced motion. Below 72rem each
+  // gain stands over its own cut of the app, its outline traced as it scrolls into view. The screenshots'
+  // addresses by theme are the page's --tour and --tour-phone-* (+page.svelte), their places in places.js.
   import { onMount } from "svelte";
+  import { PHONE, tour, WIDE } from "./places.js";
 
   /** @type {{ alt: string, shots: Record<string, { wide: { src: string, width: number, height: number } }>, call?: import("svelte").Snippet }} */
   let { alt, shots, call } = $props();
 
-  // Places on the Overview as the screenshot shows it from its 312th px, its sidebar cut away: 1288 by 1000. A
-  // gain's part (box), the rows in it that arrive (rows), and its cut for the narrow layout (cut, in the wide
-  // screenshot's CSS px, or the phone's). The first cut frames the phone layer's question and its choices.
+  // Each gain on its places, the page's parts in the shot's px: a gain's parts (boxes), the rows in them that
+  // arrive (rows), its cut for the narrow layout (cut), and the corner of its first part its number takes.
   const gains = [
     {
       term: "One thing at a time",
-      text: "The next decision a session needs, the most urgent first.",
-      place: "Needs you",
-      box: [20, 64, 940, 191],
-      rows: [[32, 110, 916, 133]],
-      cut: { shot: "phone", x: 0, y: 272, w: 780, h: 700 },
-    },
-    {
-      term: "Back in, in seconds",
-      text: "What was done and decided since you left, on one line.",
-      place: "Since you were here, what the topic did while you were away",
-      box: [20, 918, 410, 46],
-      rows: [[32, 930, 386, 22]],
-      cut: { shot: "wide", x: 332, y: 913, w: 410, h: 56 },
+      text: "Each ask marked where it's asked, and the canvas bar steps you through them.",
+      place: "the asks' marks in the gutter and the canvas bar",
+      ...tour.gains.asks,
     },
     {
       term: "Good practice, built in",
-      text: "Agents for a role, work split across sessions, goals you check.",
-      place: "the topic's goal, plan and squad",
-      box: [964, 164, 316, 259],
-      // Its number at the top right corner: its left one is a few px from Needs you's outline, which it would cover.
-      corner: "right",
-      rows: [[976, 171, 292, 69], [976, 250, 292, 89], [976, 349, 292, 67]],
-      cut: { shot: "wide", x: 1276, y: 164, w: 316, h: 259 },
+      text: "A goal with criteria you check, its work split across sibling sessions.",
+      place: "the lane's Goal and Work",
+      ...tour.gains.lane,
+    },
+    {
+      term: "Back in, in seconds",
+      text: "Who did what today, and what was done and decided since you left.",
+      place: "Timeline, and Since you were here",
+      ...tour.gains.timeline,
     },
     {
       term: "Your machines, your work",
       text: "No namp service in between. Nothing leaves unless you choose.",
-      place: "the whole Overview, which namp serves on your machine",
-      box: [0, 0, 1288, 1000],
-      rows: [],
-      cut: { shot: "wide", x: 312, y: 0, w: 1288, h: 1000 },
+      place: "the whole page, which namp serves on your machine",
+      ...tour.gains.page,
     },
   ];
 
-  const W = 1288;
-  const H = 1000;
+  // The frame: the shot from past the sidebar.
+  const X = tour.from;
+  const W = WIDE.w - X;
+  const H = WIDE.h;
   const EVERY = 4000;
 
   let sel = $state(0);
@@ -72,26 +64,32 @@
   /** @type {HTMLElement[]} */
   const tabs = $state([]);
 
-  // A position on the Overview, in % of its frame.
+  // A place of the shot, in the frame, in its px.
   /** @param {number[]} b */
-  const at = ([x, y, w, h]) => `left:${(x / W) * 100}%;top:${(y / H) * 100}%;width:${(w / W) * 100}%;height:${(h / H) * 100}%`;
-  // A row of the Overview over itself: the wide screenshot, sized and placed so the box shows that row.
+  const frame = ([x, y, w, h]) => [x - X, y, w, h];
+  // A position in the frame, in % of it.
+  /** @param {number[]} b */
+  const at = (b) => {
+    const [x, y, w, h] = frame(b);
+    return `left:${(x / W) * 100}%;top:${(y / H) * 100}%;width:${(w / W) * 100}%;height:${(h / H) * 100}%`;
+  };
+  // A row of the page over itself: the tour's shot, sized and placed so the box shows that row.
   /** @param {number[]} b */
   const row = ([x, y, w, h]) =>
-    `${at([x, y, w, h])};--size:${(1600 / w) * 100}% auto;--pos:${((x + 312) / (1600 - w)) * 100}% ${(y / (1000 - h)) * 100}%`;
-  // A cut of the app for the narrow layout, in its screenshot's px: the wide one's CSS px, 1600 by 1000 (its file is
-  // 2x, 3200 by 2000, sized by %), the phone's file px, 780 by 1688.
-  /** @param {{ shot: string, x: number, y: number, w: number, h: number }} c */
+    `${at([x, y, w, h])};--size:${(WIDE.w / w) * 100}% auto;--pos:${(x / (WIDE.w - w)) * 100}% ${(y / (WIDE.h - h)) * 100}%`;
+  // A cut for the narrow layout, of the tour's wide shot or of a phone shot (shot), in its CSS px (its file is 2x
+  // or 3x, sized by %). Every cut shows at the one width the list gives it, a phone shot's scaled up to it.
+  /** @param {{ shot?: string, x: number, y: number, w: number, h: number }} c */
   function cut({ shot, x, y, w, h }) {
-    const [sw, sh] = shot === "phone" ? [780, 1688] : [1600, 1000];
-    const pos = (o, s, d) => (s === d ? 0 : (o / (s - d)) * 100);
-    return `aspect-ratio:${w}/${h};background-image:var(--${shot});background-size:${(sw / w) * 100}% auto;background-position:${pos(x, sw, w)}% ${pos(y, sh, h)}%`;
+    const of = shot ? PHONE[/** @type {keyof typeof PHONE} */ (shot)] : WIDE;
+    const pos = (/** @type {number} */ o, /** @type {number} */ s, /** @type {number} */ d) => (s === d ? 0 : (o / (s - d)) * 100);
+    return `aspect-ratio:${w}/${h};background-image:var(--tour${shot ? `-${shot}` : ""});background-size:${(of.w / w) * 100}% auto;background-position:${pos(x, of.w, w)}% ${pos(y, of.h, h)}%`;
   }
 
   /** @param {number} i @param {boolean} [told] */
   function pick(i, told = false) {
     sel = (i + gains.length) % gains.length;
-    if (told) said = `On the Overview: ${gains[sel].place}.`;
+    if (told) said = `On the canvas page: ${gains[sel].place}.`;
   }
 
   // Moves on by itself while in view, the tour not taken in hand nor waiting on the pointer, a full 4 seconds
@@ -154,7 +152,7 @@
     <h2 id="why">Agents work in parallel. You don't.</h2>
     <p class="cost">Run a few agent sessions at once and you become their relay, approving work you've lost track of.</p>
 
-    <!-- The gains as tabs, each showing its part of the Overview beside them. -->
+    <!-- The gains as tabs, each showing its part of the canvas page beside them. -->
     <div class="gains" role="tablist" aria-label="What you gain" aria-orientation="vertical" tabindex="-1" onpointerenter={() => rest(true)} onpointerleave={() => rest(false)} onfocusin={hold}>
       {#each gains as gain, i (gain.term)}
         <button
@@ -163,7 +161,7 @@
           class="gain"
           id="gain-{i}"
           aria-selected={sel === i}
-          aria-controls="overview"
+          aria-controls="canvas-page"
           tabindex={sel === i ? 0 : -1}
           bind:this={tabs[i]}
           onclick={() => (hold(), pick(i, true))}
@@ -177,7 +175,7 @@
     </div>
     <p class="said" aria-live="polite">{said}</p>
 
-    <!-- Below 64rem: each gain over its own cut of the app. -->
+    <!-- Below 72rem: each gain over its own cut of the app. -->
     <ol class="list">
       {#each gains as gain, i (gain.term)}
         <li>
@@ -195,7 +193,7 @@
     {@render call?.()}
   </div>
 
-  <div class="over" id="overview" role="tabpanel" aria-labelledby="gain-{sel}">
+  <div class="over" id="canvas-page" role="tabpanel" style:--x={X} style:--fw={W} style:--fh={H} style:--sw={WIDE.w} aria-labelledby="gain-{sel}">
     <figure class="frame">
       {#each Object.entries(shots) as [name, shot] (name)}
         <picture class="for-{name}">
@@ -205,27 +203,29 @@
     </figure>
     <svg class="marks" viewBox="0 0 {W} {H}" aria-hidden="true">
       {#each gains as gain, i (gain.term)}
-        {@const [x, y, w, h] = gain.box}
-        {#if w < W}<path class="veil" class:on={sel === i} d="M0 0H{W}V{H}H0Z M{x} {y}v{h}h{w}v{-h}Z" />{/if}
-        <rect class="mark" class:on={sel === i} x={x + 1} y={y + 1} width={w - 2} height={h - 2} rx="8" pathLength="1" />
+        {@const boxes = gain.boxes.map(frame)}
+        {#if boxes[0][2] < W}<path class="veil" class:on={sel === i} d="M0 0H{W}V{H}H0Z {boxes.map(([x, y, w, h]) => `M${x} ${y}v${h}h${w}v${-h}Z`).join(' ')}" />{/if}
+        <g class="mark" class:on={sel === i}>
+          {#each boxes as [x, y, w, h], n (n)}<rect x={x + 1} y={y + 1} width={w - 2} height={h - 2} rx="8" pathLength="1" />{/each}
+        </g>
       {/each}
     </svg>
     {#key sel}
       <div class="rows" aria-hidden="true">
         {#each gains[sel].rows as r, n (n)}<span class="row" style="{row(r)};--n:{n}"></span>{/each}
-        <span class="glow" style={at(gains[sel].box)}></span>
+        {#each gains[sel].boxes as b, n (n)}<span class="glow" style={at(b)}></span>{/each}
       </div>
     {/key}
     {#each gains as gain, i (gain.term)}
-      {@const [x, y, w] = gain.box}
-      <span class="badge nb" class:on={sel === i} style="left:{((gain.corner === "right" ? x + w : x) / W) * 100}%;top:{(y / H) * 100}%" aria-hidden="true">{i + 1}</span>
+      {@const [x, y, , h] = frame(gain.boxes[0])}
+      <span class="badge nb" class:on={sel === i} style="left:{(x / W) * 100}%;top:{((gain.corner === "bottom" ? y + h : y) / H) * 100}%" aria-hidden="true">{i + 1}</span>
     {/each}
     <span class="where" class:on={sel === gains.length - 1} aria-hidden="true">localhost:4321</span>
   </div>
 </section>
 
 <style>
-  /* A full screen at least, its two columns centred in it: the words and the call in columns 1 to 5, the Overview
+  /* A full screen at least, its two columns centred in it: the words and the call in columns 1 to 5, the page
      from column 6 as tall as the screen lets it be. */
   .tour {
     align-items: center;
@@ -325,14 +325,14 @@
     white-space: nowrap;
   }
 
-  /* The Overview: the screenshot from its 312th px, as tall as the screen's padding leaves, on the ground's
-     hairline and corners. */
+  /* The canvas page: the screenshot from past its sidebar (--x), --fw by --fh of its px, as tall as the screen's
+     padding leaves, on the ground's hairline and corners. */
   .over {
     grid-column: 6 / -1;
     justify-self: end;
     position: relative;
-    width: min(100%, (100svh - 2 * clamp(var(--sp-10), 7svh, 80px)) * 1288 / 1000);
-    aspect-ratio: 1288 / 1000;
+    width: min(100%, (100svh - 2 * clamp(var(--sp-10), 7svh, 80px)) * var(--fw) / var(--fh));
+    aspect-ratio: var(--fw) / var(--fh);
   }
 
   .frame {
@@ -345,10 +345,10 @@
 
   .frame img {
     display: block;
-    width: calc(100% * 1600 / 1288);
+    width: calc(100% * var(--sw) / var(--fw));
     max-width: none;
     height: auto;
-    margin-left: calc(-100% * 312 / 1288);
+    margin-left: calc(-100% * var(--x) / var(--fw));
   }
 
   .marks,
@@ -376,7 +376,7 @@
   .mark {
     fill: none;
     stroke: var(--accent);
-    /* In the Overview's own px, its frame as wide as the screen lets it be: about 2.5px on the page. */
+    /* In the shot's own px, its frame as wide as the screen lets it be: about 2.5px on the page. */
     stroke-width: 3;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
@@ -402,7 +402,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--wide) var(--pos) / var(--size) no-repeat;
+    background: var(--tour) var(--pos) / var(--size) no-repeat;
     animation: arrive-row 520ms var(--ease-out) calc(var(--n) * 90ms) both;
   }
 
@@ -498,12 +498,14 @@
     transition-delay: 400ms;
   }
 
-  /* The narrow layout's list, hidden beside the Overview. */
+  /* The narrow layout's list, hidden beside the page. */
   .list {
     display: none;
   }
 
-  @media (max-width: 63.99rem) {
+  /* Under 72rem, where the hero stacks too, the page beside the gains would be too small to read its lane's
+     cards: each gain stands over its own cut instead. */
+  @media (max-width: 71.99rem) {
     .tour {
       min-height: 0;
       padding-block: var(--sp-12);

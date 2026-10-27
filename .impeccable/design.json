@@ -1282,7 +1282,7 @@
       {
         "name": "shadow-lift",
         "value": "var(--shadow-lift)",
-        "purpose": "Lift: what needs the reader, a Needs you card, a docs note."
+        "purpose": "Lift: what needs the reader, the drawer's row, a docs note."
       },
       {
         "name": "shadow-2",
@@ -1309,7 +1309,7 @@
       {
         "name": "arrive-row",
         "value": "520ms ease-out, 10px up and from 0 opacity",
-        "purpose": "namp's rows arriving one after another: Needs you's cards, the tour's rows."
+        "purpose": "namp's rows arriving one after another: the drawer's question, the tour's rows."
       },
       {
         "name": "work-turn",
@@ -1439,7 +1439,7 @@
       },
       {
         "name": "The One Grid Rule",
-        "body": "Every block of a page starts on the same left edge and its columns share the same lines: a heading, its text, a row of points and a call line up, or they differ by a step of the grid on purpose. The front page's grid is 12 columns between the gutters, `--sp-6` apart (`--sp-4` on a phone): on the first screen what namp is and the call in columns 1 to 5, and from column 6 namp's Overview, dimmed and running off the page's right edge, with Needs you lit in it; on the second the why, the gains and the call in columns 1 to 5, and the whole Overview from column 6; for a tester, after them, the two steps in columns 1 to 5 under a heading across the grid, and what to know from column 6. Each screen is the window's height at least, its blocks centred in it; content taller than the window keeps its natural height. Under 64rem every block takes the whole width and the second screen keeps its natural height, and the first view stacks under 72rem, where Needs you would squeeze its choices.",
+        "body": "Every block of a page starts on the same left edge and its columns share the same lines: a heading, its text, a row of points and a call line up, or they differ by a step of the grid on purpose. The front page's grid is 12 columns between the gutters, `--sp-6` apart (`--sp-4` on a phone): on the first screen what namp is and the call in columns 1 to 5, and from column 6 to the window's right edge a topic's canvas page, dimmed, with namp's drawer lit at its right; on the second the why, the gains and the call in columns 1 to 5, and the whole canvas page from column 6; for a tester, after them, the two steps in columns 1 to 5 under a heading across the grid, and what to know from column 6. Each screen is the window's height at least, its blocks centred in it; content taller than the window keeps its natural height. Under 64rem every block takes the whole width and the second screen keeps its natural height, and the first view stacks under 72rem, where the drawer would squeeze the words.",
         "section": "layout"
       },
       {
