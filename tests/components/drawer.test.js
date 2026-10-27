@@ -83,7 +83,7 @@ describe("the drawer on the home page", () => {
     await page();
     await fireEvent.click(choices()[1]);
     await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
-    expect(document.querySelectorAll("[data-question]")).toHaveLength(1);
+    expect(document.querySelectorAll(".thread:not(.ghost) [data-question]")).toHaveLength(1);
     expect(text("[data-count]")).toBe("2");
     expect(text("[data-needs]")).toBe("2");
     expect(text(".who")).toBe("Recurring invoices14:12");
@@ -95,7 +95,7 @@ describe("the drawer on the home page", () => {
       ["UTC", false],
     ]);
     expect(document.activeElement).toBe(question());
-    expect(text(".said")).toBe("Answered: The 1st of the next month. 2 waiting for you, next: A client has no time zone set: whose 09:00 does its invoice go out at?.");
+    expect(text(".said")).toBe("Answered: The 1st of the next month. 2 waiting for you, next: A client has no time zone set: whose 09:00 does its invoice go out at?");
   });
 
   test("once both are answered, the drawer shows what is left, the review, and the focus is on its title", async () => {
@@ -144,6 +144,45 @@ describe("the drawer on the home page", () => {
     expect(rule(phone, ".lit")).toMatch(/min-height: var\(--held, 0px\);\s*transition: min-height 240ms/);
     expect(rule(phone, ".lit.fit")).toMatch(/min-height: 0;/);
     expect(rule(phone, ".hero")).toMatch(/min-height: 0;\s*padding-block: 72px 0;/);
+  });
+
+  test("a picked choice shows picked, its ring filled, in the moment before the question folds out", async () => {
+    vi.stubGlobal("matchMedia", (q) => ({ matches: false, media: q, addEventListener() {}, removeEventListener() {} }));
+    vi.useFakeTimers();
+    try {
+      await page();
+      await fireEvent.click(choices()[1]);
+      expect(choices().map((b) => b.classList.contains("picked"))).toEqual([false, true, false]);
+      await fireEvent.click(choices()[0]);
+      expect(choices().map((b) => b.classList.contains("picked"))).toEqual([false, true, false]);
+      // The fold itself at once, so no animation is left running once the test is done.
+      vi.stubGlobal("matchMedia", (q) => ({ matches: q.includes("reduce"), media: q, addEventListener() {}, removeEventListener() {} }));
+      await vi.advanceTimersByTimeAsync(180);
+      expect(text("[data-count]")).toBe("2");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  test("the question shows the site's one focus ring when the keyboard reaches it, never hiding it", () => {
+    expect(rule(style("src/lib/home/Question.svelte"), ".question-box")).not.toMatch(/outline/);
+    expect(readFileSync(resolve(import.meta.dirname, "../../src/app.css"), "utf8")).toMatch(/:focus-visible \{\s*outline: 2px solid var\(--accent\);\s*outline-offset: 2px;/);
+  });
+
+  test("every question's thread lies unseen in the live one's place, so the drawer is as tall for D4's question as for the 31st's", async () => {
+    await page();
+    const cell = drawer().querySelector(".threads");
+    const ghosts = [...cell.querySelectorAll(":scope > .thread.ghost")];
+    expect(ghosts.map((g) => g.querySelector("[data-question]").dataset.question)).toEqual(["invoice-day", "no-time-zone"]);
+    expect(ghosts.every((g) => g.inert && g.getAttribute("aria-hidden") === "true")).toBe(true);
+    expect(cell.querySelectorAll(":scope > .thread:not(.ghost)")).toHaveLength(1);
+    const css = style("src/lib/home/Drawer.svelte");
+    expect(rule(css, ".threads")).toMatch(/display: grid;/);
+    expect(rule(css, ".threads > .thread")).toMatch(/grid-area: 1 \/ 1;/);
+    expect(rule(css, ".ghost")).toMatch(/visibility: hidden;/);
+    await fireEvent.click(choices()[0]);
+    await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
+    expect(drawer().querySelectorAll(".threads > .thread.ghost")).toHaveLength(2);
   });
 
   test("by the keyboard, a choice's number key picks it while the question has the focus", async () => {

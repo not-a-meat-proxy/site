@@ -4,7 +4,7 @@
   // Choosing one traces its outline round that part, dims the rest as namp dims a page under its drawer, sets
   // namp's working light going round it and brings the part's rows in as namp's rows arrive. While the section is
   // in view it moves to the next gain every 4 seconds, waiting while the pointer rests on the gains, until the
-  // visitor's first click or focus on one, and never for a browser asking for reduced motion. Below 64rem each
+  // visitor's first click or focus on one, and never for a browser asking for reduced motion. Below 72rem each
   // gain stands over its own cut of the app, its outline traced as it scrolls into view. The screenshots'
   // addresses by theme are the page's --tour and --tour-phone-* (+page.svelte), their places in places.js.
   import { onMount } from "svelte";
@@ -81,7 +81,7 @@
   // or 3x, sized by %). A phone shot's cut is never wider than the phone it was shot on.
   /** @param {{ shot?: string, x: number, y: number, w: number, h: number }} c */
   function cut({ shot, x, y, w, h }) {
-    const of = shot ? PHONE : WIDE;
+    const of = shot ? PHONE[/** @type {keyof typeof PHONE} */ (shot)] : WIDE;
     const pos = (/** @type {number} */ o, /** @type {number} */ s, /** @type {number} */ d) => (s === d ? 0 : (o / (s - d)) * 100);
     return `aspect-ratio:${w}/${h};background-image:var(--tour${shot ? `-${shot}` : ""});background-size:${(of.w / w) * 100}% auto;background-position:${pos(x, of.w, w)}% ${pos(y, of.h, h)}%${shot ? `;max-width:${w}px` : ""}`;
   }
@@ -175,7 +175,7 @@
     </div>
     <p class="said" aria-live="polite">{said}</p>
 
-    <!-- Below 64rem: each gain over its own cut of the app. -->
+    <!-- Below 72rem: each gain over its own cut of the app. -->
     <ol class="list">
       {#each gains as gain, i (gain.term)}
         <li>
@@ -503,7 +503,9 @@
     display: none;
   }
 
-  @media (max-width: 63.99rem) {
+  /* Under 72rem, where the hero stacks too, the page beside the gains would be too small to read its lane's
+     cards: each gain stands over its own cut instead. */
+  @media (max-width: 71.99rem) {
     .tour {
       min-height: 0;
       padding-block: var(--sp-12);

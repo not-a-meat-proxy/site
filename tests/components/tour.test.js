@@ -7,6 +7,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { tick } from "svelte";
 import Tour from "../../src/lib/home/Tour.svelte";
+import { PHONE, tour } from "../../src/lib/home/places.js";
 
 const shots = {
   dark: { wide: { src: "/shots/tour-dark.webp", width: 1600, height: 1000 } },
@@ -191,16 +192,33 @@ describe("on a narrow screen", () => {
     expect(cut.classList.contains("seen")).toBe(true);
   });
 
-  test("the first cut is the phone's canvas bar over D3 and D4 with their asks' marks, the third its Timeline through Since you were here, each no wider than the phone", () => {
+  test("the first cut is the phone's canvas bar from its top through D4 with their asks' marks, the third its Timeline through Since you were here, each no wider than the phone", () => {
     render(Tour, { alt: "a topic's canvas page", shots });
     const [asks, , timeline] = [...document.querySelectorAll(".list li .cut")].map((c) => c.getAttribute("style"));
-    expect(asks).toContain("aspect-ratio: 402 / 527;");
-    expect(asks).toContain(`background-position: 0% ${(52 / (874 - 527)) * 100}%;`);
+    expect(asks).toContain("aspect-ratio: 402 / 267;");
+    expect(asks).toContain(`background-position: 0% ${(52 / (640 - 267)) * 100}%;`);
     expect(asks).toContain("background-size: 100% auto;");
     expect(asks).toContain("max-width: 402px;");
     expect(timeline).toContain("aspect-ratio: 402 / 465;");
     expect(timeline).toContain(`background-position: 0% ${(201 / (874 - 465)) * 100}%;`);
     expect(timeline).toContain("max-width: 402px;");
+  });
+
+  test("each part's outline shows whole in the frame, 4 to 6px in from its left edge, its rows inside the outline, and Timeline's number in the gutter clear of its words", () => {
+    for (const { boxes, rows } of Object.values(tour.gains).slice(0, 3)) {
+      for (const [x] of boxes) expect(x - tour.from).toBeGreaterThanOrEqual(4);
+      for (const [x, y, w, h] of rows) {
+        expect(boxes.some(([bx, by, bw, bh]) => x >= bx + 4 && y >= by + 4 && x + w <= bx + bw - 4 && y + h <= by + bh - 4)).toBe(true);
+      }
+    }
+    expect(tour.gains.asks.boxes.map(([x]) => x - tour.from)).toEqual([5, 5]);
+    expect(tour.gains.timeline.boxes[0][0] - tour.from).toBe(5);
+    expect(tour.gains.timeline.corner).toBe("bottom");
+  });
+
+  test("under 72rem, where the hero stacks too, each gain stands over its own cut, the page beside the gains too small to read", () => {
+    const css = readFileSync(resolve(import.meta.dirname, "../../src/lib/home/Tour.svelte"), "utf8").split("<style>")[1];
+    expect(css.match(/@media \(max-width: [\d.]+rem\)/g)).toEqual(["@media (max-width: 71.99rem)"]);
   });
 
   // A WebP's size from its header, whichever of its three forms it takes.
@@ -219,8 +237,8 @@ describe("on a narrow screen", () => {
     expect([shots[theme].wide.width, shots[theme].wide.height]).toEqual([1600, 1000]);
   });
 
-  test.each(["dark", "light"])("the %s phone shots are at 3x of a phone's 402 by 874, the px their cuts are in", (theme) => {
-    expect(size(`tour-phone-asks-${theme}.webp`)).toEqual([1206, 2622]);
-    expect(size(`tour-phone-timeline-${theme}.webp`)).toEqual([1206, 2622]);
+  test.each(["dark", "light"])("the %s phone shots are at 3x of their size in places.js, a phone's 402 wide, the px their cuts are in", (theme) => {
+    expect(PHONE).toEqual({ "phone-asks": { w: 402, h: 640 }, "phone-timeline": { w: 402, h: 874 } });
+    for (const [name, { w, h }] of Object.entries(PHONE)) expect(size(`tour-${name}-${theme}.webp`)).toEqual([w * 3, h * 3]);
   });
 });

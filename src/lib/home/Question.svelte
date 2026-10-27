@@ -10,8 +10,9 @@
   /** @type {{ q: Ask, onpick: (c: Choice) => void }} */
   let { q, onpick } = $props();
 
+  // Raw, so the choice kept is the one shown, not a proxy of it, and picked === c holds.
   /** @type {Choice | null} */
-  let picked = $state(null);
+  let picked = $state.raw(null);
   /** @type {HTMLDivElement | undefined} */
   let root = $state();
 
@@ -51,11 +52,12 @@
 </div>
 
 <style>
+  /* A Tab stop, the number keys working while it has the focus: the keyboard reaching it shows the site's one
+     ring (app.css). */
   .question-box {
     border-radius: var(--r-sm);
     font-size: var(--fs-body);
     line-height: 1.55;
-    outline: none;
   }
 
   .title {

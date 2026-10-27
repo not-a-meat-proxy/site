@@ -51,7 +51,8 @@
     // Told how many questions are still open once this one is answered.
     onanswer?.(asks.length - at - 1);
     at += 1;
-    said = `Answered: ${c.text}. ${left} waiting for you${now ? `, next: ${now.title}` : ""}.`;
+    // A sentence ends once: a title that asks ends on its own question mark.
+    said = `Answered: ${c.text}. ${left} waiting for you${now ? `, next: ${now.title}` : ""}`.replace(/(?<![.?!])$/, ".");
     // The focus was on a choice that is gone: it goes to the next question, as namp brings it up, or to the
     // drawer's title, which counts what is left.
     await tick();
@@ -88,18 +89,16 @@
   </div>
 
   {#if now}
-    {#key now.id}
-      <div class="thread" in:rise out:fold>
-        <div class="msg question-msg">
-          <span class="mark" aria-hidden="true"><span class="ag-chip" style:--h={now.hue}>{now.chip}<svg viewBox="0 0 12 12"><path d="M6 1v10M1.3 6h9.4M2.6 2.6l6.8 6.8M9.4 2.6 2.6 9.4" /></svg></span></span>
-          <span class="who">{now.who}<time class="time" datetime={now.at}>{now.at}</time><span class="new" title="New since your last visit"></span></span>
-          <div class="text"><Question q={now} onpick={pick} bind:this={question} /></div>
-        </div>
-        <div class="reply" aria-hidden="true">
-          <span class="box">Press 1 to {now.choices.length} in the question, or type your own answer{@render send()}</span>
-        </div>
-      </div>
-    {/key}
+    <!-- The thread in the room of the tallest of the topic's questions, each laid unseen in the one place, so the
+         drawer is as tall for the next question as for this one and nothing round it moves. -->
+    <div class="threads">
+      {#key now.id}
+        <div class="thread" in:rise out:fold>{@render thread(now, true)}</div>
+      {/key}
+      {#each asks as q (q.id)}
+        <div class="thread ghost" aria-hidden="true" inert>{@render thread(q, false)}</div>
+      {/each}
+    </div>
   {:else}
     <div class="listing" in:rise>
       <div class="reply new" aria-hidden="true">
@@ -114,6 +113,19 @@
   {/if}
   <p class="said vh" aria-live="polite">{said}</p>
 </section>
+
+{#snippet thread(q, live)}
+  <div class="msg question-msg">
+    <span class="mark" aria-hidden="true"><span class="ag-chip" style:--h={q.hue}>{q.chip}<svg viewBox="0 0 12 12"><path d="M6 1v10M1.3 6h9.4M2.6 2.6l6.8 6.8M9.4 2.6 2.6 9.4" /></svg></span></span>
+    <span class="who">{q.who}<time class="time" datetime={q.at}>{q.at}</time><span class="new" title="New since your last visit"></span></span>
+    <div class="text">
+      {#if live}<Question {q} onpick={pick} bind:this={question} />{:else}<Question {q} onpick={() => {}} />{/if}
+    </div>
+  </div>
+  <div class="reply" aria-hidden="true">
+    <span class="box">Press 1 to {q.choices.length} in the question, or type your own answer{@render send()}</span>
+  </div>
+{/snippet}
 
 {#snippet send()}<span class="send"><svg viewBox="0 0 16 16"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" /></svg></span>{/snippet}
 
@@ -415,6 +427,20 @@
     grid-column: 1 / -1;
     min-width: 0;
     overflow-wrap: anywhere;
+  }
+
+  /* Every question's thread in one cell, the unseen ones holding its height at the tallest's. */
+  .threads {
+    display: grid;
+  }
+
+  .threads > .thread {
+    grid-area: 1 / 1;
+    align-self: start;
+  }
+
+  .ghost {
+    visibility: hidden;
   }
 
   /* Compose.svelte's box, its placeholder in it and its round arrow at the bottom right. */

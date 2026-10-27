@@ -482,23 +482,33 @@
   }
 
   /* The canvas page left of the drawer, the shot's right edge on the window's, a little under the words at
-     most and never past the page's own left edge, past the sidebar: dimmed under namp's --dim, fading into the
-     ground at its left, at its top and at its foot. Its left fade starts 160 shot px left of the drawer at
-     the latest (--fade), so where the drawer takes nearly the whole column, no sliver of the page shows. */
+     most (--over) and never past the page's own left edge, past the sidebar: dimmed under namp's --dim, fading
+     into the ground at its left, at its top and at its foot. It runs under the words by up to --sp-12 on a wide
+     window, by less as the window narrows to 72rem, where the call takes its column's whole width and none of
+     the page may show beside it. Its left fade starts 160 shot px left of the drawer at the latest (--fade), so
+     where the drawer takes nearly the whole column, no sliver of the page shows. */
   .backdrop {
+    --over: var(--sp-12);
     --fade: max(0px, calc((160 + var(--drawer)) * var(--u) - 100%));
     position: absolute;
     z-index: -1;
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(100% + var(--sp-12), calc((var(--w) - var(--from)) * var(--u)));
+    width: min(100% + var(--over), calc((var(--w) - var(--from)) * var(--u)));
     background: var(--wide) right top / calc(var(--w) * var(--u)) auto no-repeat;
     mask-image:
       linear-gradient(90deg, transparent var(--fade), var(--mask) calc(var(--fade) + 160 * var(--u))),
       linear-gradient(transparent, var(--mask) calc(64 * var(--u)), var(--mask) calc(100% - 120 * var(--u)), transparent);
     mask-composite: intersect;
     animation: arrive 900ms var(--ease-out) both 150ms;
+  }
+
+  /* The media query's 72rem is the browser's 16px rems, 1152px; the page's own rem is smaller. */
+  @media (min-width: 72rem) {
+    .backdrop {
+      --over: clamp(0px, (100vw - 1152px) / 6, var(--sp-12));
+    }
   }
 
   /* namp's scrim (--shade), and over it a wash of the ground (--wash): the page's lines lose their contrast in
