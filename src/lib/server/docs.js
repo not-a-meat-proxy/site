@@ -41,7 +41,7 @@ markdown.core.ruler.push("heading_ids", (state) => {
 });
 
 // A section's mark, in the margin level with its heading on a wide screen and before it on a phone: its
-// number and namp's plan sign (ui/src/lib/overview/PlanSign.svelte), all three of the sign's shapes drawn
+// number and namp's plan sign (ui/src/lib/topic/PlanSign.svelte), all three of the sign's shapes drawn
 // and [data-sign] showing one, so a section's state changes as the reader passes it with nothing moving
 // round it. The first section is the one in view when the page opens at its top.
 const sign = `<svg class="ps" viewBox="0 0 16 16" aria-hidden="true"><g class="planned"><circle cx="8" cy="8" r="6" /></g><g class="running"><circle class="track" cx="8" cy="8" r="6" /><path class="arc" d="M8 2a6 6 0 0 1 5.2 9" /></g><g class="done"><circle cx="8" cy="8" r="6.5" /><path d="m5.2 8.3 1.9 1.9 3.8-4.1" /></g></svg>`;

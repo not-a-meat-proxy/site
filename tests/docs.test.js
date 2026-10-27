@@ -96,7 +96,24 @@ describe("the docs", () => {
   test("/docs/first-topic opens the conversation and the goal from the lane", async () => {
     const article = (await html("/docs/first-topic")).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
     expect(article).toContain("from <strong>Threads</strong>, the first card of its lane");
-    for (const card of ["Threads", "Goal", "Plan", "Squad", "Pull request", "Documents"]) expect(article).toContain(`<li><strong>${card}</strong>, `);
+    for (const card of ["Threads", "Goal", "Work", "Pull request", "Documents"]) expect(article).toContain(`<li><strong>${card}</strong>, `);
+  });
+
+  // namp 0.9.0 opens a topic on its first canvas, its asks marks beside the text and the canvas bar
+  // stepping through them; the Overview is gone, and Plan and Squad are the views of one Work card.
+  test("/docs/first-topic opens a topic on its canvas, the canvas bar over it", async () => {
+    const article = (await html("/docs/first-topic")).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
+    expect(article).toContain("A topic opens on its canvas, where you last left it.");
+    expect(article).toContain("The canvas bar, under the top bar, stays in view over the canvas.");
+    expect(article).toContain("Over the canvas's title, <strong>Since you were here</strong>");
+    expect(article).toContain("<strong>Record</strong>, after Files in the switcher");
+  });
+
+  test.each(pages)("%s names no Overview of a topic, nor Plan and Squad as cards", async (path) => {
+    const article = (await html(path)).match(/<article[^>]*>([\s\S]*)<\/article>/)[1].replace(/<h1>Overview<\/h1>/, "");
+    expect(article).not.toContain("Overview");
+    expect(article).not.toContain("Recent with you");
+    for (const card of ["Plan", "Squad"]) expect(article).not.toContain(`<li><strong>${card}</strong>, `);
   });
 
   test("keep Markdown's HTML as text", async () => {

@@ -22,8 +22,8 @@ The token is yours alone: keep it to yourself. On a Mac, install with the comman
 It downloads the latest release for your machine, checks its sha256, and says where namp went:
 
 ```text
-Downloading namp 0.6.0 for aarch64-apple-darwin.
-namp 0.6.0 is installed in /Users/you/.local/bin/namp.
+Downloading namp 0.9.0 for aarch64-apple-darwin.
+namp 0.9.0 is installed in /Users/you/.local/bin/namp.
 
 Start namp from a herdr pane with:
   namp start
