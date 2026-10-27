@@ -6,7 +6,7 @@ A topic holds one piece of work: its goal, the plan its session follows towards 
 
 Open the address `namp start` printed, `http://localhost:4321/__session/`. It opens on Home, a briefing across your topics since you left:
 
-- **Needs you**: only what waits for you to act, such as a question to answer, a goal to accept or a session that is blocked. A question, a reply or a heads-up opens its thread as a layer beside the briefing, where you answer it. The arrow in the layer's head opens its topic. The rest opens in its topic.
+- **Needs you**: what waits for you, first what asks you to act, such as a question to answer, a goal to accept or a session that is blocked, then a reply or a heads-up to read. A question, a reply or a heads-up opens its thread as a layer beside the briefing, where you answer it. The arrow in the layer's head opens its topic. The rest opens in its topic.
 - **While you were away**: what came of each topic, what was done, decided, waits on you or is blocked, each marked at its left by who started it: you, the session, or a task the session handed out.
 - **Running now** and **Next**: what the sessions work on, and what their plans hold next.
 
@@ -17,25 +17,25 @@ The rail at the left goes to Topics, Projects, Machines, Agents and Settings, an
 Press **New topic**, at the top right of Home, and fill in:
 
 - **Title**, the topic's name.
-- **Machine**, once herdr knows another machine: **Local**, this computer, or the one the session runs on.
+- **Machine**, once herdr has another machine saved and enabled: **Local**, this computer, or the one the session runs on.
 - **Project** or **Folder**, where the session works. A project is a git clone you register once in Projects: each topic on it works in a worktree of its own, on a new branch named after the topic, which **Worktree from** starts from the project's default branch unless you pick another. A folder is any absolute path, its **Working directory**.
 - **Runs as**, **Skills** and **Siblings**: the agent the session runs as, its skills and the sessions it may start for parts of the work. On a project, **Tools** adds the MCP servers it may use. The defaults are a good start.
 - **Goal**, in one line: what the work is meant to reach.
 - **Brief**: how the session should work towards it, and what it should produce.
 
-Then press **Start the session**. namp opens the session in a new herdr tab and its topic in the page. Its first move is to propose the goal: it shows under **Needs you** on Home, and in the topic the **Goal** card turns the colour of what waits for you. Click it to open the goal in the drawer, with what met looks like and its criteria, and press **Accept**, or **Refuse**. The session starts the work once you accept it.
+Then press **Start the session**. namp opens the session in a new herdr tab and its topic in the page. Its first move is to propose the goal: it shows under **Needs you** on Home, and in the topic the canvas bar reads **Goal to accept** and the **Goal** card turns the colour of what waits for you. Click either to open the goal in the drawer, with what met looks like and its criteria, and press **Accept**, or **Refuse**. The session starts the work once you accept it.
 
 ## Read a topic
 
 A topic opens on its canvas, where you last left it. On your first visit it opens at the first thing that waits for you, or at its top. The switcher in its top bar names the view you are on, and its menu has two groups: **The topic**, with **Files** for a topic on a project, **Record** and its pull request, then **Documents**, with its first canvas as **Canvas** and every other document. `[` and `]` step through them, and the topic's title in the top bar brings you back to its canvas.
 
-The canvas bar, under the top bar, stays in view over the canvas. It counts the asks on this canvas, what waits for you to act, and its arrows, `n` and `N` or F8 and Shift+F8, step through them, `1/6`, each step opening the ask in the drawer. `+2` counts the topic's asks with no place on the canvas, such as its goal, and opens them. The green **?** shows where questions were answered. While the session is in trouble, blocked or not running, the bar says so at its left: click it for what to do.
+The canvas bar, under the top bar, stays in view over the canvas. It counts the asks on this canvas, what waits for you to act, and its arrows, `n` and `N` or F8 and Shift+F8, step through them, `1/6`, each step opening the ask in the drawer. `+2` counts the topic's asks with no place on the canvas, such as a pull request's review, and opens them. While the goal waits for you, the bar names it at its left, before the asks, **Goal to accept**, **Goal reworded** or **Goal met?**: click it to answer it in the drawer. The green **?** shows where questions were answered. While the session is in trouble, blocked or not running, the bar says so at its left: click it for what to do.
 
 **Timeline**, at the bar's right, opens the topic's work under it, over **Today**, **2 hours** or the **Week**, a line for you, the session and each session it started: click a bar to see it in the drawer.
 
 An ask on the canvas is a mark in the column at the page's left edge, an orange **?** level with the text it is about, with a count when several share it, such as `?6`. Click it to open the ask in the drawer. The outline at the left counts each heading's asks too.
 
-Over the canvas's title, **Since you were here** counts what came since your last visit, such as `3 done · 1 decided · 4 changes · Everything`. Each count opens what it counts, and **Everything** the Record view. On your first visit it reads **The last 7 days**.
+Over the canvas's title, **Since you were here** counts what came since your last visit, such as `3 done · 1 decided · 4 changes · Everything`. Each count opens what it counts, and **Everything** the Record view. On your first visit it counts **The last 7 days**, and when nothing came in, it says so: **Nothing new since you were here** or **Nothing new in the last 7 days**.
 
 Nothing asks you to mark the topic read: once the Since you were here line has been wholly in view, it counts as seen, and the next time you come back it counts from there.
 
