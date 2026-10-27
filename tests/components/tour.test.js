@@ -192,16 +192,17 @@ describe("on a narrow screen", () => {
     expect(cut.classList.contains("seen")).toBe(true);
   });
 
-  test("the first cut is the phone's canvas bar from its top through D4 with their asks' marks, the third its Timeline through Since you were here, each no wider than the phone", () => {
+  test("the first cut is the phone's canvas bar from its top through D4 with their asks' marks, the third its Timeline through Since you were here, every cut at the one width the list gives it", () => {
     render(Tour, { alt: "a topic's canvas page", shots });
     const [asks, , timeline] = [...document.querySelectorAll(".list li .cut")].map((c) => c.getAttribute("style"));
     expect(asks).toContain("aspect-ratio: 402 / 267;");
     expect(asks).toContain(`background-position: 0% ${(52 / (640 - 267)) * 100}%;`);
     expect(asks).toContain("background-size: 100% auto;");
-    expect(asks).toContain("max-width: 402px;");
     expect(timeline).toContain("aspect-ratio: 402 / 465;");
     expect(timeline).toContain(`background-position: 0% ${(201 / (874 - 465)) * 100}%;`);
-    expect(timeline).toContain("max-width: 402px;");
+    for (const c of document.querySelectorAll(".list li .cut")) expect(c.getAttribute("style")).not.toMatch(/max-width/);
+    const css = readFileSync(resolve(import.meta.dirname, "../../src/lib/home/Tour.svelte"), "utf8").split("<style>")[1];
+    expect(css).toMatch(/\.list \.cut \{[^}]*max-width: 40rem;/);
   });
 
   test("each part's outline shows whole in the frame, 4 to 6px in from its left edge, its rows inside the outline, and Timeline's number in the gutter clear of its words", () => {

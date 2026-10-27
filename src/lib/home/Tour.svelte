@@ -78,12 +78,12 @@
   const row = ([x, y, w, h]) =>
     `${at([x, y, w, h])};--size:${(WIDE.w / w) * 100}% auto;--pos:${(x / (WIDE.w - w)) * 100}% ${(y / (WIDE.h - h)) * 100}%`;
   // A cut for the narrow layout, of the tour's wide shot or of a phone shot (shot), in its CSS px (its file is 2x
-  // or 3x, sized by %). A phone shot's cut is never wider than the phone it was shot on.
+  // or 3x, sized by %). Every cut shows at the one width the list gives it, a phone shot's scaled up to it.
   /** @param {{ shot?: string, x: number, y: number, w: number, h: number }} c */
   function cut({ shot, x, y, w, h }) {
     const of = shot ? PHONE[/** @type {keyof typeof PHONE} */ (shot)] : WIDE;
     const pos = (/** @type {number} */ o, /** @type {number} */ s, /** @type {number} */ d) => (s === d ? 0 : (o / (s - d)) * 100);
-    return `aspect-ratio:${w}/${h};background-image:var(--tour${shot ? `-${shot}` : ""});background-size:${(of.w / w) * 100}% auto;background-position:${pos(x, of.w, w)}% ${pos(y, of.h, h)}%${shot ? `;max-width:${w}px` : ""}`;
+    return `aspect-ratio:${w}/${h};background-image:var(--tour${shot ? `-${shot}` : ""});background-size:${(of.w / w) * 100}% auto;background-position:${pos(x, of.w, w)}% ${pos(y, of.h, h)}%`;
   }
 
   /** @param {number} i @param {boolean} [told] */
