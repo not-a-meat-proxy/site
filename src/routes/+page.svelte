@@ -177,6 +177,8 @@
   main {
     --wide: url("/shots/hero-wide-dark.webp");
     --tour: url("/shots/tour-dark.webp");
+    --tour-phone-asks: url("/shots/tour-phone-asks-dark.webp");
+    --tour-phone-timeline: url("/shots/tour-phone-timeline-dark.webp");
     --wash: 30%;
     --shade: var(--dim);
     --veil: 1;
@@ -186,6 +188,8 @@
   :global([data-theme="light"]) main {
     --wide: url("/shots/hero-wide-light.webp");
     --tour: url("/shots/tour-light.webp");
+    --tour-phone-asks: url("/shots/tour-phone-asks-light.webp");
+    --tour-phone-timeline: url("/shots/tour-phone-timeline-light.webp");
     --wash: 74%;
     --shade: transparent;
     --veil: 0.5;
@@ -195,6 +199,8 @@
     :global(:root:not([data-theme])) main {
       --wide: url("/shots/hero-wide-light.webp");
       --tour: url("/shots/tour-light.webp");
+      --tour-phone-asks: url("/shots/tour-phone-asks-light.webp");
+      --tour-phone-timeline: url("/shots/tour-phone-timeline-light.webp");
       --wash: 74%;
       --shade: transparent;
       --veil: 0.5;

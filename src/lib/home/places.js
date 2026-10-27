@@ -4,6 +4,10 @@
 
 export const WIDE = { w: 1600, h: 1000 };
 
+// The tour's phone shots, a phone's 402 by 874 CSS px (their files are 3x): its asks under the canvas bar
+// (phone-asks), and its lane, canvas bar and Timeline open (phone-timeline). A cut naming one (shot) is in its px.
+export const PHONE = { w: 402, h: 874 };
+
 // The hero's shot, a topic's canvas page with namp's drawer open at its right on the D3 question: where the
 // page starts past the sidebar, the drawer's left edge, its border included, and how much of the shot's height
 // the hero shows at least.
@@ -15,7 +19,7 @@ export const hero = {
 
 // The tour's shot, the same canvas page with Timeline open and the lane at its right: the frame shows it from
 // past the sidebar. Each gain's parts (boxes), outlined, the rows in them that arrive one after another (rows),
-// and its cut of the shot for the narrow layout (cut).
+// and its cut for the narrow layout (cut), of the wide shot or of the phone shot it names.
 export const tour = {
   from: 312,
   gains: {
@@ -31,7 +35,8 @@ export const tour = {
         [314, 830, 896, 70],
         [314, 902, 896, 70],
       ],
-      cut: { x: 312, y: 826, w: 600, h: 150 },
+      // On a phone: the canvas bar stuck at the top, over D3 and D4 with their marks in the gutter.
+      cut: { shot: "phone-asks", x: 0, y: 52, w: 402, h: 527 },
     },
     lane: {
       // The lane's Goal and Work cards.
@@ -51,7 +56,8 @@ export const tour = {
         [366, 102, 884, 278],
         [366, 404, 336, 30],
       ],
-      cut: { x: 352, y: 92, w: 918, h: 352 },
+      // On a phone: the canvas bar, Timeline open under it, and Since you were here.
+      cut: { shot: "phone-timeline", x: 0, y: 201, w: 402, h: 465 },
     },
     page: {
       boxes: [[312, 0, 1288, 1000]],

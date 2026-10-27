@@ -181,17 +181,26 @@ describe("on a narrow screen", () => {
     ]);
     expect(items[3].querySelector(".cut .where").textContent).toBe("localhost:4321");
     const cut = items[1].querySelector(".cut");
-    expect(cut.getAttribute("style")).toContain("var(--tour)");
-    expect(items[0].querySelector(".cut").getAttribute("style")).toContain("var(--tour)");
+    expect(items.map((li) => li.querySelector(".cut").getAttribute("style").match(/var\(--tour[^)]*\)/)[0])).toEqual([
+      "var(--tour-phone-asks)",
+      "var(--tour)",
+      "var(--tour-phone-timeline)",
+      "var(--tour)",
+    ]);
     seen[1]([{ isIntersecting: true, target: cut }]);
     expect(cut.classList.contains("seen")).toBe(true);
   });
 
-  test("the first cut frames D3 and D4 with their asks' marks in the gutter, from the page's left edge", () => {
+  test("the first cut is the phone's canvas bar over D3 and D4 with their asks' marks, the third its Timeline through Since you were here, each no wider than the phone", () => {
     render(Tour, { alt: "a topic's canvas page", shots });
-    const style = document.querySelector(".list li .cut").getAttribute("style");
-    expect(style).toContain("aspect-ratio: 600 / 150;");
-    expect(style).toContain(`background-position: ${(312 / (1600 - 600)) * 100}% ${(826 / (1000 - 150)) * 100}%;`);
+    const [asks, , timeline] = [...document.querySelectorAll(".list li .cut")].map((c) => c.getAttribute("style"));
+    expect(asks).toContain("aspect-ratio: 402 / 527;");
+    expect(asks).toContain(`background-position: 0% ${(52 / (874 - 527)) * 100}%;`);
+    expect(asks).toContain("background-size: 100% auto;");
+    expect(asks).toContain("max-width: 402px;");
+    expect(timeline).toContain("aspect-ratio: 402 / 465;");
+    expect(timeline).toContain(`background-position: 0% ${(201 / (874 - 465)) * 100}%;`);
+    expect(timeline).toContain("max-width: 402px;");
   });
 
   // A WebP's size from its header, whichever of its three forms it takes.
@@ -208,5 +217,10 @@ describe("on a narrow screen", () => {
     expect(size(`tour-${theme}.webp`)).toEqual([3200, 2000]);
     expect(size(`hero-wide-${theme}.webp`)).toEqual([3200, 2000]);
     expect([shots[theme].wide.width, shots[theme].wide.height]).toEqual([1600, 1000]);
+  });
+
+  test.each(["dark", "light"])("the %s phone shots are at 3x of a phone's 402 by 874, the px their cuts are in", (theme) => {
+    expect(size(`tour-phone-asks-${theme}.webp`)).toEqual([1206, 2622]);
+    expect(size(`tour-phone-timeline-${theme}.webp`)).toEqual([1206, 2622]);
   });
 });

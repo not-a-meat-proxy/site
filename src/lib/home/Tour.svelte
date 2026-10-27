@@ -6,9 +6,9 @@
   // in view it moves to the next gain every 4 seconds, waiting while the pointer rests on the gains, until the
   // visitor's first click or focus on one, and never for a browser asking for reduced motion. Below 64rem each
   // gain stands over its own cut of the app, its outline traced as it scrolls into view. The screenshots'
-  // addresses by theme are the page's --tour (+page.svelte), their places in places.js.
+  // addresses by theme are the page's --tour and --tour-phone-* (+page.svelte), their places in places.js.
   import { onMount } from "svelte";
-  import { tour, WIDE } from "./places.js";
+  import { PHONE, tour, WIDE } from "./places.js";
 
   /** @type {{ alt: string, shots: Record<string, { wide: { src: string, width: number, height: number } }>, call?: import("svelte").Snippet }} */
   let { alt, shots, call } = $props();
@@ -77,11 +77,13 @@
   /** @param {number[]} b */
   const row = ([x, y, w, h]) =>
     `${at([x, y, w, h])};--size:${(WIDE.w / w) * 100}% auto;--pos:${(x / (WIDE.w - w)) * 100}% ${(y / (WIDE.h - h)) * 100}%`;
-  // A cut of the tour's shot for the narrow layout, in its CSS px (its file is 2x, sized by %).
-  /** @param {{ x: number, y: number, w: number, h: number }} c */
-  function cut({ x, y, w, h }) {
+  // A cut for the narrow layout, of the tour's wide shot or of a phone shot (shot), in its CSS px (its file is 2x
+  // or 3x, sized by %). A phone shot's cut is never wider than the phone it was shot on.
+  /** @param {{ shot?: string, x: number, y: number, w: number, h: number }} c */
+  function cut({ shot, x, y, w, h }) {
+    const of = shot ? PHONE : WIDE;
     const pos = (/** @type {number} */ o, /** @type {number} */ s, /** @type {number} */ d) => (s === d ? 0 : (o / (s - d)) * 100);
-    return `aspect-ratio:${w}/${h};background-image:var(--tour);background-size:${(WIDE.w / w) * 100}% auto;background-position:${pos(x, WIDE.w, w)}% ${pos(y, WIDE.h, h)}%`;
+    return `aspect-ratio:${w}/${h};background-image:var(--tour${shot ? `-${shot}` : ""});background-size:${(of.w / w) * 100}% auto;background-position:${pos(x, of.w, w)}% ${pos(y, of.h, h)}%${shot ? `;max-width:${w}px` : ""}`;
   }
 
   /** @param {number} i @param {boolean} [told] */
