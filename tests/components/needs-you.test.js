@@ -1,12 +1,14 @@
-// The home page's Needs you, namp's own over the hero's screenshot: its demo topics say so, its asks are
-// counted with the reply beside them, and picking a choice of the first question, by a click or by its
-// number key, answers it: it folds out of Needs you and the count goes down by one.
+// The home page's hero, namp's drawer live over the shot of a topic's canvas page: open on Threads at Needs
+// you, in the thread of the 31st question, with every word, time and count the shot shows. Picking a choice,
+// by a click or by its number key, answers it: it folds out and the topic's D4 question comes up, the counts
+// one less, and once both are answered the drawer shows what is left, the pull request's review.
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render } from "@testing-library/svelte";
 import { tick } from "svelte";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import Page from "../../src/routes/+page.svelte";
+import { hero, WIDE } from "../../src/lib/home/places.js";
 
 const visitor = { contact: "mailto:invites@example.com", site: "https://namp.example", invalid: false, tester: null, release: null };
 
@@ -22,97 +24,124 @@ const style = (path) => readFileSync(resolve(import.meta.dirname, "../..", path)
 /** @param {string} css @param {string} sel */
 const rule = (css, sel) => css.match(new RegExp(`(?:^|\\n)\\s*${sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} \\{([^}]*)\\}`))?.[1] ?? "";
 
-const count = () => document.querySelector("[data-needs-count]").textContent;
-const subjects = () => [...document.querySelectorAll(".needs-you .subject")].map((el) => el.textContent);
+const drawer = () => document.querySelector(".hero .drawer");
+const text = (sel) => drawer().querySelector(sel)?.textContent.replace(/\s+/g, " ").trim();
 const question = () => document.querySelector("[data-question]");
+const choices = () => [...question().querySelectorAll("button.choice")];
 
 async function page() {
   render(Page, { data: visitor });
   await tick();
 }
 
-describe("Needs you on the home page", () => {
-  test("shows three asks and a reply from demo topics, says they are, and counts the asks with the reply apart", async () => {
+describe("the drawer on the home page", () => {
+  test("shows the shot's heads: Threads with what needs you, the filters with their counts, and says it is a demo topic", async () => {
     await page();
-    expect(document.querySelector(".hero .needs-you")).not.toBeNull();
-    expect(document.querySelector(".needs-you .demo").textContent).toBe("demo topics");
-    expect([...document.querySelectorAll(".needs-you .kind")].map((el) => el.textContent)).toEqual(["Question", "Goal", "Question", "Reply"]);
-    expect(count()).toBe("3");
-    expect(document.querySelector(".needs-you .n.replied").firstChild.textContent).toBe("1");
-    // A screen reader hears what each count counts.
-    expect(document.querySelector("#needs-you").textContent.replace(/\s+/g, " ").trim()).toBe("Needs you 3 asks, 1 reply or heads-up to read");
-    expect([...document.querySelectorAll(".needs-you .ask")].length).toBe(3 + 1);
-    expect(subjects()[0]).toBe("When a schedule's day is the 31st, which day does it go out in a shorter month?");
+    expect(drawer()).not.toBeNull();
+    expect(text("#threads")).toBe("Threads 3 waiting for you");
+    expect([...drawer().querySelectorAll(".filter")].map((f) => f.textContent.replace(/\s+/g, " ").trim())).toEqual(["Needs you 3", "With you 6", "Sessions 3"]);
+    expect(drawer().querySelector(".filter.on").textContent).toMatch(/^Needs you/);
+    expect(text(".demo")).toBe("demo topic");
   });
 
-  test("the first question carries its choices as buttons, numbered, the recommended one marked", async () => {
+  test("opens on the 31st question whole, as the shot has it: its sender, time, title, context, numbered choices and Recommended", async () => {
     await page();
-    const choices = [...question().querySelectorAll("button.choice")];
-    expect(choices.map((b) => [b.type, b.querySelector(".num").textContent, b.querySelector(".choice-text").textContent, !!b.querySelector(".tag")])).toEqual([
+    expect(text(".who")).toBe("Recurring invoices14:36");
+    expect(text(".ag-chip")).toBe("TO");
+    expect(text(".question-box .title")).toBe("When a schedule's day is the 31st, which day does it go out in a shorter month?");
+    expect(text(".question-box .ctx")).toBe("A template set to the 31st has no such day in April, June, September, November and February. The first two choices keep one invoice a month.");
+    expect(choices().map((b) => [b.type, b.querySelector(".num").textContent, b.querySelector(".choice-text").textContent, !!b.querySelector(".tag")])).toEqual([
       ["button", "1", "The month's last day: 30 April, 28 or 29 February", true],
       ["button", "2", "The 1st of the next month", false],
       ["button", "3", "Skip the months without a 31st", false],
     ]);
-    // The other question shows its recommended choice on a line, as namp's Home does.
-    expect(document.querySelectorAll(".needs-you span.rec")[0].textContent).toBe("Recommended: The rate on the invoice's date");
+    expect(text(".free-choice .choice-text")).toBe("Your own answer");
+    expect(text(".question-acts")).toBe("Discard");
+    expect(text(".reply .box")).toBe("Press 1 to 3 in the question, or type your own answer");
   });
 
-  test("the recommended tag stands right after its choice's words, however wide the card", () => {
-    const css = style("src/lib/home/NeedsYou.svelte");
+  test("a choice's words take the row and Recommended stands at its end, as in namp's drawer", () => {
+    const css = style("src/lib/home/Question.svelte");
     expect(rule(css, ".choice")).toMatch(/display: flex/);
-    expect(rule(css, ".choice-text")).not.toMatch(/flex:/);
+    expect(rule(css, ".choice-text")).toMatch(/flex: 1/);
     expect(rule(css, ".tag")).toMatch(/flex: none/);
   });
 
-  test("beside the words, the spot leaves the Overview's lane in sight, and Light's Overview fades by the ground alone, with no scrim", () => {
+  test("lies where the shot's drawer is: its width the shot's from the drawer's edge, the canvas page behind it from the same edge, and Light's page fading by the ground alone", async () => {
+    await page();
+    const spot = document.querySelector(".hero .spot");
+    expect(spot.style.getPropertyValue("--drawer")).toBe(String(WIDE.w - hero.drawer));
+    expect(spot.style.getPropertyValue("--w")).toBe(String(WIDE.w));
     const css = style("src/routes/+page.svelte");
-    expect(css).toMatch(/@media \(min-width: 72rem\) \{\s*\.spot \{\s*width: min\(100%, calc\(916 \* var\(--u\)\), calc\(\(100% \+ var\(--gutter\)\) \* 916 \/ 1180\)\);/);
+    expect(rule(css, ".lit")).toMatch(/width: min\(100%, calc\(var\(--drawer\) \* var\(--u\)\)\);/);
+    expect(rule(css, ".backdrop")).toMatch(/background: var\(--wide\) right top \/ calc\(var\(--w\) \* var\(--u\)\) auto no-repeat;/);
     expect(css.match(/--shade: [^;]+;/g)).toEqual(["--shade: var(--dim);", "--shade: transparent;", "--shade: transparent;"]);
     expect(rule(css, ".backdrop::after")).toMatch(/linear-gradient\(var\(--shade\), var\(--shade\)\)/);
   });
 
-  test("a click on a choice folds the question away and lowers the count, the focus on the heading", async () => {
+  test("a click on a choice folds the question out and brings the D4 question up, the counts one less, the focus on it", async () => {
     await page();
-    await fireEvent.click(question().querySelectorAll("button.choice")[1]);
-    await vi.waitFor(() => expect(question()).toBeNull());
-    expect(count()).toBe("2");
-    expect(subjects()).toHaveLength(3);
-    expect(subjects()[0]).toMatch(/^A client list imports/);
-    expect(document.activeElement.id).toBe("needs-you");
-    expect(document.querySelector(".needs-you .said").textContent).toBe("Answered: The 1st of the next month. 2 things need you.");
+    await fireEvent.click(choices()[1]);
+    await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
+    expect(document.querySelectorAll("[data-question]")).toHaveLength(1);
+    expect(text("[data-count]")).toBe("2");
+    expect(text("[data-needs]")).toBe("2");
+    expect(text(".who")).toBe("Recurring invoices14:12");
+    expect(text(".question-box .title")).toBe("A client has no time zone set: whose 09:00 does its invoice go out at?");
+    expect(text(".question-box .ctx")).toBe("9 of the 112 clients on a monthly template have no time zone. Their address names a country, not always a zone.");
+    expect(choices().map((b) => [b.querySelector(".choice-text").textContent, !!b.querySelector(".tag")])).toEqual([
+      ["The account's own time zone, until the client sets one", true],
+      ["The zone of the client's country, the capital's for a country with several", false],
+      ["UTC", false],
+    ]);
+    expect(document.activeElement).toBe(question());
+    expect(text(".said")).toBe("Answered: The 1st of the next month. 2 waiting for you, next: A client has no time zone set: whose 09:00 does its invoice go out at?.");
   });
 
-  test("the hero keeps the room Needs you held as an answered ask folds out, so nothing round it moves", async () => {
+  test("once both are answered, the drawer shows what is left, the review, and the focus is on its title", async () => {
     await page();
-    const spot = document.querySelector(".hero .spot");
-    spot.getBoundingClientRect = () => ({ height: 612.5 });
-    expect(spot.style.minHeight).toBe("");
-    await fireEvent.click(question().querySelectorAll("button.choice")[0]);
+    await fireEvent.click(choices()[0]);
+    await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
+    await fireEvent.click(choices()[0]);
     await vi.waitFor(() => expect(question()).toBeNull());
-    expect(spot.style.minHeight).toBe("612.5px");
+    expect(text("[data-count]")).toBe("1");
+    expect(text("[data-needs]")).toBe("1");
+    expect(drawer().querySelector(".thread-head")).toBeNull();
+    expect(text(".reply .box")).toBe("Message the session. @ mentions a topic, Ctrl+Enter sends.");
+    expect(text(".row .where")).toBe("Review·#42 Recurring invoices: the scheduler makes each due invoice once");
+    expect(text(".row .what")).toBe("Your review is requested.");
+    expect(document.activeElement.id).toBe("threads");
+    expect(text(".said")).toBe("Answered: The account's own time zone, until the client sets one. 1 waiting for you.");
+  });
+
+  test("the hero keeps the room the drawer held as what it shows changes, so nothing round it moves", async () => {
+    await page();
+    const lit = document.querySelector(".hero .lit");
+    lit.getBoundingClientRect = () => ({ height: 702.5 });
+    expect(lit.style.minHeight).toBe("");
+    await fireEvent.click(choices()[0]);
+    await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
+    expect(lit.style.minHeight).toBe("702.5px");
   });
 
   test("by the keyboard, a choice's number key picks it while the question has the focus", async () => {
     await page();
-    const first = question().querySelector("button.choice");
-    first.focus();
-    expect(document.activeElement).toBe(first);
-    await fireEvent.keyDown(first, { key: "4" });
-    expect(question()).not.toBeNull();
-    await fireEvent.keyDown(first, { key: "1", ctrlKey: true });
-    expect(question()).not.toBeNull();
-    await fireEvent.keyDown(first, { key: "1" });
-    await vi.waitFor(() => expect(question()).toBeNull());
-    expect(count()).toBe("2");
-    expect(document.querySelector(".needs-you .said").textContent).toBe("Answered: The month's last day: 30 April, 28 or 29 February. 2 things need you.");
+    question().focus();
+    await fireEvent.keyDown(question(), { key: "4" });
+    expect(question().dataset.question).toBe("invoice-day");
+    await fireEvent.keyDown(question(), { key: "1", ctrlKey: true });
+    expect(question().dataset.question).toBe("invoice-day");
+    await fireEvent.keyDown(question(), { key: "1" });
+    await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
+    expect(text("[data-count]")).toBe("2");
+    expect(text(".said")).toMatch(/^Answered: The month's last day: 30 April, 28 or 29 February\. 2 waiting for you/);
   });
 
   test("by the keyboard, the number key picks its choice whichever choice has the focus", async () => {
     await page();
-    const first = question().querySelector("button.choice");
-    first.focus();
-    await fireEvent.keyDown(first, { key: "3" });
-    await vi.waitFor(() => expect(question()).toBeNull());
-    expect(document.querySelector(".needs-you .said").textContent).toBe("Answered: Skip the months without a 31st. 2 things need you.");
+    choices()[0].focus();
+    await fireEvent.keyDown(choices()[0], { key: "3" });
+    await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
+    expect(text(".said")).toMatch(/^Answered: Skip the months without a 31st\./);
   });
 });

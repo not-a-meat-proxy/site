@@ -1,21 +1,22 @@
-// The demo topics of the home page's Needs you: synthetic, as the hero's screenshot of the Recurring
-// invoices topic is, its topics the screenshot's sidebar shows. Three asks, in the order namp's Home
-// lists them, then a reply waiting for reading, each as namp's Home headlines it (headline.js in namp):
-// a question its title, the first lines of its context and its recommended choice, a goal its proposed
-// title alone, a reply its thread's subject and the first lines of its text.
+// The front page's live drawer, word for word as namp's drawer shows it in the hero's screenshot of the
+// Recurring invoices topic, a demo topic of a trial server: Threads with what needs you, the topic's two
+// questions in the order its canvas bar steps through them, the one on D3 opened from its gutter mark,
+// then what is left once both are answered, the review of its pull request.
 
 /** @typedef {{ text: string, recommended?: boolean }} Choice */
-/** @typedef {{ id: string, label: string, who: string, at: string, subject: string, text: string, choices?: Choice[] }} Ask */
+/** @typedef {{ id: string, who: string, chip: string, hue: number, at: string, title: string, context: string, choices: Choice[] }} Ask */
 
 /** @type {Ask[]} */
 export const asks = [
   {
     id: "invoice-day",
-    label: "Question",
     who: "Recurring invoices",
+    // The topic's session, as namp's AgentChip draws a topic orchestrator: its initials on its hue.
+    chip: "TO",
+    hue: 287,
     at: "14:36",
-    subject: "When a schedule's day is the 31st, which day does it go out in a shorter month?",
-    text: "A template set to the 31st has no such day in April, June, September, November and February. The first two choices keep one invoice a month.",
+    title: "When a schedule's day is the 31st, which day does it go out in a shorter month?",
+    context: "A template set to the 31st has no such day in April, June, September, November and February. The first two choices keep one invoice a month.",
     choices: [
       { text: "The month's last day: 30 April, 28 or 29 February", recommended: true },
       { text: "The 1st of the next month" },
@@ -23,33 +24,24 @@ export const asks = [
     ],
   },
   {
-    id: "csv-goal",
-    label: "Goal",
-    who: "CSV import of clients",
-    at: "13:12",
-    subject: "A client list imports from a CSV file, each bad row named with its line",
-    text: "",
-  },
-  {
-    id: "tax-rate",
-    label: "Question",
-    who: "Tax rates by region",
-    at: "12:58",
-    subject: "A region changes its rate mid-month: which rate does an invoice take?",
-    text: "Two regions change their rate on the 15th. An invoice can be dated before the change and sent after it.",
+    id: "no-time-zone",
+    who: "Recurring invoices",
+    chip: "TO",
+    hue: 287,
+    at: "14:12",
+    title: "A client has no time zone set: whose 09:00 does its invoice go out at?",
+    context: "9 of the 112 clients on a monthly template have no time zone. Their address names a country, not always a zone.",
     choices: [
-      { text: "The rate on the invoice's date", recommended: true },
-      { text: "The rate on the day it is sent" },
+      { text: "The account's own time zone, until the client sets one", recommended: true },
+      { text: "The zone of the client's country, the capital's for a country with several" },
+      { text: "UTC" },
     ],
   },
 ];
 
-/** @type {{ id: string, label: string, who: string, at: string, subject: string, text: string }} */
-export const reply = {
-  id: "sign-in-links",
-  label: "Reply",
-  who: "Client portal sign-in",
-  at: "11:40",
-  subject: "Sign-in links expire after 15 minutes",
-  text: "Done as you asked: the expiry is a setting now, 15 minutes unless you change it.\nThe tests pass, and links sent before the next deploy keep working until they expire.",
-};
+// What needs you besides the questions: the pull request's review, a headline row of Needs you.
+export const review = { kind: "Review", subject: "#42 Recurring invoices: the scheduler makes each due invoice once", text: "Your review is requested." };
+
+// The drawer's other filters, which the questions leave as they are.
+export const withYou = 6;
+export const sessions = 3;

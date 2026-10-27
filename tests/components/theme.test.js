@@ -148,7 +148,7 @@ describe("the theme button", () => {
   });
 });
 
-describe("the Overview's screenshots", () => {
+describe("the canvas page's screenshots", () => {
   afterEach(cleanup);
 
   test("on the second screen, one picture per theme, lazy so the hidden one is not fetched", async () => {
@@ -163,8 +163,8 @@ describe("the Overview's screenshots", () => {
         Boolean(p.querySelector("img").getAttribute("alt")),
       ]),
     ).toEqual([
-      ["for-dark", "/shots/hero-wide-dark.webp", "lazy", true],
-      ["for-light", "/shots/hero-wide-light.webp", "lazy", true],
+      ["for-dark", "/shots/tour-dark.webp", "lazy", true],
+      ["for-light", "/shots/tour-light.webp", "lazy", true],
     ]);
   });
 });

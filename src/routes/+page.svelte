@@ -2,19 +2,20 @@
   import Address from "#lib/Address.svelte";
   import GitHub from "#lib/GitHub.svelte";
   import Theme from "#lib/Theme.svelte";
-  import NeedsYou from "#lib/home/NeedsYou.svelte";
+  import Drawer from "#lib/home/Drawer.svelte";
   import Tour from "#lib/home/Tour.svelte";
+  import { hero, WIDE } from "#lib/home/places.js";
   import { copyText } from "#lib/clipboard.js";
 
-  // namp's screenshots, from a trial server of namp v0.6.0, by theme: the wide one, a topic's Overview, under the
-  // hero and whole on the second screen; the phone's, on an iPhone, the question opened as a layer from a thread
-  // that links it, among the second screen's cuts on a narrow one.
+  // namp's screenshots, from a trial server of namp, by theme: the hero's, a topic's canvas page with namp's
+  // drawer open on a question, under the live drawer; the tour's, the same page with its Timeline open, whole on
+  // the second screen and cut on a narrow one. On a phone the hero is the live drawer alone.
   const alt =
-    "A topic's Overview in namp: under Needs you its session asks which day an invoice set for the 31st goes out in a shorter month, and recommends the month's last day; under it Recent with you, the owner's latest threads with the session; today's timeline shows the session and three sibling sessions at work; Since you were here counts 2 items done, 1 decision and 1 change; the lane holds the topic's threads, goal, plan, squad and documents.";
+    "A topic's canvas page in namp: the canvas bar counts its 2 asks and steps through them; Timeline shows today's work by the session and three sibling sessions, two questions open; Since you were here counts 2 done and 1 decided; the decisions D3 and D4 each carry an ask's mark in the gutter; the lane at the right holds the topic's threads, its goal, Work with 2 tasks running, its pull request waiting on your review and its documents.";
 
   const shots = {
-    dark: { wide: { src: "/shots/hero-wide-dark.webp", width: 1600, height: 1000 } },
-    light: { wide: { src: "/shots/hero-wide-light.webp", width: 1600, height: 1000 } },
+    dark: { wide: { src: "/shots/tour-dark.webp", width: WIDE.w, height: WIDE.h } },
+    light: { wide: { src: "/shots/tour-light.webp", width: WIDE.w, height: WIDE.h } },
   };
 
   let { data } = $props();
@@ -27,8 +28,8 @@
 
   let command = $derived(data.tester ? `curl -fsSL ${data.site}/install.sh | sh -s -- ${data.tester.token}` : "");
   let copied = $state(false);
-  // The room Needs you's spot held before the first answer: it keeps it as answered asks fold out, so the hero
-  // stays where it is and the Overview behind it, aligned with the panel, shows where the asks were.
+  // The room the drawer held before the first answer: it keeps it as what it shows changes, so nothing round the
+  // hero moves.
   /** @type {HTMLElement | undefined} */
   let spot = $state();
   let held = $state(0);
@@ -97,10 +98,12 @@
         {@render ask(true)}
       {/if}
     </div>
-    <!-- namp's Overview at work, dimmed, and lit in it, where the Overview's own is, namp's Needs you, live. -->
-    <div class="spot" bind:this={spot} style:min-height={held ? `${held}px` : null}>
+    <!-- A topic's canvas page in namp, dimmed, and lit in it, where the shot has it, namp's drawer, live. -->
+    <div class="spot" style:--w={WIDE.w} style:--from={hero.from} style:--drawer={WIDE.w - hero.drawer} style:--shown={hero.shown}>
       <div class="backdrop" aria-hidden="true"></div>
-      <NeedsYou onanswer={hold} />
+      <div class="lit" bind:this={spot} style:min-height={held ? `${held}px` : null}>
+        <Drawer onanswer={hold} />
+      </div>
     </div>
   </section>
 
@@ -161,13 +164,13 @@
   /* The screenshot runs past the page's right edge: clipped here, it never widens the page into a sideways
      scroll. On main, as body's overflow would pass to the viewport. The screenshots' addresses by theme, read as
      backgrounds here and in the second screen (Tour.svelte), so only the theme's is fetched. */
-  /* --wash is how much of the ground lies over the hero's dimmed Overview, --shade the scrim under it, and --veil
-     how strongly the second screen dims the Overview round a gain's part: Light's scrim darkens a light
-     screenshot into a grey slab, so there the hero's Overview fades by the ground alone, its own ground then the
+  /* --wash is how much of the ground lies over the hero's dimmed canvas page, --shade the scrim under it, and
+     --veil how strongly the second screen dims the page round a gain's part: Light's scrim darkens a light
+     screenshot into a grey slab, so there the hero's page fades by the ground alone, its own ground then the
      page's, and the veil is half as strong. */
   main {
     --wide: url("/shots/hero-wide-dark.webp");
-    --phone: url("/shots/hero-phone-dark.webp");
+    --tour: url("/shots/tour-dark.webp");
     --wash: 30%;
     --shade: var(--dim);
     --veil: 1;
@@ -176,7 +179,7 @@
 
   :global([data-theme="light"]) main {
     --wide: url("/shots/hero-wide-light.webp");
-    --phone: url("/shots/hero-phone-light.webp");
+    --tour: url("/shots/tour-light.webp");
     --wash: 74%;
     --shade: transparent;
     --veil: 0.5;
@@ -185,7 +188,7 @@
   @media (prefers-color-scheme: light) {
     :global(:root:not([data-theme])) main {
       --wide: url("/shots/hero-wide-light.webp");
-      --phone: url("/shots/hero-phone-light.webp");
+      --tour: url("/shots/tour-light.webp");
       --wash: 74%;
       --shade: transparent;
       --veil: 0.5;
@@ -219,9 +222,10 @@
   }
 
   /* The first screen, the window's height at least: what namp is and the call in columns 1 to 5, and from
-     column 6 namp's Overview, dimmed, with Needs you lit where the Overview's own is. --u is one px of the
-     screenshot on the page, the window's height in thousandths, so the Overview's 1000px take the screen. Its
-     top and bottom clear the corner by as much. Side by side from 72rem; stacked below. */
+     column 6 a topic's canvas page, dimmed, with namp's drawer lit where the shot has it, at the window's right
+     edge as namp's is. --u is one px of the screenshot on the page, the window's height in thousandths, so the
+     shot's 1000px would take the screen. Its top and bottom clear the corner by as much. Side by side from
+     72rem; stacked below. */
   .hero {
     --u: clamp(0.8px, 100svh / 1000, 1.05px);
     position: relative;
@@ -439,48 +443,55 @@
     }
   }
 
-  /* The spot: as wide as the Overview's own Needs you, 916px of the screenshot from its 344th, and on it
-     Needs you, on the ground, a margin of its own round it lit. Behind it the Overview from the same place:
-     past the sidebar, 312px in, and under its header, 52px down, as the 1288 by 948 it shows of it. It lies
-     dimmed under namp's --dim, fading into the ground at its left and its bottom, and runs off the page's
-     right edge. Beside the words, the spot is narrower than its columns where it must be for the Overview's
-     lane to show beside it: 1180px of the Overview, Needs you, its gutter and most of the lane, fit from the
-     spot's left to the page's edge, the lane's end running off it. A column narrower than 916 --u narrows the
-     spot too. The Overview behind then takes the spot's own scale, its px the spot's width in 916ths, so its
-     Needs you stays under the spot's. */
+  /* The spot: from column 6 to the window's right edge, past the gutter, where namp's drawer stands in its
+     window. At its right the drawer, as wide as the shot's (--drawer, in the shot's px, from places.js), lit and
+     live; behind it, from its left, the canvas page as the shot has it beside the drawer, at the same scale and
+     level with it, so the drawer lies where the shot's does. The drawer is the shot's top --shown px tall at
+     least, and as tall as what it shows needs, its foot fading into the ground as namp's runs on down the
+     window. */
   .spot {
-    container-type: inline-size;
+    display: flex;
+    justify-content: end;
     position: relative;
-    width: min(100%, calc(916 * var(--u)));
+    margin-right: calc(-1 * var(--gutter));
   }
 
-  @media (min-width: 72rem) {
-    .spot {
-      width: min(100%, calc(916 * var(--u)), calc((100% + var(--gutter)) * 916 / 1180));
-    }
+  .lit {
+    display: flex;
+    flex-direction: column;
+    width: min(100%, calc(var(--drawer) * var(--u)));
+    min-height: calc(var(--shown) * var(--u));
   }
 
+  .lit :global(.drawer) {
+    flex: 1;
+    padding-bottom: 96px;
+    mask-image: linear-gradient(var(--mask) calc(100% - 96px), transparent);
+  }
+
+  /* The canvas page left of the drawer, the shot's right edge on the window's, a little under the words at
+     most and never past the page's own left edge, past the sidebar: dimmed under namp's --dim, fading into the
+     ground at its left, at its top and at its foot. Its left fade starts 160 shot px left of the drawer at
+     the latest (--fade), so where the drawer takes nearly the whole column, no sliver of the page shows. */
   .backdrop {
-    --u: calc(100cqw / 916);
+    --fade: max(0px, calc((160 + var(--drawer)) * var(--u) - 100%));
     position: absolute;
     z-index: -1;
-    top: calc(-24 * var(--u));
-    left: calc(-32 * var(--u));
-    width: calc(1288 * var(--u));
-    /* Down to a little under Needs you, never past the screen's floor: the spot is centred in it, so the floor
-       is half a screen and half the spot below the spot's middle. */
-    height: min(calc(100% + 116 * var(--u)), calc(50svh + 50% + 24 * var(--u)));
-    background: var(--wide) calc(-312 * var(--u)) calc(-52 * var(--u)) / calc(1600 * var(--u)) auto no-repeat;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(100% + var(--sp-12), calc((var(--w) - var(--from)) * var(--u)));
+    background: var(--wide) right top / calc(var(--w) * var(--u)) auto no-repeat;
     mask-image:
-      linear-gradient(90deg, transparent, var(--mask) calc(160 * var(--u))),
-      linear-gradient(transparent, var(--mask) calc(120 * var(--u)), var(--mask) calc(100% - 120 * var(--u)), transparent);
+      linear-gradient(90deg, transparent var(--fade), var(--mask) calc(var(--fade) + 160 * var(--u))),
+      linear-gradient(transparent, var(--mask) calc(64 * var(--u)), var(--mask) calc(100% - 120 * var(--u)), transparent);
     mask-composite: intersect;
     animation: arrive 900ms var(--ease-out) both 150ms;
   }
 
-  /* namp's scrim (--shade), and over it a wash of the ground (--wash): the Overview's lines lose their contrast
-     in either theme. Light has no scrim, which would only darken its ground into a grey slab round the lit
-     Needs you. */
+  /* namp's scrim (--shade), and over it a wash of the ground (--wash): the page's lines lose their contrast in
+     either theme. Light has no scrim, which would only darken its ground into a grey slab round the lit
+     drawer. */
   .backdrop::after {
     content: "";
     position: absolute;
@@ -494,28 +505,6 @@
     from {
       opacity: 0;
     }
-  }
-
-  /* Under Needs you, the ground down to the hero's floor (the hero clips it), wherever the panel ends, an answer
-     shortening it included: under the panel the Overview would show as rows cut by its edge. It feathers in the
-     Overview's gutter past the panel, where the Overview's right column runs on, dimmed. */
-  .spot :global(.needs-you::after) {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 100%;
-    left: calc(-64 * var(--u));
-    right: calc(-28 * var(--u));
-    height: 100svh;
-    background: var(--bg);
-    mask-image: linear-gradient(90deg, var(--mask) calc(100% - 28 * var(--u)), transparent);
-    pointer-events: none;
-  }
-
-  .spot :global(.needs-you) {
-    position: relative;
-    margin: calc(-16 * var(--u));
-    padding: calc(16 * var(--u));
   }
 
   /* A tester's two steps and the release, after the second screen, on its lines: the steps in columns 1 to 5,
@@ -662,16 +651,17 @@
     font-size: var(--fs-sm);
   }
 
-  /* On a phone: tighter steps, the call stacked to the column's width, and Needs you alone on the ground, the
-     Overview's shown on the second screen. */
+  /* On a phone: tighter steps, the call stacked to the column's width, and the drawer alone, the canvas page
+     shown on the second screen. */
   @media (max-width: 40rem) {
     :global(.grid) {
       column-gap: var(--sp-4);
     }
 
+    /* The drawer runs down to the second screen's hairline. */
     .hero {
       row-gap: var(--sp-10);
-      padding-block: 72px var(--sp-10);
+      padding-block: 72px 0;
     }
 
     h1 {
@@ -686,9 +676,21 @@
       display: none;
     }
 
-    .spot :global(.needs-you) {
-      margin: 0;
-      padding: 0;
+    /* The drawer alone, across the window as namp shows a question on a phone, as tall as it is. */
+    .spot {
+      margin-inline: calc(-1 * var(--gutter));
+    }
+
+    .lit {
+      width: 100%;
+      min-height: 0;
+    }
+
+    .lit :global(.drawer) {
+      padding-bottom: var(--sp-2);
+      border-top: 1px solid var(--line);
+      border-left: 0;
+      mask-image: none;
     }
 
     .command {
