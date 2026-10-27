@@ -29,11 +29,17 @@
   let command = $derived(data.tester ? `curl -fsSL ${data.site}/install.sh | sh -s -- ${data.tester.token}` : "");
   let copied = $state(false);
   // The room the drawer held before the first answer: it keeps it as what it shows changes, so nothing round the
-  // hero moves.
+  // hero moves. On a phone, once the last question is answered, the drawer fits what is left (fit), the page
+  // under it following the reader's own answer.
   /** @type {HTMLElement | undefined} */
   let spot = $state();
   let held = $state(0);
-  const hold = () => (held ||= spot?.getBoundingClientRect().height ?? 0);
+  let fit = $state(false);
+  /** @param {number} open */
+  function hold(open) {
+    held ||= spot?.getBoundingClientRect().height ?? 0;
+    if (!open && typeof matchMedia === "function" && matchMedia("(max-width: 40rem)").matches) fit = true;
+  }
   let shown = $state();
 
   // Copied, or with no clipboard at all the command selected, for the tester to copy.
@@ -101,7 +107,7 @@
     <!-- A topic's canvas page in namp, dimmed, and lit in it, where the shot has it, namp's drawer, live. -->
     <div class="spot" style:--w={WIDE.w} style:--from={hero.from} style:--drawer={WIDE.w - hero.drawer} style:--shown={hero.shown}>
       <div class="backdrop" aria-hidden="true"></div>
-      <div class="lit" bind:this={spot} style:min-height={held ? `${held}px` : null}>
+      <div class="lit" class:fit bind:this={spot} style:--held={held ? `${held}px` : null}>
         <Drawer onanswer={hold} />
       </div>
     </div>
@@ -460,7 +466,7 @@
     display: flex;
     flex-direction: column;
     width: min(100%, calc(var(--drawer) * var(--u)));
-    min-height: calc(var(--shown) * var(--u));
+    min-height: max(calc(var(--shown) * var(--u)), var(--held, 0px));
   }
 
   .lit :global(.drawer) {
@@ -658,9 +664,11 @@
       column-gap: var(--sp-4);
     }
 
-    /* The drawer runs down to the second screen's hairline. */
+    /* The drawer runs down to the second screen's hairline, the hero as tall as what it holds, so the drawer
+       closing up after the last answer brings the hairline up with it. */
     .hero {
       row-gap: var(--sp-10);
+      min-height: 0;
       padding-block: 72px 0;
     }
 
@@ -683,6 +691,12 @@
 
     .lit {
       width: 100%;
+      min-height: var(--held, 0px);
+      transition: min-height 240ms var(--ease-out);
+    }
+
+    /* After the last answer the drawer fits what is left, closing up as the question folds out. */
+    .lit.fit {
       min-height: 0;
     }
 

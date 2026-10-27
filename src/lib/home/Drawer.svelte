@@ -16,7 +16,7 @@
 
   /** @import { Choice } from "./demo.js" */
 
-  /** @type {{ onanswer?: () => void }} */
+  /** @type {{ onanswer?: (open: number) => void }} */
   let { onanswer } = $props();
 
   let at = $state(0);
@@ -48,7 +48,8 @@
   async function pick(c) {
     // The choice shows picked a moment, its ring filled, before the question folds out.
     if (!still()) await new Promise((done) => setTimeout(done, 180));
-    onanswer?.();
+    // Told how many questions are still open once this one is answered.
+    onanswer?.(asks.length - at - 1);
     at += 1;
     said = `Answered: ${c.text}. ${left} waiting for you${now ? `, next: ${now.title}` : ""}.`;
     // The focus was on a choice that is gone: it goes to the next question, as namp brings it up, or to the

@@ -114,14 +114,36 @@ describe("the drawer on the home page", () => {
     expect(text(".said")).toBe("Answered: The account's own time zone, until the client sets one. 1 waiting for you.");
   });
 
-  test("the hero keeps the room the drawer held as what it shows changes, so nothing round it moves", async () => {
+  test("the hero keeps the room the drawer held as what it shows changes, so nothing round it moves, on a wide screen to the end", async () => {
     await page();
     const lit = document.querySelector(".hero .lit");
     lit.getBoundingClientRect = () => ({ height: 702.5 });
-    expect(lit.style.minHeight).toBe("");
+    expect(lit.style.getPropertyValue("--held")).toBe("");
     await fireEvent.click(choices()[0]);
     await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
-    expect(lit.style.minHeight).toBe("702.5px");
+    expect(lit.style.getPropertyValue("--held")).toBe("702.5px");
+    await fireEvent.click(choices()[0]);
+    await vi.waitFor(() => expect(question()).toBeNull());
+    expect(lit.classList.contains("fit")).toBe(false);
+    expect(rule(style("src/routes/+page.svelte"), ".lit")).toMatch(/min-height: max\(calc\(var\(--shown\) \* var\(--u\)\), var\(--held, 0px\)\);/);
+  });
+
+  test("on a phone, once the last question is answered, the drawer fits what is left, the page under it closing up", async () => {
+    vi.stubGlobal("matchMedia", (q) => ({ matches: q.includes("reduce") || q.includes("max-width: 40rem"), media: q, addEventListener() {}, removeEventListener() {} }));
+    await page();
+    const lit = document.querySelector(".hero .lit");
+    lit.getBoundingClientRect = () => ({ height: 640 });
+    await fireEvent.click(choices()[0]);
+    await vi.waitFor(() => expect(question().dataset.question).toBe("no-time-zone"));
+    expect(lit.classList.contains("fit")).toBe(false);
+    expect(lit.style.getPropertyValue("--held")).toBe("640px");
+    await fireEvent.click(choices()[0]);
+    await vi.waitFor(() => expect(question()).toBeNull());
+    expect(lit.classList.contains("fit")).toBe(true);
+    const phone = style("src/routes/+page.svelte").split("@media (max-width: 40rem)")[1];
+    expect(rule(phone, ".lit")).toMatch(/min-height: var\(--held, 0px\);\s*transition: min-height 240ms/);
+    expect(rule(phone, ".lit.fit")).toMatch(/min-height: 0;/);
+    expect(rule(phone, ".hero")).toMatch(/min-height: 0;\s*padding-block: 72px 0;/);
   });
 
   test("by the keyboard, a choice's number key picks it while the question has the focus", async () => {

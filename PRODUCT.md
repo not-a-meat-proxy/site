@@ -71,9 +71,11 @@ timelines. It is not a chat client and not a terminal multiplexer.
 
 ## Evidence on Hand
 
-- The four hero screenshots in `static/shots/`, of namp at the release, Dark and Light, wide and
-  on a phone, from a trial server: a synthetic demo topic whose session asks which day an invoice
-  set for the 31st goes out in a shorter month.
+- The screenshots in `static/shots/`, of namp at the release, each in Dark and Light, from a trial
+  server: the hero's wide shot of a topic's canvas page with the drawer open on a question, the
+  tour's wide shot of the same page with Timeline open, and the tour's two phone shots, its asks
+  under the canvas bar and its Timeline. The topic is a synthetic demo whose session asks which
+  day an invoice set for the 31st goes out in a shorter month.
 - The app itself, which may be shown still or moving: screenshots and, where it helps, a short
   recording or a faithful live rendering of the app at work, its demo content synthetic and
   plainly so.
