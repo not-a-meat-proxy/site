@@ -96,7 +96,14 @@ describe("the docs", () => {
   test("/docs/first-topic opens the conversation and the goal from the lane", async () => {
     const article = (await html("/docs/first-topic")).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
     expect(article).toContain("from <strong>Threads</strong>, the first card of its lane");
-    for (const card of ["Threads", "Goal", "Plan", "Squad", "Pull request", "Documents"]) expect(article).toContain(`<li><strong>${card}</strong>, `);
+    for (const card of ["Threads", "Goal", "Work", "Pull request", "Documents"]) expect(article).toContain(`<li><strong>${card}</strong>, `);
+  });
+
+  test("/docs/first-topic opens a topic on its canvas, its questions marks beside the text", async () => {
+    const article = (await html("/docs/first-topic")).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
+    expect(article).toContain("A topic opens on its first canvas");
+    expect(article).toContain("is not in the text: it is a mark in the column at the left edge of the pane");
+    expect(article).not.toMatch(/Overview/);
   });
 
   test("keep Markdown's HTML as text", async () => {

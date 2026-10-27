@@ -27,27 +27,33 @@ Then press **Start the session**. namp opens the session in a new herdr tab and 
 
 ## Read a topic
 
-A topic opens on its **Overview**. The switcher in its top bar, which names the view you are on, lists its other views: **Files** for a topic on a project, **Record**, its canvas and every other document. `[` and `]` step through them. From the top, the Overview shows:
+A topic opens on its first canvas, the document its session writes, where you left it: only your first visit opens it at the first thing waiting for you. The switcher in its top bar, which names the view you are on, lists its other views: **Files** for a topic on a project, **Record**, and every other document. `[` and `]` step through them.
 
-- **Needs you**, what waits for you in this topic;
-- **Recent with you**, the last five threads you are in that Needs you does not list, and **All threads**;
-- its work as a timeline, over **Today**, **2 hours** or the **Week**, a line for you, the session and each session it started: click a bar to see it in the drawer;
-- **Since you were here**, one line counting what came since your last visit, such as `3 done · 1 decided · 4 changes · Everything`. Each count opens what it counts, and **Everything** the Record view. On your first visit it reads **The last 7 days**.
+A question the session links in the canvas is not in the text: it is a mark in the column at the left edge of the pane, an orange `?` in a ring beside the part of the canvas it decides, `?3` when three wait there. A speech bubble marks a thread going on, in green when it waits for you. Click a mark to open it in the drawer.
+
+The bar under the top bar stays in view over the canvas:
+
+- the `?` and how many questions and other asks wait on this canvas, then `1/6` as you step through them with its arrows, `n` and `N`, or F8 and Shift+F8. Each step scrolls to the ask and opens it in the drawer, ready to answer;
+- `+2` for what waits for you elsewhere in the topic, such as a goal to accept, which opens Needs you in the drawer;
+- a green `?` that shows, in the column of marks, where you already answered;
+- **Timeline**, at its right, the topic's work over **Today**, **2 hours** or the **Week**, a line for you, the session and each session it started: click a bar to see it in the drawer;
+- at its left, when the session is in trouble, such as **Failed to start**, what went wrong: click it to see what happened and what to do.
+
+Over the canvas's title, **Since you were here** is one line counting what came since your last visit, such as `3 done · 1 decided · 4 changes · Everything`. Each count opens what it counts, and **Everything** the Record view. On your first visit it reads **The last 7 days**. In the sidebar, the canvas's outline counts the asks under each heading: click one to go there.
 
 Where the work is going sits in the lane at the right of the page, on every view of the topic, a card per subject:
 
-- **Threads**, how many asks wait for you, and the newest;
+- **Threads**, how many asks wait for you, what waits outside the canvas, and your last three threads;
 - **Goal**, its state and how many of its criteria are met, such as 2 / 3, and its title;
-- **Plan**, what runs now and how many items are planned;
-- **Squad**, the sessions its session started that run or ran today, or that it works alone;
+- **Work**, the topic's session and the sessions it started that run now, what each works on, and how far the plan is;
 - **Pull request**, for a topic on a project on GitHub;
 - **Documents**, how many the topic works on.
 
-Click a card to open its subject whole in the drawer at the right, and again to hide it: the goal with each criterion and what shows it holds, the whole plan as a checklist, done and dropped checked off in place, who works on the topic, and each document with the changes you have not seen yet. `{` and `}` step through the subjects. The button under the cards folds them into pills, small squares with the same click; in a narrow window they are pills by themselves, and on a phone a row above the page.
+Click a card to open its subject whole in the drawer at the right, and again to hide it: the goal with each criterion and what shows it holds, the whole plan as a checklist, done and dropped checked off in place, and who works on the topic, under Work's **Plan** and **Squad**, and each document with the changes you have not seen yet. `{` and `}` step through the subjects. The button under the cards folds them into pills, small squares with the same click; in a narrow window they are pills by themselves, and on a phone a row above the page.
 
-Nothing on the Overview asks you to mark it read: once the Since you were here line has been in view, it counts as seen, and the next time you come back it counts from there.
+Nothing in a topic asks you to mark it read: once the Since you were here line has been in view, it counts as seen, and the next time you come back it counts from there.
 
-**Record**, after Overview and Files in the switcher, is the topic's whole record, the newest first: work started and done, decisions the session took, messages and what they led to, changes to the canvas. Its filters, All, Work, Decisions, Conversation and Changes, each count their rows. Click a piece of work to see where it came from and what it did.
+**Record**, after Files in the switcher, is the topic's whole record, the newest first: work started and done, decisions the session took, messages and what they led to, changes to the canvas. Its filters, All, Work, Decisions, Conversation and Changes, each count their rows. Click a piece of work to see where it came from and what it did.
 
 A link you follow, to a thread, a part of the canvas or a decision, opens as a layer, the page staying where you read it. It opens beside the page by default, and in a window 1000px wide or narrower it takes the drawer's place. **Followed links**, in **Settings** under **Appearance**, picks **Beside** or **Leaflet**, a column at the right. Close it, or press `Esc`, to come back to the link.
 
@@ -55,7 +61,7 @@ When the session decides something without asking you, it says so in the record,
 
 ## Answer a question
 
-When a session needs a decision, it asks you a question: a title, its context, numbered choices with the one it recommends marked, and **Your own answer** last. A question shows where the session links it on the canvas, under Needs you, and in its thread.
+When a session needs a decision, it asks you a question: a title, its context, numbered choices with the one it recommends marked, and **Your own answer** last. It opens in the drawer, from its mark on the canvas, a step of the bar or Needs you, and on Home as a layer beside the briefing.
 
 Pick a choice with a click, or its number once the question has the focus, or type your own answer, then send it with the arrow or Ctrl+Enter, Cmd+Enter on a Mac. The session gets it at once and goes on. To change your mind, pick another choice.
 
