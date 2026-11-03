@@ -1,5 +1,5 @@
 name: Idea or question
-description: Something namp could do, or something you'd like to know.
+description: Something NAMP could do, or something you'd like to know.
 labels: [needs-triage]
 body:
   - type: textarea

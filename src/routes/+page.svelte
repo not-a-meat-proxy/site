@@ -4,18 +4,20 @@
   import Theme from "#lib/Theme.svelte";
   import Drawer from "#lib/home/Drawer.svelte";
   import Tour from "#lib/home/Tour.svelte";
-  import { hero, WIDE } from "#lib/home/places.js";
+  import { hero, MACHINES, WIDE } from "#lib/home/places.js";
   import { copyText } from "#lib/clipboard.js";
 
   // namp's screenshots, from a trial server of namp, by theme: the hero's, a topic's canvas page with namp's
-  // drawer open on a question, under the live drawer; the tour's, the same page with its Timeline open, whole on
-  // the second screen and cut on a narrow one. On a phone the hero is the live drawer alone.
+  // drawer open on a question, under the live drawer; the tour's, the same page with its Timeline open, and
+  // Machines, whole on the second screen and cut on a narrow one. On a phone the hero is the live drawer alone.
   const alt =
-    "A topic's canvas page in namp: the canvas bar counts its 2 asks and steps through them; Timeline shows today's work by the session and three sibling sessions, two questions open; Since you were here counts 2 done and 1 decided; the decisions D3 and D4 each carry an ask's mark in the gutter; the lane at the right holds the topic's threads, its goal, Work with 2 tasks running, its pull request waiting on your review and its documents.";
+    "A topic's canvas page in NAMP: the side column at the left sorts the topic's threads into Needs you, its 2 questions and a reply, and Working, with its goal at 1 of 3 criteria met, Work with 1 of 6 items done, its pull request waiting on your review and its documents; the canvas bar counts its 2 asks and steps through them; Timeline shows today's work by the session and two sibling sessions, two questions open; Since you were here counts 1 done and 2 decided; the decisions D3 and D4 each carry an ask's mark in the gutter.";
 
+  const machinesAlt =
+    "NAMP's Machines page: this computer with its five topics, then build-box and studio reached over SSH, each with its status and the runtime that runs its sessions, herdr or hc.";
   const shots = {
-    dark: { wide: { src: "/shots/tour-dark.webp", width: WIDE.w, height: WIDE.h } },
-    light: { wide: { src: "/shots/tour-light.webp", width: WIDE.w, height: WIDE.h } },
+    dark: { wide: { src: "/shots/tour-dark.webp", width: WIDE.w, height: WIDE.h }, machines: { src: "/shots/machines-dark.webp", width: MACHINES.w, height: MACHINES.h, alt: machinesAlt } },
+    light: { wide: { src: "/shots/tour-light.webp", width: WIDE.w, height: WIDE.h }, machines: { src: "/shots/machines-light.webp", width: MACHINES.w, height: MACHINES.h, alt: machinesAlt } },
   };
 
   let { data } = $props();
@@ -54,7 +56,7 @@
 </script>
 
 <svelte:head>
-  <title>namp: scale your impact with agent sessions, without losing the thread</title>
+  <title>NAMP: scale your impact with agent sessions, without losing the thread</title>
   <meta name="description" content={lede} />
   <!-- A tester's command is in the mono, on the first screen: its face preloads with the start faces
        (app.html), so the command never reflows as it arrives. -->
@@ -87,7 +89,7 @@
       <!-- In two parts, each kept whole, so a line breaks at its comma or nowhere. -->
       <p class="lede">{#each lede.split(/(?<=,) /) as part, i}{i ? " " : ""}<span>{part}</span>{/each}</p>
       {#if data.tester}
-        <p class="open">Install namp, {data.tester.name}</p>
+        <p class="open">Install NAMP, {data.tester.name}</p>
         <!-- Wrapped in its box so it reads whole: between its words, none broken, the token whole on its own
              line unless the box is narrower than it. Copy still takes it as one line. -->
         <div class="command">
@@ -132,14 +134,14 @@
       </ol>
       <div class="know">
         <p class="mac">
-          On a Mac, install with the command, never by downloading namp in a browser: macOS stops a binary a
+          On a Mac, install with the command, never by downloading NAMP in a browser: macOS stops a binary a
           browser downloaded from running, and this alpha isn't notarized.
         </p>
         {#if data.down}
           <p class="release invalid" role="alert">The release store is not answering, so the release isn't shown: try again in a minute.</p>
         {:else if data.release}
           <div class="release">
-            <h4>namp {data.release.version}, released {data.release.date}</h4>
+            <h4>NAMP {data.release.version}, released {data.release.date}</h4>
             {#if data.release.notes}
               <div class="notes">{@html data.release.notes}</div>
             {:else}
@@ -179,6 +181,7 @@
     --tour: url("/shots/tour-dark.webp");
     --tour-phone-asks: url("/shots/tour-phone-asks-dark.webp");
     --tour-phone-timeline: url("/shots/tour-phone-timeline-dark.webp");
+    --tour-machines: url("/shots/machines-dark.webp");
     --wash: 30%;
     --shade: var(--dim);
     --veil: 1;
@@ -190,6 +193,7 @@
     --tour: url("/shots/tour-light.webp");
     --tour-phone-asks: url("/shots/tour-phone-asks-light.webp");
     --tour-phone-timeline: url("/shots/tour-phone-timeline-light.webp");
+    --tour-machines: url("/shots/machines-light.webp");
     --wash: 74%;
     --shade: transparent;
     --veil: 0.5;
@@ -201,6 +205,7 @@
       --tour: url("/shots/tour-light.webp");
       --tour-phone-asks: url("/shots/tour-phone-asks-light.webp");
       --tour-phone-timeline: url("/shots/tour-phone-timeline-light.webp");
+      --tour-machines: url("/shots/machines-light.webp");
       --wash: 74%;
       --shade: transparent;
       --veil: 0.5;

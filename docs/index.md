@@ -1,23 +1,25 @@
 # Overview
 
-namp keeps you the operator of your agent sessions, not their relay. It is a page in your browser where your sessions, Claude Code's today, put their canvases, questions and threads, one topic each, and where you answer them. It runs whole on your machine, and starts and resumes the sessions through herdr.
+NAMP keeps you the operator of your agent sessions, not their relay. It is a page in your browser where your sessions, Claude Code's today, put their canvases, questions and threads, one topic each, and where you answer them. It runs whole on your machine, and starts and resumes the sessions through herdr, or hc on a machine you switch to it.
 
 These pages are for the testers of its private alpha.
 
 ## The pages
 
-- [Install namp](/docs/install): what you need, the command from your invite, and `namp start`.
-- [Your first topic](/docs/first-topic): Home's briefing, starting a topic, reading its canvas, its Record and its lane, following a link, answering a question, the conversation and New message, and archiving a topic.
+- [Install NAMP](/docs/install): what you need, the command from your invite, and `namp start`.
+- [Your first topic](/docs/first-topic): the page and the palette, starting a topic, reading its canvas, its side column and its Record, following a link, answering a question, the inbox and New message, where a session runs and `namp attach`, and archiving a topic.
 - [Back up your data](/docs/backup): turning the backup on with a repository named in Settings, what it commits and when, and restoring on another machine.
-- [Update namp](/docs/update): moving to the latest release, and what happens to a running server.
+- [Update NAMP](/docs/update): moving to the latest release, and what happens to a running server.
 - [Report an issue](/docs/report-an-issue): the versions to give, which form to pick, and what happens next.
 
 ## Words you will meet
 
 - **Topic**: one piece of work, with its goal, its plan, its canvas, the questions asked in it and its threads.
-- **Session**: an agent session working on a topic, in a herdr pane. A topic has one, and it may start more for parts of the work.
-- **Lane**: the cards at the right of a topic's page, its threads, goal, work, pull request and documents, each opening in the drawer.
+- **Session**: an agent session working on a topic, in a terminal its machine's runtime runs, herdr or hc. A topic has one, and it may start more for parts of the work.
+- **Side column**: the pills and sections at the start of a topic's page, its threads, goal, work, pull request and documents, each opening whole in the drawer.
+- **Inbox**: the side column's Threads, every thread of the topic in sections, Needs you and Working first.
 - **Canvas**: the Markdown document a session writes for its topic: what it decided, what it did, what waits for you. A topic opens on its first canvas.
 - **Ask**: what waits for you to act, such as a question, a goal to accept or a session that is blocked. One on a canvas is a mark beside its text, and the canvas bar counts them and steps through them.
 - **Question**: a decision a session needs from you, with its context and its choices.
 - **Thread**: a conversation with the sessions, on one subject, pinned to a part of a canvas or not.
+- **Runtime**: what runs a machine's sessions, herdr or hc, picked for each machine in Machines.

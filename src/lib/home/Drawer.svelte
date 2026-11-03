@@ -1,18 +1,18 @@
 <script>
-  // namp's drawer, live, where the hero's screenshot has it: open on Threads at Needs you, in the thread of
-  // the question the canvas's gutter mark opened. Ported from namp's ui/src/lib/Drawer.svelte and
-  // DrawerTitle.svelte, its heads: the subject's icon, Threads and the count of what needs you, the caret
-  // and Hide; the filters, Needs you chosen; the thread's own head with Back, Locate and who has read it.
+  // namp's drawer, live, where the hero's screenshot has it: open on the thread of the question the canvas's
+  // gutter mark opened, as namp v0.20.0 draws a thread, the drawer holding no list of the topic's threads.
+  // Ported from namp's ui/src/lib/Drawer.svelte, DrawerTitle.svelte and ThreadDocs.svelte, its heads: the
+  // thread's name and its close; Show in, Pin and who has read it; the place it is pinned to on the canvas.
   // Then the question's message as Thread.svelte draws it, its sender's chip, name, time and new dot over
   // the question (Question.svelte), with the reply box under it (Compose.svelte). Answering it, by a click or
-  // a number key, folds it out and brings the topic's next question up, the counts one less; once both are
-  // answered the drawer shows what is left in Needs you, the pull request's review as a headline row
-  // (ThreadRow.svelte). What the demo cannot do, its heads' buttons and its boxes, is drawn and does nothing.
+  // a number key, folds it out and brings the topic's next question up; once both are answered the drawer
+  // shows Needs you across the topics, the pull request's review left as a headline row (Headline.svelte).
+  // What the demo cannot do, its heads' buttons and its boxes, is drawn and does nothing.
   import { tick } from "svelte";
   import { cubicOut } from "svelte/easing";
   import { slide } from "svelte/transition";
   import Question from "./Question.svelte";
-  import { asks, review, sessions, withYou } from "./demo.js";
+  import { asks, canvas, review } from "./demo.js";
 
   /** @import { Choice } from "./demo.js" */
 
@@ -60,30 +60,34 @@
   }
 </script>
 
-<section class="drawer" aria-labelledby="threads">
+<section class="drawer" aria-labelledby="drawer-title">
   <div class="heads">
-    <div class="drawer-head title-head">
-      <h2 id="threads" class="pick" tabindex="-1" bind:this={heading}>
-        <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4.5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H7l-3 2.5v-2.5h0a2 2 0 0 1-1.5-2z" /></svg>
-        <span class="name">Threads</span>
-        <span class="n ask" data-count>{left}</span><span class="vh">{" "}waiting for you</span>
-        <svg class="caret" viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 6.5 3.5 3.5 3.5-3.5" /></svg>
-      </h2>
-      <span class="act end" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h11.5M10.5 4.5 16 10l-5.5 5.5" /></svg></span>
-    </div>
-    <div class="drawer-head filters-head">
-      <span class="filters">
-        <span class="filter on">Needs you <span class="n" data-needs>{left}</span></span>
-        <span class="filter">With you <span class="n">{withYou}</span></span>
-        <span class="filter">Sessions <span class="n">{sessions}</span></span>
-      </span>
-      <span class="demo">demo topic</span>
-    </div>
     {#if now}
+      <!-- The thread's head, its name and its close, then its icons and who has read it, then the place it is
+           pinned to, each a bar on a hairline. -->
+      <div class="drawer-head title-head" out:fold>
+        <h2 id="drawer-title" class="pick" tabindex="-1" bind:this={heading} title={now.title}>
+          <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4.5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H7l-3 2.5v-2.5h0a2 2 0 0 1-1.5-2z" /></svg>
+          <span class="name" data-thread-title>{now.title}</span><span class="vh">, {left} waiting for you</span>
+        </h2>
+        <span class="act end" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" /></svg></span>
+      </div>
       <div class="drawer-head thread-head" aria-hidden="true" out:fold>
-        <span class="act"><svg viewBox="0 0 20 20"><path d="M16 10H4.5M9.5 4.5 4 10l5.5 5.5" /></svg></span>
         <span class="act"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="5.5" /><circle cx="10" cy="10" r="1.8" class="fill" /><path d="M10 1.5v3M10 15.5v3M1.5 10h3M15.5 10h3" /></svg></span>
-        <span class="chip end">RI<span class="badge"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" /></svg></span></span>
+        <span class="act mark"><svg viewBox="0 0 16 16"><path d="M9.8 2.5 13.5 6.2l-2.3.9-2.4 2.4.3 2.8-1 1-2.4-2.4L3 13.5M5.7 7.4 3.3 6.4l1-1 2.8.3 2.4-2.4z" /></svg></span>
+        <span class="demo end">demo topic</span>
+        <span class="chip">RI<span class="badge"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" /></svg></span></span>
+      </div>
+      <div class="docs" aria-hidden="true" out:fold>
+        <span class="doc own"
+          ><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="5.5" /><circle cx="10" cy="10" r="1.8" class="fill" /><path d="M10 1.5v3M10 15.5v3M1.5 10h3M15.5 10h3" /></svg
+          ><span class="doc-name">{canvas}</span><span class="sep">›</span><span class="doc-heading" data-thread-place>{now.place}</span></span
+        >
+      </div>
+    {:else}
+      <div class="drawer-head title-head" in:rise>
+        <h2 id="drawer-title" class="needs" tabindex="-1" bind:this={heading}><strong>Needs you</strong> <span class="muted">in every topic</span></h2>
+        <span class="act end" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h11.5M10.5 4.5 16 10l-5.5 5.5" /></svg></span>
       </div>
     {/if}
   </div>
@@ -101,13 +105,13 @@
     </div>
   {:else}
     <div class="listing" in:rise>
-      <div class="reply new" aria-hidden="true">
-        <span class="box">Message the session. @ mentions a topic, Ctrl+Enter sends.{@render send()}</span>
-      </div>
-      <p class="hint">What needs you: a question to answer, a goal or a notice to act on, then a reply or a heads-up to read. <span class="keys">j and k step, Esc hides.</span></p>
-      <div class="row fresh">
-        <span class="where"><span class="kind">{review.kind}</span><span class="sep">·</span><span class="subject">{review.subject}</span></span>
-        <span class="what">{review.text}</span>
+      <p class="hint">What needs you: a question to answer, a goal or a notice to act on, then a reply or a heads-up to read. <span class="keys">n opens the next ask, Esc hides.</span></p>
+      <div class="group">
+        <span class="group-name">{canvas} <span class="muted">· this topic</span></span>
+        <div class="row fresh">
+          <span class="where"><span class="kind">{review.kind}</span><span class="sep">·</span><span class="subject">{review.subject}</span></span>
+          <span class="what">{review.text}</span>
+        </div>
       </div>
     </div>
   {/if}
@@ -123,7 +127,7 @@
     </div>
   </div>
   <div class="reply" aria-hidden="true">
-    <span class="box">Press 1 to {q.choices.length} in the question, or type your own answer{@render send()}</span>
+    <span class="box">Press 1 to {q.choices.length} in the question, or reply{@render send()}</span>
   </div>
 {/snippet}
 
@@ -206,34 +210,21 @@
     stroke-linejoin: round;
   }
 
+  .pick .name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pick {
+    min-width: 0;
+  }
+
   .pick .icon {
     width: 18px;
     height: 18px;
     color: var(--accent-ink);
-  }
-
-  .pick .caret {
-    width: 12px;
-    height: 12px;
-    margin-left: -2px;
-    color: var(--muted);
-  }
-
-  /* namp's .n: a count, here the asks' on the ask's apricot. */
-  .n {
-    display: inline-grid;
-    place-items: center;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 5px;
-    border-radius: var(--r-sm);
-    font: var(--fw-strong) var(--fs-2xs) / 1 var(--cond);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .n.ask {
-    background: var(--ask-count);
-    color: var(--on-ask);
   }
 
   /* The heads' icons, 18px in a 30px place, in muted strokes. */
@@ -262,52 +253,107 @@
     stroke: none;
   }
 
-  /* The filters, Needs you chosen on the accent's rule. */
-  .filters-head {
-    min-height: 40px;
+  /* The pin, Marks.svelte's 14px icon in the same place. */
+  .act.mark svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 1.5;
   }
 
-  .filters {
-    display: flex;
-    align-self: stretch;
-    gap: var(--sp-1);
-  }
-
-  .filter {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: -1px;
-    padding: 0 8px;
-    border-bottom: 2px solid transparent;
-    color: var(--muted);
-    font: var(--fw-medium) var(--fs-md) / 1.2 var(--cond);
-    white-space: nowrap;
-  }
-
-  .filter .n {
-    min-width: 0;
-    padding: 0;
-    background: none;
-    color: var(--muted);
-  }
-
-  .filter.on {
-    border-bottom-color: var(--accent);
-    color: var(--ink);
-    font-weight: var(--fw-strong);
-  }
-
-  .filter.on .n {
-    color: var(--accent-ink);
-  }
-
-  /* Where namp's filters row has nothing, the demo says it is one. */
+  /* Where namp's thread head has room, the demo says it is one. */
   .demo {
-    margin-left: auto;
+    margin-right: var(--sp-2);
     color: var(--muted);
     font-size: var(--fs-xs);
     white-space: nowrap;
+  }
+
+  /* ThreadDocs.svelte: under the thread's head, the place it is pinned to, a reference with the target's icon
+     in the accent, the canvas's title, then the heading. */
+  .docs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-1) var(--sp-2);
+    padding: var(--sp-2) 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .doc {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    max-width: 100%;
+    padding: 3px var(--sp-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-xs);
+    font-size: var(--fs-sm);
+    line-height: 1.3;
+  }
+
+  .doc svg {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: var(--accent-ink);
+  }
+
+  .doc svg .fill {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .doc-name {
+    flex: none;
+  }
+
+  .doc .sep {
+    flex: none;
+  }
+
+  .doc-heading {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--ink-2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Needs you across the topics, its head as namp's: Needs you, then its reach in muted. */
+  .needs {
+    margin: 0;
+    font: var(--fw-normal) var(--fs-sm) / 1.3 var(--font);
+  }
+
+  .needs:focus {
+    outline: none;
+  }
+
+  .needs:focus-visible {
+    outline: 2px solid var(--accent);
+    border-radius: var(--r-sm);
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  /* A topic's group of what needs you, under its name. */
+  .group {
+    padding-top: var(--sp-2);
+    border-top: 1px solid var(--line);
+  }
+
+  .group-name {
+    display: block;
+    padding: var(--sp-1) 0;
+    color: var(--ink);
+    font: var(--fw-strong) var(--fs-sm) / 1.3 var(--cond);
   }
 
   .thread-head {
@@ -461,15 +507,6 @@
     color: var(--muted);
     font-size: var(--fs-md);
     line-height: 1.4;
-  }
-
-  .reply.new {
-    margin-top: 0;
-    padding: 0;
-  }
-
-  .reply.new .box {
-    border-radius: var(--r-ctl);
   }
 
   .send {

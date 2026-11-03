@@ -151,7 +151,7 @@ describe("the theme button", () => {
 describe("the canvas page's screenshots", () => {
   afterEach(cleanup);
 
-  test("on the second screen, one picture per theme, lazy so the hidden one is not fetched", async () => {
+  test("on the second screen, the canvas page and Machines per theme, lazy so the hidden ones are not fetched", async () => {
     render(Page, { data: visitor });
     await tick();
     const pictures = [...document.querySelectorAll(".tour picture")];
@@ -164,7 +164,9 @@ describe("the canvas page's screenshots", () => {
       ]),
     ).toEqual([
       ["for-dark", "/shots/tour-dark.webp", "lazy", true],
+      ["for-dark", "/shots/machines-dark.webp", "lazy", true],
       ["for-light", "/shots/tour-light.webp", "lazy", true],
+      ["for-light", "/shots/machines-light.webp", "lazy", true],
     ]);
   });
 });

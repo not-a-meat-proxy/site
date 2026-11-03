@@ -1,6 +1,6 @@
 # Report an issue
 
-Bugs, ideas and questions about namp and this site go in the site's issues on GitHub, where you can follow what becomes of them.
+Bugs, ideas and questions about NAMP and this site go in the site's issues on GitHub, where you can follow what becomes of them.
 
 ## Get the versions
 
@@ -13,18 +13,18 @@ herdr --version
 ```
 
 ```text
-namp 0.9.0 (a7b78f7 2026-10-27)
-2.1.292 (Claude Code)
-herdr 0.9.3
+namp 0.20.0 (b0c58e9 2026-11-03)
+2.1.317 (Claude Code)
+herdr 0.9.5
 ```
 
-namp's line names its version, the commit it was built from and that commit's date: paste it whole.
+NAMP's line names its version, the commit it was built from and that commit's date: paste it whole.
 
 ## Pick a form
 
 Open [the new issue page](https://github.com/not-a-meat-proxy/site/issues/new/choose), signed in to GitHub, and pick:
 
-- **Bug**, for something namp or the site did wrong. It asks for `namp --version`, your system and processor, and what happened and what you expected. The other two versions and the steps to reproduce help, and so does a screenshot.
+- **Bug**, for something NAMP or the site did wrong. It asks for `namp --version`, your system and processor, and what happened and what you expected. The other two versions and the steps to reproduce help, and so does a screenshot.
 - **Idea or question**, for anything else, with `namp --version` if you have it.
 
 > Issues are public. Leave out your invite token, and anything of your work you would not publish: its paths, its code, its screenshots.
