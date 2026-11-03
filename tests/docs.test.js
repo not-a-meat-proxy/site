@@ -8,10 +8,10 @@ import { startSite } from "./site.js";
 // that never answers: they are files of the build, needing none.
 const pages = [
   ["/docs", "Overview"],
-  ["/docs/install", "Install namp"],
+  ["/docs/install", "Install NAMP"],
   ["/docs/first-topic", "Your first topic"],
   ["/docs/backup", "Back up your data"],
-  ["/docs/update", "Update namp"],
+  ["/docs/update", "Update NAMP"],
   ["/docs/report-an-issue", "Report an issue"],
 ];
 
@@ -44,7 +44,7 @@ describe("the docs", () => {
   test.each(pages)("%s is served with no bucket, titled %s", async (path, title) => {
     const page = await html(path);
     expect(page).toContain(`<h1>${title}</h1>`);
-    expect(page).toMatch(/<title>[^<]*namp docs<\/title>/);
+    expect(page).toMatch(/<title>[^<]*NAMP docs<\/title>/);
   });
 
   test.each(pages)("%s links to every other page, and to the front page", async (path) => {
@@ -93,20 +93,25 @@ describe("the docs", () => {
     expect(article).not.toMatch(/strip under the topic's top bar|the Digest|goal on one line/);
   });
 
-  test("/docs/first-topic opens the conversation and the goal from the lane", async () => {
-    const article = (await html("/docs/first-topic")).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
-    expect(article).toContain("from <strong>Threads</strong>, the first card of its lane");
-    for (const card of ["Threads", "Goal", "Work", "Pull request", "Documents"]) expect(article).toContain(`<li><strong>${card}</strong>, `);
-  });
-
   // namp 0.9.0 opens a topic on its first canvas, its asks marks beside the text and the canvas bar
-  // stepping through them; the Overview is gone, and Plan and Squad are the views of one Work card.
-  test("/docs/first-topic opens a topic on its canvas, the canvas bar over it", async () => {
+  // stepping through them. namp 0.20.0 puts its subjects in the side column at the page's start, Threads
+  // the inbox in sections, and runs a machine's sessions on herdr or hc, namp attach reaching them.
+  test("/docs/first-topic opens a topic on its canvas, the canvas bar over it and the side column beside", async () => {
     const article = (await html("/docs/first-topic")).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
     expect(article).toContain("A topic opens on its canvas, where you last left it.");
     expect(article).toContain("The canvas bar, under the top bar, stays in view over the canvas.");
     expect(article).toContain("Over the canvas's title, <strong>Since you were here</strong>");
     expect(article).toContain("<strong>Record</strong>, after Files in the switcher");
+    expect(article).toContain("Where the work is going sits in the side column, between the sidebar and the canvas");
+    for (const section of ["Threads", "Goal", "Work", "Pull request", "Documents"]) expect(article).toContain(`<li><strong>${section}</strong>, `);
+    for (const section of ["Pinned", "Needs you", "Working"]) expect(article).toContain(`<li><strong>${section}</strong>: `);
+    expect(article).toContain("namp attach &lt;topic&gt;");
+  });
+
+  // namp 0.13.0 drops Home, and namp 0.20.0 the lane and the drawer's lists of a topic's threads.
+  test.each(pages)("%s names no Home, lane, Chat or drawer tab namp 0.20.0 dropped", async (path) => {
+    const article = (await html(path)).match(/<article[^>]*>([\s\S]*)<\/article>/)[1];
+    expect(article).not.toMatch(/\bHome\b|\blane\b|\bChat\b|With you|Your own answer|Followed links/);
   });
 
   test.each(pages)("%s names no Overview of a topic, nor Plan and Squad as cards", async (path) => {

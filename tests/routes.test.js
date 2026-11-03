@@ -188,7 +188,7 @@ describe("the front page", () => {
     const page = await res.text();
     expect(page).not.toContain("<header");
     expect(page).toContain("Not A Meat Proxy.");
-    expect(page).toContain("<title>namp: scale your impact with agent sessions, without losing the thread</title>");
+    expect(page).toContain("<title>NAMP: scale your impact with agent sessions, without losing the thread</title>");
     expect(page).toContain("Scale your impact with agent sessions, without losing the thread.");
     expect(page).toContain('href="mailto:invites@example.com"');
     expect(page).toContain("Get an invite");
@@ -200,12 +200,12 @@ describe("the front page", () => {
     const res = await site.get("/", cookie(alice));
     expect(res.headers.get("cache-control")).toBe("private, no-store");
     const page = await res.text();
-    expect(page).toContain("Install namp, alice");
+    expect(page).toContain("Install NAMP, alice");
     // One line in one element, its words in spans the box wraps between, which Copy takes whole.
     const shown = /<div class="command[^"]*"><code[^>]*>(.*?)<\/code>/.exec(page)[1].replace(/<[^>]*>/g, "");
     expect(shown).toBe(`curl -fsSL ${site.url}/install.sh | sh -s -- ${alice}`);
-    expect(page).toContain("never by downloading namp in a browser");
-    expect(page).toContain("namp 0.2.0, released 2026-10-16");
+    expect(page).toContain("never by downloading NAMP in a browser");
+    expect(page).toContain("NAMP 0.2.0, released 2026-10-16");
     expect(page).toContain("<code>namp update</code> moves you to the next release");
   });
 
@@ -351,7 +351,7 @@ describe("when the bucket refuses", () => {
     }
     expect(res.status).toBe(200);
     const page = await res.text();
-    expect(page).toContain("Install namp, alice");
+    expect(page).toContain("Install NAMP, alice");
     expect(page).toContain("The release store is not answering, so the release isn't shown: try again in a minute.");
     expect(page).not.toContain("No release is out yet");
   });

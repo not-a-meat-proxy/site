@@ -10,8 +10,8 @@ import Tour from "../../src/lib/home/Tour.svelte";
 import { PHONE, tour } from "../../src/lib/home/places.js";
 
 const shots = {
-  dark: { wide: { src: "/shots/tour-dark.webp", width: 1600, height: 1000 } },
-  light: { wide: { src: "/shots/tour-light.webp", width: 1600, height: 1000 } },
+  dark: { wide: { src: "/shots/tour-dark.webp", width: 1600, height: 1000 }, machines: { src: "/shots/machines-dark.webp", width: 1352, height: 1000, alt: "namp's Machines page" } },
+  light: { wide: { src: "/shots/tour-light.webp", width: 1600, height: 1000 }, machines: { src: "/shots/machines-light.webp", width: 1352, height: 1000, alt: "namp's Machines page" } },
 };
 
 /** @type {((entries: { isIntersecting: boolean, target: Element }[]) => void)[]} */
@@ -88,11 +88,18 @@ describe("the gains", () => {
     expect([chosen(), tabs()[0].tabIndex, tabs()[3].tabIndex]).toEqual([0, 0, -1]);
   });
 
-  test("your machines, with no part of its own, marks the whole page and its address on your machine", async () => {
+  test("your machines shows Machines over the canvas page, marks its machines and its address on your machine", async () => {
     render(Tour, { alt: "a topic's canvas page", shots });
+    expect(document.querySelector(".frame").classList.contains("machines")).toBe(false);
     await fireEvent.click(tabs()[3]);
+    expect(document.querySelector(".frame").classList.contains("machines")).toBe(true);
+    expect([...document.querySelectorAll(".frame .alt img")].map((i) => [i.getAttribute("src"), i.getAttribute("alt")])).toEqual([
+      ["/shots/machines-dark.webp", "namp's Machines page"],
+      ["/shots/machines-light.webp", "namp's Machines page"],
+    ]);
     expect(document.querySelector(".where.on").textContent).toBe("localhost:4321");
-    expect([...document.querySelectorAll(".mark.on rect")].map((r) => r.getAttribute("width"))).toEqual([String(1288 - 2)]);
+    // Machines' parts, in its shot's px from past the rail, the frame's px from past the sidebar in the tour's.
+    expect([...document.querySelectorAll(".mark.on rect")].map((r) => Number(r.getAttribute("width")))).toEqual(tour.gains.machines.boxes.map(([, , w]) => w - 2));
   });
 });
 
@@ -171,7 +178,7 @@ describe("the tour moving on by itself", () => {
 });
 
 describe("on a narrow screen", () => {
-  test("each gain stands over its own cut of the app, your machines over the whole page at its address, its outline traced as it comes into view", async () => {
+  test("each gain stands over its own cut of the app, your machines over Machines at its address, its outline traced as it comes into view", async () => {
     render(Tour, { alt: "a topic's canvas page", shots });
     const items = [...document.querySelectorAll(".list li")];
     expect(items.map((li) => [li.querySelector(".term").textContent, Boolean(li.querySelector(".cut"))])).toEqual([
@@ -186,7 +193,7 @@ describe("on a narrow screen", () => {
       "var(--tour-phone-asks)",
       "var(--tour)",
       "var(--tour-phone-timeline)",
-      "var(--tour)",
+      "var(--tour-machines)",
     ]);
     seen[1]([{ isIntersecting: true, target: cut }]);
     expect(cut.classList.contains("seen")).toBe(true);
@@ -195,25 +202,26 @@ describe("on a narrow screen", () => {
   test("the first cut is the phone's canvas bar from its top through D4 with their asks' marks, the third its Timeline through Since you were here, every cut at the one width the list gives it", () => {
     render(Tour, { alt: "a topic's canvas page", shots });
     const [asks, , timeline] = [...document.querySelectorAll(".list li .cut")].map((c) => c.getAttribute("style"));
-    expect(asks).toContain("aspect-ratio: 402 / 267;");
-    expect(asks).toContain(`background-position: 0% ${(52 / (640 - 267)) * 100}%;`);
+    expect(asks).toContain("aspect-ratio: 402 / 400;");
+    expect(asks).toContain(`background-position: 0% ${(52 / (640 - 400)) * 100}%;`);
     expect(asks).toContain("background-size: 100% auto;");
-    expect(timeline).toContain("aspect-ratio: 402 / 465;");
-    expect(timeline).toContain(`background-position: 0% ${(201 / (874 - 465)) * 100}%;`);
+    expect(timeline).toContain("aspect-ratio: 402 / 506;");
+    expect(timeline).toContain(`background-position: 0% ${(52 / (874 - 506)) * 100}%;`);
     for (const c of document.querySelectorAll(".list li .cut")) expect(c.getAttribute("style")).not.toMatch(/max-width/);
     const css = readFileSync(resolve(import.meta.dirname, "../../src/lib/home/Tour.svelte"), "utf8").split("<style>")[1];
     expect(css).toMatch(/\.list \.cut \{[^}]*max-width: 40rem;/);
   });
 
-  test("each part's outline shows whole in the frame, 4 to 6px in from its left edge, its rows inside the outline, and Timeline's number in the gutter clear of its words", () => {
-    for (const { boxes, rows } of Object.values(tour.gains).slice(0, 3)) {
-      for (const [x] of boxes) expect(x - tour.from).toBeGreaterThanOrEqual(4);
+  test("each part's outline shows whole in the frame, the side column's 5px in from its left edge and the canvas's 3px in from the canvas, its rows inside the outline, and Timeline's number in the gutter clear of its words", () => {
+    for (const { boxes, rows, shot } of Object.values(tour.gains)) {
+      if (!shot) for (const [x] of boxes) expect(x - tour.from).toBeGreaterThanOrEqual(4);
       for (const [x, y, w, h] of rows) {
         expect(boxes.some(([bx, by, bw, bh]) => x >= bx + 4 && y >= by + 4 && x + w <= bx + bw - 4 && y + h <= by + bh - 4)).toBe(true);
       }
     }
-    expect(tour.gains.asks.boxes.map(([x]) => x - tour.from)).toEqual([5, 5]);
-    expect(tour.gains.timeline.boxes[0][0] - tour.from).toBe(5);
+    expect(tour.gains.side.boxes[0][0] - tour.from).toBe(5);
+    expect(tour.gains.asks.boxes.map(([x]) => x - tour.canvas)).toEqual([3, 3]);
+    expect(tour.gains.timeline.boxes[0][0] - tour.canvas).toBe(3);
     expect(tour.gains.timeline.corner).toBe("bottom");
   });
 

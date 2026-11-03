@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>{page.status === 404 ? "Not found" : "Didn't load"} · namp</title>
+  <title>{page.status === 404 ? "Not found" : "Didn't load"} · NAMP</title>
 </svelte:head>
 
 <!-- A page the site doesn't have, or one that failed, in the front page's frame: what happened, and the way back.
@@ -18,7 +18,7 @@
 <main>
   {#if page.status === 404}
     <h1>No such page</h1>
-    <p>Nothing on namp's site lives at <code>{page.url.pathname}</code>.</p>
+    <p>Nothing on NAMP's site lives at <code>{page.url.pathname}</code>.</p>
   {:else}
     <h1>This page didn't load</h1>
     <p>Something went wrong on the site's side. Try again in a minute.</p>

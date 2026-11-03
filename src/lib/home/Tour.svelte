@@ -8,9 +8,10 @@
   // gain stands over its own cut of the app, its outline traced as it scrolls into view. The screenshots'
   // addresses by theme are the page's --tour and --tour-phone-* (+page.svelte), their places in places.js.
   import { onMount } from "svelte";
-  import { PHONE, tour, WIDE } from "./places.js";
+  import { MACHINES, PHONE, tour, WIDE } from "./places.js";
 
-  /** @type {{ alt: string, shots: Record<string, { wide: { src: string, width: number, height: number } }>, call?: import("svelte").Snippet }} */
+  /** @typedef {{ src: string, width: number, height: number }} Shot */
+  /** @type {{ alt: string, shots: Record<string, { wide: Shot, machines: Shot & { alt: string } }>, call?: import("svelte").Snippet }} */
   let { alt, shots, call } = $props();
 
   // Each gain on its places, the page's parts in the shot's px: a gain's parts (boxes), the rows in them that
@@ -24,9 +25,9 @@
     },
     {
       term: "Good practice, built in",
-      text: "A goal with criteria you check, its work split across sibling sessions.",
-      place: "the lane's Goal and Work",
-      ...tour.gains.lane,
+      text: "Threads sorted by what they need from you, a goal with criteria you check, its work split across sibling sessions.",
+      place: "the side column's inbox, Goal and Work",
+      ...tour.gains.side,
     },
     {
       term: "Back in, in seconds",
@@ -36,19 +37,25 @@
     },
     {
       term: "Your machines, your work",
-      text: "No namp service in between. Nothing leaves unless you choose.",
-      place: "the whole page, which namp serves on your machine",
-      ...tour.gains.page,
+      text: "Each machine runs its sessions on herdr or hc. No NAMP service in between, nothing leaves unless you choose.",
+      place: "Machines, each machine with its runtime, on the page NAMP serves on your machine",
+      ...tour.gains.machines,
     },
   ];
 
-  // The frame: the shot from past the sidebar.
+  // The frame: the tour's shot from past the sidebar, W by H of its px; the Machines shot, as tall and as wide
+  // past the rail, fills the same frame.
   const X = tour.from;
   const W = WIDE.w - X;
   const H = WIDE.h;
   const EVERY = 4000;
+  // A gain's shot: the tour's, or the one it names, its width and where the frame starts in it.
+  /** @param {{ shot?: string }} g */
+  const shotOf = (g) => (g.shot === "machines" ? { w: MACHINES.w, x: MACHINES.from, bg: "var(--tour-machines)" } : { w: WIDE.w, x: X, bg: "var(--tour)" });
 
   let sel = $state(0);
+  // Whether the chosen gain shows the Machines shot over the tour's.
+  let machines = $derived(gains[sel].shot === "machines");
   // Whether the tour still moves on by itself: until the visitor's first click or focus on a gain.
   let auto = $state(true);
   // Whether the pointer rests on the gains: the tour waits, a cursor crossing them on its way to the call
@@ -64,24 +71,27 @@
   /** @type {HTMLElement[]} */
   const tabs = $state([]);
 
-  // A place of the shot, in the frame, in its px.
-  /** @param {number[]} b */
-  const frame = ([x, y, w, h]) => [x - X, y, w, h];
+  // A place of a gain's shot, in the frame, in its px.
+  /** @param {number[]} b @param {{ shot?: string }} [g] */
+  const frame = ([x, y, w, h], g = {}) => [x - shotOf(g).x, y, w, h];
   // A position in the frame, in % of it.
-  /** @param {number[]} b */
-  const at = (b) => {
-    const [x, y, w, h] = frame(b);
+  /** @param {number[]} b @param {{ shot?: string }} [g] */
+  const at = (b, g) => {
+    const [x, y, w, h] = frame(b, g);
     return `left:${(x / W) * 100}%;top:${(y / H) * 100}%;width:${(w / W) * 100}%;height:${(h / H) * 100}%`;
   };
-  // A row of the page over itself: the tour's shot, sized and placed so the box shows that row.
-  /** @param {number[]} b */
-  const row = ([x, y, w, h]) =>
-    `${at([x, y, w, h])};--size:${(WIDE.w / w) * 100}% auto;--pos:${(x / (WIDE.w - w)) * 100}% ${(y / (WIDE.h - h)) * 100}%`;
-  // A cut for the narrow layout, of the tour's wide shot or of a phone shot (shot), in its CSS px (its file is 2x
-  // or 3x, sized by %). Every cut shows at the one width the list gives it, a phone shot's scaled up to it.
+  // A row of the page over itself: the gain's shot, sized and placed so the box shows that row.
+  /** @param {number[]} b @param {{ shot?: string }} g */
+  const row = ([x, y, w, h], g) => {
+    const s = shotOf(g);
+    return `${at([x, y, w, h], g)};--shot:${s.bg};--size:${(s.w / w) * 100}% auto;--pos:${(x / (s.w - w)) * 100}% ${(y / (H - h)) * 100}%`;
+  };
+  // A cut for the narrow layout, of the tour's wide shot, of a phone shot or of the Machines shot (shot), in its
+  // CSS px (its file is 2x or 3x, sized by %). Every cut shows at the one width the list gives it, a phone shot's
+  // scaled up to it.
   /** @param {{ shot?: string, x: number, y: number, w: number, h: number }} c */
   function cut({ shot, x, y, w, h }) {
-    const of = shot ? PHONE[/** @type {keyof typeof PHONE} */ (shot)] : WIDE;
+    const of = shot === "machines" ? MACHINES : shot ? PHONE[/** @type {keyof typeof PHONE} */ (shot)] : WIDE;
     const pos = (/** @type {number} */ o, /** @type {number} */ s, /** @type {number} */ d) => (s === d ? 0 : (o / (s - d)) * 100);
     return `aspect-ratio:${w}/${h};background-image:var(--tour${shot ? `-${shot}` : ""});background-size:${(of.w / w) * 100}% auto;background-position:${pos(x, of.w, w)}% ${pos(y, of.h, h)}%`;
   }
@@ -194,16 +204,19 @@
   </div>
 
   <div class="over" id="canvas-page" role="tabpanel" style:--x={X} style:--fw={W} style:--fh={H} style:--sw={WIDE.w} aria-labelledby="gain-{sel}">
-    <figure class="frame">
+    <figure class="frame" class:machines>
       {#each Object.entries(shots) as [name, shot] (name)}
         <picture class="for-{name}">
           <img src={shot.wide.src} width={shot.wide.width} height={shot.wide.height} {alt} loading="lazy" />
+        </picture>
+        <picture class="for-{name} alt" style:--ax={MACHINES.from} style:--aw={MACHINES.w}>
+          <img src={shot.machines.src} width={shot.machines.width} height={shot.machines.height} alt={shot.machines.alt} loading="lazy" />
         </picture>
       {/each}
     </figure>
     <svg class="marks" viewBox="0 0 {W} {H}" aria-hidden="true">
       {#each gains as gain, i (gain.term)}
-        {@const boxes = gain.boxes.map(frame)}
+        {@const boxes = gain.boxes.map((b) => frame(b, gain))}
         {#if boxes[0][2] < W}<path class="veil" class:on={sel === i} d="M0 0H{W}V{H}H0Z {boxes.map(([x, y, w, h]) => `M${x} ${y}v${h}h${w}v${-h}Z`).join(' ')}" />{/if}
         <g class="mark" class:on={sel === i}>
           {#each boxes as [x, y, w, h], n (n)}<rect x={x + 1} y={y + 1} width={w - 2} height={h - 2} rx="8" pathLength="1" />{/each}
@@ -212,12 +225,12 @@
     </svg>
     {#key sel}
       <div class="rows" aria-hidden="true">
-        {#each gains[sel].rows as r, n (n)}<span class="row" style="{row(r)};--n:{n}"></span>{/each}
-        {#each gains[sel].boxes as b, n (n)}<span class="glow" style={at(b)}></span>{/each}
+        {#each gains[sel].rows as r, n (n)}<span class="row" style="{row(r, gains[sel])};--n:{n}"></span>{/each}
+        {#each gains[sel].boxes as b, n (n)}<span class="glow" style={at(b, gains[sel])}></span>{/each}
       </div>
     {/key}
     {#each gains as gain, i (gain.term)}
-      {@const [x, y, , h] = frame(gain.boxes[0])}
+      {@const [x, y, , h] = frame(gain.boxes[0], gain)}
       <span class="badge nb" class:on={sel === i} style="left:{(x / W) * 100}%;top:{((gain.corner === "bottom" ? y + h : y) / H) * 100}%" aria-hidden="true">{i + 1}</span>
     {/each}
     <span class="where" class:on={sel === gains.length - 1} aria-hidden="true">localhost:4321</span>
@@ -343,12 +356,33 @@
     border-radius: var(--r-md);
   }
 
+  .frame {
+    position: relative;
+  }
+
   .frame img {
     display: block;
     width: calc(100% * var(--sw) / var(--fw));
     max-width: none;
     height: auto;
     margin-left: calc(-100% * var(--x) / var(--fw));
+  }
+
+  /* The Machines shot over the tour's, from past the rail, faded in while its gain is chosen. */
+  .frame .alt {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 240ms var(--ease-out);
+  }
+
+  .frame .alt img {
+    width: calc(100% * var(--aw) / var(--fw));
+    margin-left: calc(-100% * var(--ax) / var(--fw));
+  }
+
+  .frame.machines .alt {
+    opacity: 1;
   }
 
   .marks,
@@ -402,7 +436,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--tour) var(--pos) / var(--size) no-repeat;
+    background: var(--shot) var(--pos) / var(--size) no-repeat;
     animation: arrive-row 520ms var(--ease-out) calc(var(--n) * 90ms) both;
   }
 
@@ -503,8 +537,8 @@
     display: none;
   }
 
-  /* Under 72rem, where the hero stacks too, the page beside the gains would be too small to read its lane's
-     cards: each gain stands over its own cut instead. */
+  /* Under 72rem, where the hero stacks too, the page beside the gains would be too small to read its side
+     column's rows: each gain stands over its own cut instead. */
   @media (max-width: 71.99rem) {
     .tour {
       min-height: 0;

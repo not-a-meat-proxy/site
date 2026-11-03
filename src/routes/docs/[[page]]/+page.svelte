@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-  <title>{data.page.slug ? `${data.page.title} · namp docs` : "namp docs"}</title>
+  <title>{data.page.slug ? `${data.page.title} · NAMP docs` : "NAMP docs"}</title>
   <meta name="description" content={data.page.description} />
 </svelte:head>
 

@@ -71,19 +71,19 @@ describe("the GitHub link", () => {
     await tick();
     const link = github();
     expect(link.getAttribute("href")).toBe(repo);
-    expect(link.getAttribute("aria-label")).toBe("namp's site on GitHub");
+    expect(link.getAttribute("aria-label")).toBe("NAMP's site on GitHub");
     expect(link.querySelector("svg[aria-hidden='true'] path")).not.toBeNull();
     expect(link.querySelector("img")).toBeNull();
   });
 
   test("on a docs page, sits in the header and goes to the same repo", async () => {
-    const pages = [{ path: "/docs/install", title: "Install namp", sections: [] }];
-    const children = createRawSnippet(() => ({ render: () => "<h1>Install namp</h1>" }));
+    const pages = [{ path: "/docs/install", title: "Install NAMP", sections: [] }];
+    const children = createRawSnippet(() => ({ render: () => "<h1>Install NAMP</h1>" }));
     render(Docs, { data: { pages }, children });
     await tick();
     const link = github();
     expect(link.closest("header")).not.toBeNull();
     expect(link.getAttribute("href")).toBe(repo);
-    expect(link.getAttribute("aria-label")).toBe("namp's site on GitHub");
+    expect(link.getAttribute("aria-label")).toBe("NAMP's site on GitHub");
   });
 });

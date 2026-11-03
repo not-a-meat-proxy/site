@@ -1,9 +1,9 @@
 <script>
   // A question in its thread in the drawer, ported from namp's ui/src/lib/Question.svelte and the rules
   // app.css gives it there: its title, its context, its choices numbered, the recommended one's ring in the
-  // accent and tagged at the row's end, Your own answer last, and Discard under them at the right. A number
+  // accent and tagged at the row's end, Reply last, and Discard under them at the right. A number
   // key picks a choice while the question has the focus, as in namp; a click picks it too. Here the pick is
-  // the answer, as Enter sends it in namp's reply box, and `onpick` is told. Your own answer and Discard are
+  // the answer, as Enter sends it in namp's reply box, and `onpick` is told. Reply and Discard are
   // shown as namp shows them and do nothing: the demo has no session to read them.
   /** @import { Ask, Choice } from "./demo.js" */
 
@@ -46,7 +46,7 @@
         <span class="num">{i + 1}</span><span class="choice-text">{c.text}</span>{#if c.recommended}<span class="tag">Recommended</span>{/if}
       </button>
     {/each}
-    <span class="choice free-choice" aria-hidden="true"><span class="num">{q.choices.length + 1}</span><span class="choice-text">Your own answer</span></span>
+    <span class="choice free-choice" aria-hidden="true"><span class="num">{q.choices.length + 1}</span><span class="choice-text">Reply</span></span>
   </div>
   <div class="question-acts" aria-hidden="true"><span class="link">Discard</span></div>
 </div>

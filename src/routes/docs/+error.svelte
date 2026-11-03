@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Not in the docs · namp docs</title>
+  <title>Not in the docs · NAMP docs</title>
 </svelte:head>
 
 <!-- A page the docs don't have, in the docs' own frame: what happened, and the way back. -->

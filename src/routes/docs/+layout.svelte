@@ -63,7 +63,7 @@
 <!-- The shell's name, its theme and repository, and every page as namp's sidebar rows, the open one light. -->
 {#snippet shell(close)}
   <header>
-    <a class="brand" href="/">namp</a>
+    <a class="brand" href="/">NAMP</a>
     <a class="section" href="/docs">Docs</a>
     <span class="end">
       <Theme />
@@ -92,7 +92,7 @@
 
   <!-- On a phone, a bar over the page: the docs' name, the open page's title and the menu. -->
   <div class="bar shell">
-    <a class="brand" href="/">namp</a>
+    <a class="brand" href="/">NAMP</a>
     <a class="section" href="/docs">Docs</a>
     {#if open}<span class="title">{open.title}</span>{/if}
     <button type="button" class="icon menu" bind:this={menu} onclick={show} aria-label="The docs' pages" aria-haspopup="dialog">
@@ -113,7 +113,7 @@
       {@render children()}
 
       <footer>
-        <p>namp is an alpha: expect rough edges, and <a href="/docs/report-an-issue">say which ones you hit</a>.</p>
+        <p>NAMP is an alpha: expect rough edges, and <a href="/docs/report-an-issue">say which ones you hit</a>.</p>
       </footer>
     </div>
   </main>

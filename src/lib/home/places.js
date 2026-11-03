@@ -4,9 +4,14 @@
 
 export const WIDE = { w: 1600, h: 1000 };
 
+// The tour's Machines shot, the Machines place alone beside the rail, its file 2x: as tall as the wide shots
+// and as wide as what the tour's frame shows of them (WIDE.w - tour.from) past the rail (from), so it fills the
+// same frame.
+export const MACHINES = { w: 1352, h: 1000, from: 64 };
+
 // The tour's phone shots, a phone's 402 CSS px wide (their files are 3x), by name: its canvas bar over D3 and D4
-// (phone-asks), shot 640 tall, and its lane, canvas bar and Timeline open (phone-timeline), a whole phone's 874.
-// A cut naming one (shot) is in its px.
+// (phone-asks), shot 640 tall, and its canvas bar with Timeline open over Since you were here (phone-timeline), a
+// whole phone's 874. A cut naming one (shot) is in its px.
 export const PHONE = {
   "phone-asks": { w: 402, h: 640 },
   "phone-timeline": { w: 402, h: 874 },
@@ -21,55 +26,65 @@ export const hero = {
   shown: 780,
 };
 
-// The tour's shot, the same canvas page with Timeline open and the lane at its right: the frame shows it from
-// past the sidebar. Each gain's parts (boxes), outlined, the rows in them that arrive one after another (rows),
-// and its cut for the narrow layout (cut), of the wide shot or of the phone shot it names. A part on the page's
-// left edge starts 5px in from it, so its outline shows whole inside the frame's border, and its rows 4px in
-// from the part, inside its outline.
+// The tour's shot, the same canvas page with Timeline open and the side column at its start: the frame shows it
+// from past the sidebar, and the Machines shot from past the rail. The canvas starts past the side column
+// (canvas). Each gain's parts (boxes), outlined, the rows in them that arrive one after another (rows), and its
+// cut for the narrow layout (cut), of the wide shot or of the phone shot it names. A part on the frame's left edge
+// starts 5px in from it, so its outline shows whole inside the frame's border, a part on the canvas 3px in from
+// the canvas, so its outline takes the gutter's marks whole, and its rows 4px in from the part, inside its outline.
 export const tour = {
   from: 312,
+  canvas: 720,
   gains: {
     asks: {
       // The asks' marks in the gutter beside D3 and D4, its number at their corner, and the canvas bar over the
-      // page, counting the asks and stepping through them.
+      // canvas, counting the asks and stepping through them.
       boxes: [
-        [317, 828, 895, 146],
-        [317, 52, 952, 40],
+        [723, 812, 817, 152],
+        [723, 52, 872, 40],
       ],
       rows: [
-        [321, 56, 944, 32],
-        [321, 832, 887, 68],
-        [321, 902, 887, 68],
+        [727, 56, 864, 32],
+        [727, 816, 809, 64],
+        [727, 897, 809, 63],
       ],
       // On a phone: the canvas bar from its top, over D3 and D4 with their marks in the gutter.
-      cut: { shot: "phone-asks", x: 0, y: 52, w: 402, h: 267 },
+      cut: { shot: "phone-asks", x: 0, y: 52, w: 402, h: 400 },
     },
-    lane: {
-      // The lane's Goal and Work cards.
-      boxes: [[1284, 246, 300, 254]],
+    side: {
+      // The side column: its inbox's sections, Needs you then Working, then its strip's Goal and Work.
+      boxes: [[317, 56, 398, 314]],
       rows: [
-        [1288, 250, 292, 68],
-        [1288, 328, 292, 168],
+        [385, 104, 321, 152],
+        [385, 256, 321, 76],
+        [321, 120, 54, 120],
       ],
-      cut: { x: 1276, y: 240, w: 316, h: 266 },
+      cut: { x: 312, y: 52, w: 408, h: 320 },
     },
     timeline: {
-      // Timeline, today's work by who did it, and Since you were here under it, from the page's left edge as
+      // Timeline, today's work by who did it, and Since you were here under it, from the canvas's left edge as
       // Timeline's band runs; its number at the bottom left corner, in the gutter clear of the words, as the top
       // left one would sit on the canvas bar.
-      boxes: [[317, 98, 943, 340]],
+      boxes: [[723, 96, 872, 328]],
       corner: "bottom",
       rows: [
-        [366, 102, 884, 278],
-        [366, 404, 336, 30],
+        [780, 102, 800, 262],
+        [780, 392, 760, 28],
       ],
       // On a phone: the canvas bar, Timeline open under it, and Since you were here.
-      cut: { shot: "phone-timeline", x: 0, y: 201, w: 402, h: 465 },
+      cut: { shot: "phone-timeline", x: 0, y: 52, w: 402, h: 506 },
     },
-    page: {
-      boxes: [[312, 0, 1288, 1000]],
-      rows: [],
-      cut: { x: 312, y: 0, w: 1288, h: 1000 },
+    machines: {
+      // Machines: each machine's row with its runtime, herdr or hc, in the Machines shot's px.
+      shot: "machines",
+      boxes: [[83, 232, 1246, 618]],
+      rows: [
+        [87, 236, 1238, 184],
+        [87, 424, 1238, 207],
+        [87, 635, 1238, 211],
+      ],
+      // On a phone: Machines from its title, through each machine's row.
+      cut: { shot: "machines", x: 64, y: 80, w: 1288, h: 780 },
     },
   },
 };
