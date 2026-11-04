@@ -269,7 +269,7 @@ A cool slate ground with a graphite shell, one green accent, and namp's state hu
 - **Headline** (600, 32px, 1.15, -0.01em, condensed): a page's title, a section's on the front page.
 - **Title** (600, 22px, 1.25, -0.01em, condensed): a section's heading; the hero's lede in the plain cut at 400.
 - **Subtitle** (600, 18px, 1.3, condensed): a sub-heading.
-- **Body** (400, 15px, 1.55): the docs and the front page's text.
+- **Body** (400, 15px, 1.55): the docs and the front page's text, the line under the hero's lede in muted.
 - **Body list** (400, 14px): lists and the shell's pages.
 - **Label** (500, 14px, 1.2, condensed) and **Label strong** (600): buttons; the primary takes strong.
 - **Meta** (400, 13px) and **Meta xs** (500, 12px): an aside, a release's date, a page's sections in the shell.
