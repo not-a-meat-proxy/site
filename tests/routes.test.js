@@ -188,8 +188,11 @@ describe("the front page", () => {
     const page = await res.text();
     expect(page).not.toContain("<header");
     expect(page).toContain("Not A Meat Proxy.");
-    expect(page).toContain("<title>NAMP: scale your impact with agent sessions, without losing the thread</title>");
-    expect(page).toContain("Scale your impact with agent sessions, without losing the thread.");
+    expect(page).toContain("<title>NAMP: an agentic IDE where you still understand what you're building</title>");
+    expect(page).toContain("An agentic IDE where you still understand what you're building.");
+    expect(page).toContain(
+      "Agents write the code. You work on the design, the architecture and the product, check what each agent decided, and overrule it when it's wrong.",
+    );
     expect(page).toContain('href="mailto:invites@example.com"');
     expect(page).toContain("Get an invite");
     expect(page).not.toContain("install.sh | sh");

@@ -22,7 +22,11 @@
 
   let { data } = $props();
 
-  const lede = "Scale your impact with agent sessions, without losing the thread.";
+  // The headline under the site's name, and the line under it: what NAMP is and what you keep, then who writes
+  // the code and what is left to you, so an IDE without a full editor reads as a choice.
+  const lede = "An agentic IDE where you still understand what you're building.";
+  const under =
+    "Agents write the code. You work on the design, the architecture and the product, check what each agent decided, and overrule it when it's wrong.";
 
   // The address Ask for an invite writes to, shown for a visitor with no mail app: none when
   // INVITE_CONTACT is a link rather than an address.
@@ -56,8 +60,8 @@
 </script>
 
 <svelte:head>
-  <title>NAMP: scale your impact with agent sessions, without losing the thread</title>
-  <meta name="description" content={lede} />
+  <title>NAMP: an agentic IDE where you still understand what you're building</title>
+  <meta name="description" content="{lede} {under}" />
   <!-- A tester's command is in the mono, on the first screen: its face preloads with the start faces
        (app.html), so the command never reflows as it arrives. -->
   {#if data.tester}<link rel="preload" href="/fonts/FiraMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />{/if}
@@ -88,6 +92,7 @@
       <h1>Not A Meat Proxy.</h1>
       <!-- In two parts, each kept whole, so a line breaks at its comma or nowhere. -->
       <p class="lede">{#each lede.split(/(?<=,) /) as part, i}{i ? " " : ""}<span>{part}</span>{/each}</p>
+      <p class="under">{under}</p>
       {#if data.tester}
         <p class="open">Install NAMP, {data.tester.name}</p>
         <!-- Wrapped in its box so it reads whole: between its words, none broken, the token whole on its own
@@ -281,10 +286,20 @@
 
   .lede {
     max-width: 40ch;
-    margin: 0 0 var(--sp-8);
+    margin: 0 0 var(--sp-4);
     color: var(--ink-2);
     font-size: clamp(var(--fs-lg), 1.6vw, var(--fs-xl));
     line-height: 1.35;
+  }
+
+  /* The line under the headline, in the body size, a step quieter. */
+  .under {
+    max-width: 52ch;
+    margin: 0 0 var(--sp-8);
+    color: var(--muted);
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    text-wrap: pretty;
   }
 
   /* Each clause on a line of its own when it fits; when it doesn't, it wraps evenly, never leaving a word alone. */
@@ -697,7 +712,7 @@
       margin-bottom: var(--sp-5);
     }
 
-    .lede {
+    .under {
       margin-bottom: var(--sp-6);
     }
 
