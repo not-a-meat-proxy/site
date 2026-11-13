@@ -33,8 +33,9 @@ a docs page answers its reader's question on the first read.
 
 namp's own: a local, harness-agnostic place where you stay the operator of your agent sessions,
 not their relay, a meat proxy, with the ways of working built into the tool: agents defined for a
-role, a topic split into tasks for sibling sessions, goals with criteria a person checks,
-timelines. It is not a chat client and not a terminal multiplexer.
+role, work split into topics for the person and tasks for sibling sessions or subagents, goals
+with criteria a person checks, timelines, workflows. It is not a chat client and not a terminal
+multiplexer.
 
 ## Operating Context
 
