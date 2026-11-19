@@ -91,7 +91,11 @@ describe("the gains", () => {
   test("your machines shows Machines over the canvas page, marks its machines and its address on your machine", async () => {
     render(Tour, { alt: "a topic's canvas page", shots });
     expect(document.querySelector(".frame").classList.contains("machines")).toBe(false);
+    const away = () => [...document.querySelectorAll(".badge")].map((b) => b.classList.contains("away"));
+    expect(away()).toEqual([false, false, false, true]);
     await fireEvent.click(tabs()[3]);
+    // The canvas page's numbers hide with it, their parts not on Machines.
+    expect(away()).toEqual([true, true, true, false]);
     expect(document.querySelector(".frame").classList.contains("machines")).toBe(true);
     expect([...document.querySelectorAll(".frame .alt img")].map((i) => [i.getAttribute("src"), i.getAttribute("alt")])).toEqual([
       ["/shots/machines-dark.webp", "namp's Machines page"],

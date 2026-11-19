@@ -38,7 +38,7 @@
     {
       term: "Your machines, your work",
       text: "Each machine runs its sessions on hc, which NAMP brings itself. No NAMP service in between, nothing leaves unless you choose.",
-      place: "Machines, each machine with its runtime, on the page NAMP serves on your machine",
+      place: "Machines, each machine with its topics and status, on the page NAMP serves on your machine",
       ...tour.gains.machines,
     },
   ];
@@ -231,7 +231,7 @@
     {/key}
     {#each gains as gain, i (gain.term)}
       {@const [x, y, , h] = frame(gain.boxes[0], gain)}
-      <span class="badge nb" class:on={sel === i} style="left:{(x / W) * 100}%;top:{((gain.corner === "bottom" ? y + h : y) / H) * 100}%" aria-hidden="true">{i + 1}</span>
+      <span class="badge nb" class:on={sel === i} class:away={(gain.shot === "machines") !== machines} style="left:{(x / W) * 100}%;top:{((gain.corner === "bottom" ? y + h : y) / H) * 100}%" aria-hidden="true">{i + 1}</span>
     {/each}
     <span class="where" class:on={sel === gains.length - 1} aria-hidden="true">localhost:4321</span>
   </div>
@@ -503,6 +503,11 @@
     position: absolute;
     translate: -50% -50%;
     background: var(--bg);
+  }
+
+  /* A number whose part is on the shot not shown, the canvas page's under Machines, hides with it. */
+  .badge.away {
+    opacity: 0;
   }
 
   .badge.on {

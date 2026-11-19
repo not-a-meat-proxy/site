@@ -14,7 +14,7 @@
     "A topic's canvas page in NAMP: the side column at the left sorts the topic's threads into Needs you, its 2 questions and a reply, and Working, with its goal at 1 of 3 criteria met, Work with 1 of 6 items done, its pull request waiting on your review and its documents; the canvas bar counts its 2 asks and steps through them; Timeline shows today's work by the session and two sibling sessions, two questions open; Since you were here counts 1 done and 2 decided; the decisions D3 and D4 each carry an ask's mark in the gutter.";
 
   const machinesAlt =
-    "NAMP's Machines page: this computer with its five topics, then build-box and studio reached over SSH, each with its status and the runtime that runs its sessions, herdr or hc.";
+    "NAMP's Machines page: this computer with its five topics, then build-box and studio, each Reachable, the server forwarded to it over SSH, and each machine's lost messages, none.";
   const shots = {
     dark: { wide: { src: "/shots/tour-dark.webp", width: WIDE.w, height: WIDE.h }, machines: { src: "/shots/machines-dark.webp", width: MACHINES.w, height: MACHINES.h, alt: machinesAlt } },
     light: { wide: { src: "/shots/tour-light.webp", width: WIDE.w, height: WIDE.h }, machines: { src: "/shots/machines-light.webp", width: MACHINES.w, height: MACHINES.h, alt: machinesAlt } },
