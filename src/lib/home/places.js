@@ -75,16 +75,17 @@ export const tour = {
       cut: { shot: "phone-timeline", x: 0, y: 52, w: 402, h: 506 },
     },
     machines: {
-      // Machines: each machine's row with its runtime, herdr or hc, in the Machines shot's px.
+      // Machines: this computer's row with its topics, then each machine's with its status, where it reaches
+      // the server and its lost messages, in the Machines shot's px.
       shot: "machines",
-      boxes: [[83, 232, 1246, 618]],
+      boxes: [[83, 211, 1246, 550]],
       rows: [
-        [87, 236, 1238, 184],
-        [87, 424, 1238, 207],
-        [87, 635, 1238, 211],
+        [87, 215, 1238, 131],
+        [87, 350, 1238, 199],
+        [87, 553, 1238, 204],
       ],
       // On a phone: Machines from its title, through each machine's row.
-      cut: { shot: "machines", x: 64, y: 80, w: 1288, h: 780 },
+      cut: { shot: "machines", x: 64, y: 80, w: 1288, h: 690 },
     },
   },
 };

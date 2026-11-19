@@ -4,18 +4,16 @@ Bugs, ideas and questions about NAMP and this site go in the site's issues on Gi
 
 ## Get the versions
 
-Run these three in a terminal:
+Run these two in a terminal:
 
 ```sh
 namp --version
 claude --version
-herdr --version
 ```
 
 ```text
-namp 0.20.0 (b0c58e9 2026-11-03)
+namp 0.24.0 (b0c58e9 2026-11-19)
 2.1.317 (Claude Code)
-herdr 0.9.5
 ```
 
 NAMP's line names its version, the commit it was built from and that commit's date: paste it whole.

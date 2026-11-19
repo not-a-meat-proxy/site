@@ -5,7 +5,6 @@ One command from your invite installs NAMP, then `namp start` runs it.
 ## What you need
 
 - macOS on Apple Silicon, or Linux on x86_64 or arm64.
-- [herdr](https://github.com/herdrdev/herdr): NAMP runs its sessions in herdr's panes.
 - [Claude Code](https://claude.com/claude-code), logged in: NAMP's sessions are Claude Code's today.
 - curl or wget, tar, and sha256sum or shasum, which most systems have already.
 
@@ -22,10 +21,10 @@ The token is yours alone: keep it to yourself. On a Mac, install with the comman
 It downloads the latest release for your machine, checks its sha256, and says where NAMP went:
 
 ```text
-Downloading namp 0.20.0 for aarch64-apple-darwin.
-namp 0.20.0 is installed in /Users/you/.local/bin/namp.
+Downloading namp 0.24.0 for aarch64-apple-darwin.
+namp 0.24.0 is installed in /Users/you/.local/bin/namp.
 
-Start namp from a herdr pane with:
+Start namp with:
   namp start
 and open the link it prints. namp update moves it to a newer release.
 ```
@@ -35,7 +34,7 @@ and open the link it prints. namp update moves it to a newer release.
 - **NAMP itself** goes in `~/.local/bin/namp`. When that folder is not on your `PATH`, the installer says so: add it in your shell's profile, or run NAMP by its full path.
 - **Your invite** goes in `~/.config/namp/install.json`, readable by you alone: the site you installed from and your token, which `namp update` reads.
 
-When herdr or Claude Code is missing, the installer still installs NAMP and says where to get them.
+When Claude Code is missing, the installer still installs NAMP and says how to get it.
 
 ### If it stops
 
@@ -47,7 +46,7 @@ It installs nothing when something is wrong, and says what in one line:
 
 ## Start NAMP
 
-In a herdr pane, run:
+In a terminal, run:
 
 ```sh
 namp start
@@ -57,7 +56,7 @@ namp start
 ready http://localhost:4321/__session/  pid 48213
 ```
 
-It starts NAMP's server in the background, on port 4321, and prints the page's address: open it in your browser. The server starts your NAMP session in herdr, the session you talk to about all your work, pinned at the top of the page's topics. Run it outside herdr and the server starts no session.
+It starts NAMP's server in the background, on port 4321, and prints the page's address: open it in your browser. The server starts your NAMP session, the session you talk to about all your work, pinned at the top of the page's topics.
 
 Run `namp start` again and it says it runs already, with the same address. `--port` picks another port. To stop the server, kill the `pid` it printed.
 

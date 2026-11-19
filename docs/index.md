@@ -1,6 +1,6 @@
 # Overview
 
-NAMP keeps you the operator of your agent sessions, not their relay. It is a page in your browser where your sessions, Claude Code's today, put their canvases, questions and threads, one topic each, and where you answer them. It runs whole on your machine, and starts and resumes the sessions through herdr, or hc on a machine you switch to it.
+NAMP keeps you the operator of your agent sessions, not their relay. It is a page in your browser where your sessions, Claude Code's today, put their canvases, questions and threads, one topic each, and where you answer them. It runs whole on your machine, and starts and resumes the sessions in terminals of its own, on hc, which it brings to each machine itself.
 
 These pages are for the testers of its private alpha.
 
@@ -15,11 +15,11 @@ These pages are for the testers of its private alpha.
 ## Words you will meet
 
 - **Topic**: one piece of work, with its goal, its plan, its canvas, the questions asked in it and its threads.
-- **Session**: an agent session working on a topic, in a terminal its machine's runtime runs, herdr or hc. A topic has one, and it may start more for parts of the work.
+- **Session**: an agent session working on a topic, in a terminal NAMP runs on its machine. A topic has one, and it may start more for parts of the work.
 - **Side column**: the pills and sections at the start of a topic's page, its threads, goal, work, pull request and documents, each opening whole in the drawer.
 - **Inbox**: the side column's Threads, every thread of the topic in sections, Needs you and Working first.
 - **Canvas**: the Markdown document a session writes for its topic: what it decided, what it did, what waits for you. A topic opens on its first canvas.
 - **Ask**: what waits for you to act, such as a question, a goal to accept or a session that is blocked. One on a canvas is a mark beside its text, and the canvas bar counts them and steps through them.
 - **Question**: a decision a session needs from you, with its context and its choices.
 - **Thread**: a conversation with the sessions, on one subject, pinned to a part of a canvas or not.
-- **Runtime**: what runs a machine's sessions, herdr or hc, picked for each machine in Machines.
+- **hc**: the terminal core that runs a machine's sessions, which NAMP pins and brings to each machine itself.

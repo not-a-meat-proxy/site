@@ -28,13 +28,6 @@ body:
       description: The line `claude --version` prints, if Claude Code is installed.
     validations:
       required: false
-  - type: input
-    id: herdr-version
-    attributes:
-      label: herdr --version
-      description: The line `herdr --version` prints, if herdr is installed.
-    validations:
-      required: false
   - type: textarea
     id: what-happened
     attributes:
