@@ -37,7 +37,7 @@
     },
     {
       term: "Your machines, your work",
-      text: "Each machine runs its sessions on herdr or hc. No NAMP service in between, nothing leaves unless you choose.",
+      text: "Each machine runs its sessions on hc, which NAMP brings itself. No NAMP service in between, nothing leaves unless you choose.",
       place: "Machines, each machine with its runtime, on the page NAMP serves on your machine",
       ...tour.gains.machines,
     },

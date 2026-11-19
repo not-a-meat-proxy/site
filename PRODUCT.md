@@ -52,7 +52,7 @@ multiplexer.
 
 ## Capabilities and Constraints
 
-- namp runs on macOS (Apple Silicon) or Linux (x86-64, ARM64) with herdr, and runs Claude Code
+- namp runs on macOS (Apple Silicon) or Linux (x86-64, ARM64), and runs Claude Code
   sessions today. Say *agent sessions*; name Claude Code only where it is today's fact.
 - A private alpha: no public download, no pricing, no sign-up. An invite is asked for by mail.
 - The site loads nothing from another host: its fonts are self-hosted, and it has no analytics

@@ -16,7 +16,7 @@ Press `⌘K`, `Ctrl+K` off a Mac, from anywhere to go to a topic: the palette li
 
 Press **+ New topic**, at the top of the sidebar, and fill in:
 
-- **Machine**, once herdr has another machine saved: **Local**, this computer, or the one the session runs on.
+- **Machine**, once Machines has another machine saved: **Local**, this computer, or the one the session runs on.
 - **Project** or **Folder**, where the session works. A project is a git clone you register once in Projects: each topic on it works in a worktree of its own, on a new branch named after the topic, which **Worktree from** starts from the project's default branch unless you pick another. A folder is any absolute path.
 - **Title**, the topic's name, and its **Goal**, in one line: what the work is meant to reach.
 - **Brief**: how the session should work towards it, and what it should produce.
@@ -79,9 +79,9 @@ To write to a session from any page, press **+** in the inbox's head, the pencil
 
 ## Where a session runs
 
-**Machines**, on the rail, shows where your topics run: **Local**, this computer, first, then each machine herdr saved, with whether it answers and its topics. Each machine picks its **Runtime**, **herdr** or **hc**, what runs its sessions: herdr until you pick hc. A change takes effect at each session's next start there.
+**Machines**, on the rail, shows where your topics run: **Local**, this computer, first, then each machine you added with **Add a machine**, reached over SSH, with whether it answers and its topics. Every machine runs its sessions on hc, which NAMP brings there itself.
 
-**Focus**, at the right of a topic's top bar, brings its session's terminal to the front in herdr. On hc, which has no window of its own, it gives the command to attach a terminal to the session, with **Copy the command**:
+**Focus**, at the right of a topic's top bar, gives the command to attach a terminal to its session, with **Copy the command**:
 
 ```sh
 namp attach <topic>

@@ -129,12 +129,12 @@
         <li>
           <p>Run the command above in a terminal. It's yours alone: it carries your invite.</p>
           <p class="aside">
-            It checks for herdr and Claude Code, puts <code>namp</code> in <code>~/.local/bin</code> and keeps your
+            It checks for Claude Code, puts <code>namp</code> in <code>~/.local/bin</code> and keeps your
             invite in <code>~/.config/namp</code>, so <code>namp update</code> can fetch the next release.
           </p>
         </li>
         <li>
-          <p>In a herdr pane, run <code>namp start</code>, then open the page it prints.</p>
+          <p>Run <code>namp start</code>, then open the page it prints.</p>
         </li>
       </ol>
       <div class="know">
@@ -167,7 +167,7 @@
     <p class="how">Each tester gets a personal invite link. It shows your install command on this page, and every update comes through it.</p>
     {#if data.contact}{@render ask(false)}{/if}
     <p class="needs">
-      Runs on macOS (Apple Silicon) or Linux (x86-64, ARM64) with <a href="https://github.com/herdrdev/herdr">herdr</a>, and
+      Runs on macOS (Apple Silicon) or Linux (x86-64, ARM64), and
       runs <a href="https://claude.com/claude-code">Claude Code</a> sessions today.
     </p>
   </div>
